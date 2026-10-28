@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>PingCode · 解决问题</title>
+<style>
+/* ==========================================================================
+   设计变量与组件规格 1:1 取自 demo.pingcode.com 样式表（Tethies 设计体系）
+   --gray-10 #fff / 70 #f7f7f7 / 80 #fafafa / 100 #f5f5f5 / 200 #eee / 300 #ddd
+   / 400 #cacaca / 500 #aaa / 600 #999 / 700 #666 / 800 #333
+   按钮 .btn / 输入 .form-control / 下拉 .thy-select / 标签 .thy-tag / 卡片 .thy-card
+   ========================================================================== */
+:root{
+  --primary:#6698ff; --success:#73d897; --warning:#ffcd5d; --danger:#ff7575; --info:#5dcfff;
+  --orange:#fd7e14; --red:#dc3545; --purple:#6f42c1; --blue:#007bff; --teal:#20c997;
+  --g10:#fff; --g70:#f7f7f7; --g80:#fafafa; --g100:#f5f5f5; --g200:#eee;
+  --g300:#ddd; --g400:#cacaca; --g500:#aaa; --g600:#999; --g700:#666; --g800:#333;
+  --tx:var(--g800); --tx2:var(--g700); --tx3:var(--g500);
+  --r:.25rem;
+  --sd-menu:0 0 16px #00000014;
+  --sd-mask:0 12px 48px rgba(0,0,0,.18);
+  --hd-shadow:0 4px 8px 0 rgba(0,0,0,.03);
+  --fm:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Helvetica Neue","Noto Sans","Noto Sans CJK SC","Microsoft Yahei",Arial,"Hiragino Sans GB",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:var(--fm);font-size:14px;color:var(--tx);background:var(--g70);-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--primary);text-decoration:none}
+.mono{font-family:"SFMono-Regular",Menlo,Monaco,Consolas,monospace;font-size:12px}
+
+/* ---------------- 按钮 .btn ---------------- */
+.btn{display:inline-block;font-weight:400;text-align:center;white-space:nowrap;border:1px solid transparent;border-radius:var(--r);cursor:pointer;
+  transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}
+.btn:focus{outline:0}
+.btn .ic{margin-right:7px}
+.btn-lg{padding:.375rem 1.25rem;font-size:.875rem;line-height:1.5715;min-width:97px}
+.btn-sm{padding:.125rem 15px;font-size:.875rem;line-height:1.5715;min-width:70px}
+.btn-xs{padding:.125rem 15px;font-size:.75rem;line-height:1.5;min-width:60px}
+.btn-ico{padding:.375rem .625rem;min-width:0}
+.btn-sm.btn-ico{padding:.125rem .375rem}
+.btn-primary{color:#fff;background-color:var(--primary);border-color:var(--primary)}
+.btn-primary:hover{box-shadow:0 2px 5px 1px #6698ff99}
+.btn-default{color:var(--g700);background-color:var(--g200);border-color:var(--g200)}
+.btn-default:hover{color:var(--g800);background-color:var(--g300);border-color:var(--g300)}
+.btn-text{color:var(--g700);background:transparent;border-color:transparent}
+.btn-text:hover{color:var(--primary)}
+.btn-danger{color:#fff;background-color:var(--danger);border-color:var(--danger)}
+.btn-danger:hover{box-shadow:0 2px 5px 1px #ff757599}
+.btn[disabled],.btn.disabled{color:var(--g400);background-color:var(--g100);border-color:var(--g100);pointer-events:none;box-shadow:none}
+
+/* ---------------- 输入 .form-control ---------------- */
+.form-control{display:block;width:100%;color:var(--g800);background-color:#fff;border:1px solid var(--g200);border-radius:var(--r);
+  font-family:inherit;font-size:14px;padding:.375rem .75rem;transition:border-color .15s ease-in-out}
+.form-control::placeholder{color:var(--g500)}
+.form-control:focus{border-color:var(--primary);outline:0}
+.form-control:disabled,.form-control[readonly]{background-color:var(--g80);color:var(--g600)}
+textarea.form-control{min-height:88px;resize:vertical;line-height:1.75}
+input.form-control{height:32px;padding:.25rem .75rem}
+.ck{accent-color:var(--primary);cursor:pointer;width:14px;height:14px}
+
+/* ---------------- 下拉 .thy-select ---------------- */
+.sel{position:relative;display:block;width:100%}
+.sel-trigger{width:100%;height:32px;background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:0 30px 0 12px;font-size:14px;color:var(--g800);
+  text-align:left;display:flex;align-items:center;transition:border-color .15s ease-in-out}
+.sel-trigger:hover{border-color:var(--g300)}
+.sel-trigger:focus{outline:0;border-color:var(--primary)}
+.sel-trigger .tv{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel-trigger .tv.ph{color:var(--g500)}
+.sel-trigger .arw{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--g400);font-size:1rem;pointer-events:none}
+.sel-trigger.dis{background:var(--g80);color:var(--g600);cursor:not-allowed}
+.sel-dd{display:none;position:absolute;left:0;right:0;top:36px;background:#fff;border:1px solid var(--g200);border-radius:var(--r);box-shadow:var(--sd-menu);max-height:264px;overflow:auto;z-index:40}
+.sel-dd.open{display:block}
+.sel-opt{display:flex;align-items:center;min-height:40px;padding:0 12px;font-size:.875rem;color:var(--g800);cursor:pointer}
+.sel-opt:hover{background:var(--g100)}
+.sel-opt.active{background:var(--g100);box-shadow:inset 2px 0 0 var(--primary)}
+.sel-opt.sel{color:var(--primary)}
+.sel-opt .ckk{margin-left:auto;color:var(--primary);display:none}
+.sel-opt.sel .ckk{display:block}
+.sel-foot{display:flex;height:41px;line-height:40px;align-items:center;color:var(--primary);cursor:default;border-top:1px solid var(--g200);padding:0 20px;font-size:.875rem}
+.sel-empty{padding:0 20px;height:41px;line-height:40px;color:var(--g600);font-size:.875rem}
+.spin{width:14px;height:14px;border:2px solid var(--g200);border-top-color:var(--primary);border-radius:50%;animation:sp .7s linear infinite;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ---------------- 标签 .thy-tag ---------------- */
+.tag{display:inline-flex;align-items:center;font-size:.75rem;border-radius:var(--r);border:1px solid transparent;padding-left:12px;padding-right:12px;white-space:nowrap}
+.tag-pill{border-radius:18px}
+.tag-md{height:24px;line-height:24px;padding-left:12px;padding-right:12px;font-size:.75rem}
+.tag-sm{height:20px;line-height:20px;padding-left:8px;padding-right:8px;font-size:.75rem}
+.tag .dot{width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:5px}
+.tag-blue{color:#4a7fe0;background:rgba(102,152,255,.12);border-color:rgba(102,152,255,.4)}
+.tag-green{color:#2c9e63;background:rgba(115,216,151,.18);border-color:rgba(115,216,151,.55)}
+.tag-orange{color:#c26a10;background:rgba(255,205,93,.22);border-color:rgba(255,205,93,.75)}
+.tag-red{color:#d04545;background:rgba(255,117,117,.14);border-color:rgba(255,117,117,.5)}
+.tag-grey{color:var(--g600);background:var(--g100);border-color:var(--g200)}
+.tag-purple{color:var(--purple);background:rgba(111,66,193,.1);border-color:rgba(111,66,193,.35)}
+.tag-solid{color:#fff;background-color:var(--primary);border-color:var(--primary)}
+.tag-count{display:inline-block;text-align:center;white-space:nowrap;color:var(--g600);background-color:var(--g200);min-width:1rem;height:1rem;border-radius:1rem;line-height:1rem;font-size:.75rem;padding:0 4px}
+
+/* ---------------- 卡片 .thy-card ---------------- */
+.card{display:flex;flex-direction:column;background:#fff;border-radius:2px}
+.card-h{display:flex;flex:0 0 auto;align-items:center;padding:12px 20px}
+.card-h .bar{width:0;height:14px;border-left:3px solid var(--primary);margin-right:8px}
+.card-h .t{color:var(--g800);font-size:15px;line-height:32px}
+.card-h .d{margin-left:10px;font-size:12px;color:var(--g500)}
+.card-h .r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.card-c{padding:0 20px 20px;min-width:0}
+
+/* ---------------- 后台框架 ---------------- */
+.pc{display:flex;height:100vh;overflow:hidden;background:#fff}
+.rail{width:200px;flex:none;background:#2b2f36;color:var(--g300);display:flex;flex-direction:column;overflow:hidden;transition:width .2s ease}
+.rail-logo{display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;flex:none;color:#fff;font-size:14px;font-weight:500}
+.rail-logo svg{flex:none;color:#fff}
+.rail-scroll{flex:1;overflow:auto;padding:4px 0}
+.rail a{display:flex;align-items:center;gap:10px;padding:0 16px;height:32px;font-size:13.5px;color:var(--g300);cursor:pointer;white-space:nowrap}
+.rail a:hover{background:rgba(255,255,255,.06)}
+.rail a.on{background:#3a3f48;color:#fff;font-weight:500}
+.rail a svg{flex:none;opacity:.92}
+.rail a .lbl{flex:1;overflow:hidden;text-overflow:ellipsis}
+.rail-sep{height:1px;background:rgba(255,255,255,.08);margin:6px 0}
+.rail a:hover{background:rgba(255,255,255,.06)}
+.rail a.on{background:#3a3f48;color:#fff;font-weight:500}
+
+.rail-foot{flex:none;border-top:1px solid #3d424a;padding:4px 0}
+.rail-foot .rail-fold{flex:none;width:100%;height:32px;display:flex;align-items:center;justify-content:flex-end;padding:0 16px;background:none;border:none;color:#8b9096;cursor:pointer}
+.rail-foot .rail-fold:hover{color:#fff;background:rgba(255,255,255,.06)}
+.pc-body{flex:1;min-width:0;display:flex}
+
+/* 项目内导航（三级）—— 位于项目内容区顶部 */
+.phead{display:flex;align-items:center;height:48px;flex:none;padding:0 16px;gap:8px;border-bottom:1px solid var(--g200);background:#fff}
+.phead-l{flex:none;display:flex;align-items:center;gap:8px;padding-right:8px}
+.phead-l .gico{color:var(--primary);display:flex}
+.phead-l .pname{font-size:14px;font-weight:500;color:var(--g800)}
+.phead-l .caret{border:none;background:none;color:var(--g600);display:flex;padding:2px}
+.phead-l .gear{color:var(--g600);width:26px;height:26px;border:none;background:none;border-radius:var(--r);display:flex;align-items:center;justify-content:center}
+.phead-l .gear:hover{background:var(--g100);color:var(--primary)}
+.pnav{display:flex;align-items:center;height:48px;min-width:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.pnav a{flex:none;height:48px;padding:0 13px;display:flex;align-items:center;font-size:13.5px;color:var(--tx2);border-bottom:2px solid transparent;white-space:nowrap}
+.pnav a:hover{color:var(--primary)}
+.pnav a.on{color:var(--primary);font-weight:500;border-bottom-color:var(--primary)}
+body.in-app .phead{display:none}   /* 全局独立应用不显示项目导航 */
+
+.pmain{flex:1;min-width:0;display:flex;flex-direction:column;background:#fff}
+.ptop{height:48px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--g200);box-shadow:var(--hd-shadow);background:#fff;z-index:5}
+.ptop-crumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--g600)}
+.ptop-crumb b{color:var(--g800);font-weight:500}
+.ptop-crumb .lnk{cursor:pointer}
+.ptop-crumb .lnk:hover{color:var(--primary)}
+.ptop-r{margin-left:auto;display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:6px;height:28px;border:1px solid var(--g200);border-radius:var(--r);padding:0 8px;color:var(--g500);font-size:12.5px;background:var(--g70);min-width:200px}
+.kbd{border:1px solid var(--g300);border-radius:2px;padding:0 3px;font-size:10.5px;color:var(--g600);background:#fff}
+.ptop-ico{color:var(--g600);display:flex;align-items:center;gap:4px;position:relative}
+.badge{position:absolute;top:-6px;right:-9px;background:#ff7461;color:#fff;font-size:10px;border-radius:14px;padding:0 6px;line-height:16px}
+.avatar{width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex:none}
+
+.page{display:none;flex:1;min-height:0;min-width:0;flex-direction:column;overflow:hidden}
+.page.on{display:flex}
+
+/* 表格 .thy-table */
+.ptabs{height:44px;flex:none;display:flex;align-items:flex-end;padding:0 16px;border-bottom:1px solid var(--g200)}
+.ptabs button{height:44px;padding:0 13px;border:none;background:none;font-size:13.5px;color:var(--tx2);border-bottom:2px solid transparent;white-space:nowrap}
+.ptabs button.on{color:var(--primary);font-weight:500;border-bottom-color:var(--primary)}
+.ptabs-r{margin-left:auto;display:flex;align-items:center;gap:8px;height:44px}
+.ptools{height:42px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--g200)}
+.tsearch{display:flex;align-items:center;gap:6px;height:28px;border:1px solid var(--g200);border-radius:var(--r);padding:0 8px;color:var(--g500);font-size:12.5px;min-width:190px}
+.tbtn{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--tx2);padding:5px 8px;border:none;background:none;border-radius:var(--r);cursor:pointer}
+.tbtn:hover{color:var(--primary)}
+.tcount{margin-left:auto;font-size:12.5px;color:var(--g600)}
+.scroll{flex:1;overflow:auto}
+.ppage{height:44px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;border-top:1px solid var(--g200);font-size:12.5px;color:var(--g600)}
+.pager{margin-left:auto;display:flex;align-items:center;gap:6px}
+.pgbtn{width:26px;height:26px;border:1px solid var(--g200);border-radius:var(--r);background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--tx2);cursor:pointer}
+.pgbtn.on{background:var(--primary);border-color:var(--primary);color:#fff}
+
+.tbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.tbl th{text-align:left;font-weight:400;font-size:12.5px;color:var(--g600);padding:10px 12px;border-bottom:1px solid var(--g200);background:#fff;position:sticky;top:0;z-index:2;white-space:nowrap}
+.tbl td{padding:11px 12px;border-bottom:1px solid var(--g70);font-size:13.5px;color:var(--g800);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl tbody tr{cursor:pointer}
+.tbl tbody tr:hover td{background:var(--g80)}
+.tbl tbody tr.on td{background:rgba(102,152,255,.06)}
+.c-chk{width:40px}
+.c-no{width:92px;color:var(--g700)}
+.c-st{width:92px}
+.c-ow{width:120px}
+.c-cr{width:128px;color:var(--g700)}
+.c-pr{width:76px}
+.c-ty{width:88px;color:var(--g700)}
+.c-sp{width:92px}
+.c-rn{width:220px}
+.c-up{width:112px;color:var(--g700)}
+.c-ac{width:72px}
+.c-main{width:auto;min-width:260px}
+.tbl td.c-wrap{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.7}
+.ckcol{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.ptitle{display:flex;align-items:center;gap:8px;min-width:0}
+.ptitle span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ptitle:hover{color:var(--primary)}
+.dicon{width:16px;height:16px;border-radius:2px;background:var(--danger);color:#fff;font-size:10px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.rname{color:var(--primary);cursor:pointer}
+.rname:hover{text-decoration:underline}
+.linkbtn{border:none;background:none;color:var(--primary);font-size:12.5px;padding:4px 8px;border-radius:var(--r);cursor:pointer}
+.linkbtn:hover{background:rgba(102,152,255,.1)}
+
+/* 普通页面块 */
+.pg-head{padding:20px 20px 0}
+.pg-title{font-size:18px;font-weight:600}
+.pg-sub{font-size:12.5px;color:var(--g600);margin-top:6px;line-height:1.8}
+.pg-body{padding:0 20px 32px}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap;padding:16px 20px 0}
+.chip{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:18px;font-size:12.5px;color:var(--tx2);border:1px solid var(--g200);background:#fff;cursor:pointer}
+.chip:hover{border-color:var(--g300)}
+.chip.on{color:var(--primary);border-color:rgba(102,152,255,.5);background:rgba(102,152,255,.08)}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;padding:16px 20px 0}
+.stat{border:1px solid var(--g200);border-radius:2px;padding:14px 16px}
+.stat .n{font-size:22px;font-weight:600;color:var(--g800)}
+.stat .l{font-size:12px;color:var(--g600);margin-top:4px}
+
+/* 项目设置 / 全局配置 */
+/* 项目卡片（二级：项目列表） */
+.pj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px;padding:16px 20px 32px}
+.pj-card{border:1px solid var(--g200);border-radius:2px;background:#fff;padding:16px;cursor:pointer;transition:border-color .15s ease-in-out}
+.pj-card:hover{border-color:var(--primary)}
+.pj-top{display:flex;align-items:flex-start;gap:10px}
+.pj-ico{width:32px;height:32px;border-radius:6px;background:rgba(102,152,255,.12);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex:none}
+.pj-nm{font-size:14px;font-weight:500;color:var(--g800)}
+.pj-st{font-size:11.5px;color:var(--g600);margin-top:3px}
+.pj-ds{font-size:12.5px;color:var(--g700);line-height:1.8;margin-top:12px;height:44px;overflow:hidden}
+.pj-ft{display:flex;align-items:center;gap:16px;margin-top:12px;padding-top:12px;border-top:1px solid var(--g70);font-size:11.5px;color:var(--g600)}
+.pj-ft span{display:flex;align-items:center;gap:5px}
+
+.set{display:flex;flex:1;min-height:0}
+.set-side{width:220px;flex:none;border-right:1px solid var(--g200);padding:14px 0;overflow-y:auto}
+.set-side-t{font-size:13.5px;font-weight:600;color:var(--g800);padding:4px 18px 6px}
+.wf-loading{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#fafbfc;font-size:13px;color:var(--g600);z-index:3}
+
+/* ---------- 项目列表（ONES 式） ---------- */
+.pj-layout{display:flex;flex:1;min-height:0;background:#fff}
+.pj-side{width:196px;flex:none;border-right:1px solid var(--g200);padding:10px 0;overflow-y:auto}
+.pj-side .grp{font-size:11px;color:var(--g600);padding:13px 16px 5px}
+.pj-side a{display:flex;align-items:center;gap:8px;padding:7px 16px;font-size:13px;color:var(--tx2);cursor:pointer;border-left:2px solid transparent}
+.pj-side a:hover{background:var(--g100)}
+.pj-side a.on{color:var(--primary);background:rgba(102,152,255,.09);border-left-color:var(--primary);font-weight:500}
+.pj-main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
+.pj-hd{display:flex;align-items:center;padding:18px 22px 2px;flex:none}
+.pj-hd .t{font-size:17px;font-weight:600;color:var(--g900,#2b2f36)}
+.pj-hd .r{margin-left:auto}
+.pj-tools{display:flex;align-items:center;gap:12px;padding:14px 22px 12px;flex:none;flex-wrap:wrap}
+.pj-search{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 10px;border:1px solid var(--g200);border-radius:4px;background:#fff;width:230px}
+.pj-search input{border:0;outline:none;font-size:12.5px;width:100%;background:none;color:var(--g800)}
+.pj-search input::placeholder{color:var(--g500)}
+.pj-f{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--g700)}
+.pj-f .sel{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 9px;border:1px solid var(--g200);border-radius:4px;background:#fff;cursor:pointer;color:var(--g700)}
+.pj-f .sel:hover{border-color:var(--g300)}
+.pj-seg{display:inline-flex;border:1px solid var(--g200);border-radius:4px;overflow:hidden;background:#fff;height:30px}
+.pj-seg button{border:none;background:none;padding:0 12px;font-size:12.5px;color:var(--g700);cursor:pointer}
+.pj-seg button+button{border-left:1px solid var(--g200)}
+.pj-seg button.on{background:rgba(102,152,255,.12);color:var(--primary);font-weight:500}
+.pj-count{margin-left:auto;font-size:12.5px;color:var(--g600)}
+.pj-tblwrap{flex:1;min-height:0;overflow:auto;padding:0 22px 24px}
+.pj-tbl th:first-child,.pj-tbl td:first-child{padding-left:0}
+.pj-tbl tbody tr{cursor:pointer}
+.pj-nm{display:flex;align-items:center;gap:8px;min-width:0}
+.pj-nm .ico{width:18px;height:18px;border-radius:3px;background:rgba(102,152,255,.14);color:var(--primary);font-size:9.5px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.pj-nm .tx{font-weight:500;color:var(--g800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pj-nm .mt{font-size:11.5px;color:var(--g500);flex:none}
+.pj-nm .star{flex:none;color:var(--g300);cursor:pointer;line-height:1}
+.pj-nm .star.on{color:#f5a623}
+
+/* ---------- Ping Runner：脚本扩展平台 ---------- */
+.pr-wrap{padding:20px 24px 64px;overflow-y:auto;flex:1}
+.pr-lead{background:#f2f7ff;border-left:3px solid var(--primary);padding:10px 14px;border-radius:0 4px 4px 0;font-size:12.5px;color:var(--g700);line-height:1.75}
+.pr-lead b{color:var(--g900,#2b2f36)}
+.pr-mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(298px,1fr));gap:10px}
+.pr-mod{display:flex;gap:11px;padding:13px 14px;border:1px solid var(--g200);border-radius:4px;background:#fff;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.pr-mod:hover{border-color:rgba(102,152,255,.55);box-shadow:0 2px 10px rgba(102,152,255,.13)}
+.pr-mod .ico{flex:none;width:30px;height:30px;border-radius:4px;background:rgba(102,152,255,.1);color:var(--primary);display:flex;align-items:center;justify-content:center}
+.pr-mod.plan .ico{background:var(--g100);color:var(--g500)}
+.pr-mod .bd{min-width:0;flex:1}
+.pr-mod .nm{font-size:13.5px;font-weight:500;color:var(--g800);display:flex;align-items:center;gap:7px}
+.pr-mod .sr{font-size:10.5px;color:var(--g500);margin-top:3px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr-mod .ds{font-size:12px;color:var(--g600);margin-top:7px;line-height:1.6}
+.pr-mod .mx{font-size:11px;color:var(--g600);margin-top:8px}
+.pr-tag{font-size:10px;line-height:15px;padding:0 5px;border-radius:2px;border:1px solid var(--g300);color:var(--g600);background:#fff;flex:none}
+.pr-tag.on{color:#2c9e63;border-color:rgba(115,216,151,.65);background:rgba(115,216,151,.14)}
+.pr-tag.pl{color:var(--purple);border-color:rgba(111,66,193,.4);background:rgba(111,66,193,.1)}
+.pr-tag.cov{color:var(--g600);border-color:var(--g300);background:var(--g100)}
+.pr-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 4px}
+.pr-kpi{border:1px solid var(--g200);border-radius:var(--r);padding:13px 15px 12px;background:#fff}
+.pr-kpi .k-h{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.pr-kpi .k-ic{width:22px;height:22px;border-radius:4px;background:rgba(102,152,255,.12);color:var(--primary);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.pr-kpi .k-l{font-size:12.5px;color:var(--g600)}
+.pr-kpi .k-n{font-size:23px;font-weight:600;color:var(--g800);line-height:1.1;letter-spacing:-.3px}
+.pr-kpi .k-d{font-size:11.5px;color:var(--g500);margin-top:6px;line-height:1.5}
+.pr-stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
+.pr-stat div{border:1px solid var(--g200);border-radius:4px;padding:11px 14px;background:#fff}
+.pr-stat .n{font-size:19px;font-weight:600;color:var(--g900,#2b2f36);line-height:1.3}
+.pr-stat .l{font-size:11.5px;color:var(--g600);margin-top:3px}
+.pr-grp{font-size:12.5px;color:var(--g700);font-weight:500;margin:18px 0 9px;display:flex;align-items:center;gap:8px}
+.pr-grp:after{content:'';flex:1;height:1px;background:var(--g200)}
+.pr-console{border:1px solid var(--g200);border-radius:4px;overflow:hidden;background:#fff}
+.pr-con-bar{display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(--g200);background:#fafbfc;font-size:12.5px;color:var(--g600)}
+.pr-con-bar .sp{margin-left:auto;display:flex;gap:8px;align-items:center}
+.pr-code{display:block;width:100%;border:0;outline:none;resize:vertical;padding:13px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.8;color:#2b2f36;background:#fff;min-height:250px;box-sizing:border-box;tab-size:2}
+.pr-outbox{border-top:1px solid var(--g200)}
+.pr-out-h{padding:8px 14px;font-size:11.5px;color:var(--g600);background:#fafbfc;border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:8px}
+.pr-out{margin:0;background:#1f2329;color:#c9ced6;padding:13px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.85;white-space:pre-wrap;min-height:132px;max-height:300px;overflow:auto}
+.pr-out .ok{color:#73d897}
+#prMain tbody tr{cursor:default}#prMain tbody tr:hover td{background:transparent}.pr-out .er{color:#ff8f8f}.pr-out .k{color:#8ab4ff}.pr-out .dim{color:#7c838d}
+.set-side .grp{font-size:11px;color:var(--g600);padding:10px 18px 6px}
+.set-side a{display:flex;align-items:center;gap:7px;padding:8px 18px;font-size:13.5px;color:var(--tx2);cursor:pointer}
+.src-chip{flex:none;font-size:10px;line-height:15px;padding:0 5px;border-radius:3px;background:rgba(111,66,193,.12);color:var(--purple);font-weight:500;white-space:nowrap}
+.nx-tag{margin-left:auto;font-size:10.5px;line-height:16px;color:var(--purple);background:rgba(111,66,193,.1);border:1px solid rgba(111,66,193,.4);border-radius:2px;padding:0 5px;white-space:nowrap}
+.set-side a:hover{background:var(--g100)}
+.set-side a.on{color:var(--primary);font-weight:500;background:rgba(102,152,255,.08)}
+.set-main{flex:1;min-width:0;overflow-x:hidden;overflow-y:auto;padding:18px 24px 40px}
+.set-crumb{font-size:12px;color:var(--g600);margin-bottom:6px}
+.set-crumb .lnk{color:var(--primary);cursor:pointer}
+.app-card{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--g200);border-radius:2px;padding:16px 20px;background:#fff}
+.app-card:hover{border-color:var(--g300)}
+.app-ico{width:36px;height:36px;border-radius:6px;background:rgba(102,152,255,.12);color:var(--primary);display:flex;align-items:center;justify-content:center;flex:none}
+.app-card .nm{font-size:14px;font-weight:500;color:var(--g800)}
+.app-card .ds{font-size:12.5px;color:var(--g600);margin-top:4px;line-height:1.75}
+.app-card .op{margin-left:auto;flex:none}
+
+/* ---------------- 工作项详情 ---------------- */
+.wim{position:fixed;inset:0;background:rgba(51,51,51,.45);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;padding:22px;z-index:60}
+.wim.open{display:flex}
+.wim-panel{width:100%;max-width:1440px;height:100%;background:#fff;border-radius:.5rem;box-shadow:var(--sd-mask);display:flex;overflow:hidden;animation:panelIn .24s cubic-bezier(.2,.8,.3,1)}
+@keyframes panelIn{from{opacity:.45;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
+.wim-l{flex:1;min-width:0;display:flex;flex-direction:column;position:relative}
+.wim-h{padding:14px 22px 0;flex:none}
+.wim-top{display:flex;align-items:center;gap:10px}
+.wkey{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--g800)}
+.wkey .cdot{width:16px;height:16px;border-radius:50%;background:var(--danger)}
+.wim-tools{margin-left:auto;display:flex;align-items:center;gap:14px;color:var(--g600)}
+.wim-tools .wtb{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--tx2);padding:4px 6px;border:none;background:none;border-radius:var(--r);cursor:pointer}
+.wim-tools .wtb:hover{background:var(--g100);color:var(--primary)}
+.wtitle{font-size:19px;font-weight:600;line-height:1.5;margin:10px 0 16px;color:var(--g800)}
+.wmeta{display:flex;align-items:flex-start;gap:36px;flex-wrap:wrap;padding-bottom:14px}
+.wmeta-i{min-width:92px}
+.wmeta-k{font-size:12px;color:var(--g600);margin-bottom:6px}
+.wacts{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.wtabs{display:flex;border-bottom:1px solid var(--g200)}
+.wtabs button{border:none;background:none;padding:9px 2px;margin-right:22px;font-size:13.5px;color:var(--tx2);border-bottom:2px solid transparent}
+.wtabs button.on{color:var(--primary);font-weight:500;border-bottom-color:var(--primary)}
+.wbody{flex:1;overflow:auto;padding:18px 22px 0}
+.wsec{margin-bottom:22px}
+.wsec-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.wsec-h .bar{width:0;height:14px;border-left:3px solid var(--primary);margin-right:8px}
+.wsec-h .t{font-size:14px;color:var(--g800)}
+.wsec-h .edit{margin-left:auto;color:var(--g600);display:flex;gap:12px;background:none;border:none;cursor:pointer}
+.wsec-h .edit:hover{color:var(--primary)}
+.wsec-t{font-size:13.5px;line-height:1.9;color:var(--g800);white-space:pre-wrap}
+.wsec-t.dim{color:var(--g600)}
+.wcards{border:1px solid var(--g200);border-radius:2px;overflow:hidden}
+.wcard{display:flex;border-bottom:1px solid var(--g70);font-size:13px}
+.wcard:last-child{border-bottom:none}
+.wcard .k{width:152px;flex:none;padding:9px 12px;background:var(--g80);color:var(--g600);border-right:1px solid var(--g200)}
+.wcard .v{padding:9px 12px;color:var(--g800);word-break:break-word;flex:1;min-width:0}
+.wcmt{flex:none;border-top:1px solid var(--g200);padding:12px 22px;display:flex;align-items:center;gap:10px}
+.cbox{flex:1;height:34px;border:1px solid var(--g200);border-radius:17px;display:flex;align-items:center;padding:0 14px;color:var(--g600);font-size:13px}
+.cbox .k{margin-left:auto}
+.wact{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--g70);font-size:13px}
+.wact:last-child{border-bottom:none}
+.wact .av{width:22px;height:22px;border-radius:50%;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none}
+.wact .bd{flex:1;min-width:0;color:var(--tx2);line-height:1.75}
+.wact .bd b{color:var(--g800);font-weight:500}
+.wact .tm{font-size:11.5px;color:var(--g600);margin-left:8px}
+.wact-chip{display:inline-flex;background:rgba(102,152,255,.1);border:1px solid rgba(102,152,255,.35);border-radius:2px;padding:1px 7px;margin:5px 6px 0 0;font-size:11.5px;color:#4a7fe0}
+
+/* ---------------- 右侧属性面板 ---------------- */
+.wip{width:300px;flex:none;border-left:1px solid var(--g200);background:var(--g80);overflow:auto;padding-bottom:16px}
+.wip-gh{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--g800);background:var(--g80);padding:12px 16px 9px;border-bottom:1px solid var(--g200)}
+.wip-gh::after{content:'';flex:1}
+.wip-gh .caret{order:9;color:var(--g500);font-size:11px;margin-left:6px}
+.wip-gh .cap{margin-left:auto;color:var(--g600);font-size:11px}
+.wip-gh .src{font-family:"SFMono-Regular",Menlo,monospace;font-size:10.5px;color:var(--purple);background:rgba(111,66,193,.1);border:1px solid rgba(111,66,193,.35);border-radius:2px;padding:0 5px}
+.wip-row{display:flex;align-items:flex-start;gap:10px;padding:7px 16px;font-size:13px;min-height:30px;border-bottom:1px solid var(--g70)}
+.wip-row:hover{background:var(--g100)}
+.wip-row .k{width:96px;flex:none;color:var(--g600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wip-row .v{flex:1;min-width:0;color:var(--g800);word-break:break-word}
+.wip-row .v.dim{color:var(--g500)}
+.wip-row .v .clip{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12.5px;line-height:1.7}
+.wip-app{padding:10px 16px 4px}
+.nx-entry{width:100%;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--g200);border-radius:var(--r);background:#fff;font-size:13px;color:var(--g800);cursor:pointer;transition:border-color .15s ease-in-out,color .15s ease-in-out}
+.nx-entry:hover{border-color:var(--primary);color:var(--primary)}
+.nx-entry .ic{color:var(--primary)}
+.nx-entry .arw{margin-left:auto;color:var(--g500)}
+.nx-sum{margin-top:8px;border:1px solid var(--g200);border-radius:var(--r);background:#fff;padding:10px 12px;font-size:11.5px;line-height:1.9;color:var(--tx2)}
+.nx-sum b{color:var(--g800);font-weight:500}
+.wip-follow{margin:12px 16px 0;padding-top:12px;border-top:1px solid var(--g200);display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--g600)}
+
+/* ---------------- 二级页 ---------------- */
+.subpage{position:absolute;inset:0;background:#fff;z-index:20;display:none;flex-direction:column}
+.subpage.open{display:flex;animation:subIn .2s ease}
+@keyframes subIn{from{opacity:.35;transform:translateX(16px)}to{opacity:1;transform:none}}
+.dlg-back{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--g600);height:40px;padding:0 20px;border-bottom:1px solid var(--g200);flex:none;background:var(--g80)}
+.dlg-back button{display:flex;align-items:center;gap:5px;color:var(--primary);font-size:12.5px;border:none;background:none;cursor:pointer}
+.dlg-back .path{margin-left:auto;font-family:"SFMono-Regular",Menlo,monospace;font-size:11px;color:var(--g500)}
+.dlg-h{padding:16px 20px 12px;border-bottom:1px solid var(--g200);flex:none}
+.dlg-t{font-size:17px;font-weight:600;color:var(--g800)}
+.dlg-sub{font-size:12.5px;color:var(--g600);margin-top:5px}
+.dlg-b{flex:1;overflow:auto;padding:16px 20px 24px}
+.dlg-f{flex:none;display:flex;align-items:center;gap:10px;padding:12px 20px;border-top:1px solid var(--g200);background:#fff}
+.dlg-f .msg{flex:1;font-size:12.5px;color:var(--g600)}
+.dlg-f .msg .bad{color:var(--danger)}
+
+/* ---------------- 表单 ---------------- */
+.f-row{display:flex;gap:12px;padding:7px 0;align-items:flex-start}
+.f-lbl{width:130px;flex:none;text-align:right;font-size:13px;color:var(--tx2);padding-top:7px;line-height:1.5}
+.f-lbl .req{color:var(--danger);margin-right:2px}
+.f-ctl{flex:1;min-width:0;max-width:600px}
+.f-help{font-size:11.5px;color:var(--g600);line-height:1.7;margin-top:5px}
+.f-err{display:none;font-size:11.5px;color:var(--danger);margin-top:5px}
+.f-err.show{display:block}
+.chip-auto{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:2px;font-size:11px;line-height:20px}
+.chip-auto.auto{color:#2c9e63;background:rgba(115,216,151,.16);border:1px solid rgba(115,216,151,.5)}
+.chip-auto.rule{color:var(--purple);background:rgba(111,66,193,.1);border:1px solid rgba(111,66,193,.35)}
+.tpl-box{margin-top:8px;border:1px solid var(--g200);border-radius:var(--r);background:var(--g80);padding:10px 12px}
+.tpl-item{display:flex;gap:8px;align-items:flex-start;color:var(--g600);font-size:12px;line-height:1.9}
+.tpl-item.done{color:#2c9e63}
+.tpl-item .mark{flex:none;width:13px}
+.tpl-prog{display:inline-flex;margin-left:8px;font-size:11px;color:var(--g600);border:1px solid var(--g200);border-radius:18px;padding:0 8px;height:18px;align-items:center;background:#fff}
+.tpl-prog.ok{color:#2c9e63;border-color:rgba(115,216,151,.6);background:rgba(115,216,151,.12)}
+.sk{display:block;border-radius:var(--r);background:linear-gradient(90deg,var(--g100) 25%,var(--g80) 37%,var(--g100) 63%);background-size:400% 100%;animation:sk 1.3s ease infinite}
+.sk-l{height:12px;margin-left:auto}
+.sk-i{height:32px}
+.sk-t{height:88px;margin-top:8px}
+.sk-f{margin-top:14px;height:12px;width:180px}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+
+/* 配置页 */
+.cfgtab{display:flex;gap:2px;margin-bottom:0}
+.cfgtab button{border:none;background:none;padding:10px 2px;margin-right:22px;font-size:13.5px;color:var(--tx2);border-bottom:2px solid transparent;cursor:pointer}
+.cfgtab button.on{color:var(--primary);font-weight:500;border-bottom-color:var(--primary)}
+.ckrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);cursor:pointer;white-space:nowrap}
+.cfgbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--g200)}
+.cfg-dirty{font-size:11.5px;color:#c26a10}
+.cfg-ok{font-size:11.5px;color:#2c9e63}
+.hint{font-size:12px;color:var(--g600);line-height:1.85;margin-top:10px}
+.hint b{color:var(--tx2)}
+.note{border-left:3px solid var(--primary);background:rgba(102,152,255,.07);padding:10px 12px;font-size:12.5px;color:var(--tx2);line-height:1.85;border-radius:0 var(--r) var(--r) 0}
+.note.warn{border-left-color:var(--warning);background:rgba(255,205,93,.13)}
+.note b{color:var(--g800)}
+
+/* ---------------- 浮动控制 & Toast ---------------- */
+.float{position:fixed;right:18px;bottom:18px;display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--g200);border-radius:22px;padding:6px 8px 6px 14px;box-shadow:0 0 10px rgba(0,0,0,.1);z-index:80;font-size:12.5px;color:var(--tx2)}
+.float label{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+body.in-workflow .float{display:none}
+body:not(.anno-on) .wip-gh .src,
+body:not(.anno-on) .dlg-back .path{display:none}
+.toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-16px);background:#fff;border-radius:var(--r);box-shadow:0 2px 8px rgba(0,0,0,.26);padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:9px;z-index:200;opacity:0;pointer-events:none;transition:.22s;border-left:3px solid var(--success);max-width:640px}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.toast.err{border-left-color:var(--danger)}
+.toast.info{border-left-color:var(--primary)}
+.maptabs{display:flex;gap:2px;margin-top:16px;border-bottom:1px solid var(--g200)}
+.maptabs button{border:none;background:none;padding:9px 16px;font-size:13.5px;color:var(--g600);border-bottom:2px solid transparent;display:flex;align-items:center;gap:6px;cursor:pointer}
+.maptabs button.on{color:var(--primary);border-bottom-color:var(--primary);font-weight:500}
+.maptabs .cnt{font-size:11px;color:var(--g500);background:var(--g100);border-radius:9px;padding:0 7px;height:18px;line-height:18px}
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:300;display:none;align-items:center;justify-content:center}
+.mask.on{display:flex}
+.modal{width:560px;max-width:92vw;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 16px 60px rgba(0,0,0,.32)}
+.modal-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--g200);font-size:14.5px;font-weight:600}
+.modal-x{border:none;background:none;font-size:20px;color:var(--g500);cursor:pointer;line-height:1}
+.modal-b{padding:16px 18px}
+.modal-f{display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid var(--g200);justify-content:flex-end}
+.modal-f .f-help{margin-right:auto}
+
+/* 折叠态 */
+body.rail-mini .rail{width:56px}
+body.rail-mini .rail .lbl{display:none}
+body.rail-mini .rail a,body.rail-mini .rail-logo{justify-content:center;padding:0}
+body.rail-mini .rail-foot .rail-fold{justify-content:center;padding:0}
+body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
+</style>
+</head>
+<body>
+
+<div class="pc" id="appShell">
+  <!-- ============ 模块导航 ============ -->
+  <aside class="rail" id="rail">
+    <div class="rail-logo"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 1.4l2.2 3.6 4 .9-2.7 3.1.4 4.1L8 11.2l-3.9 1.9.4-4.1L1.8 5.9l4-.9L8 1.4z" fill="currentColor"/></svg><span class="lbl">易成科技</span></div>
+    <div class="rail-scroll">
+      <a href="#" onclick="return false" class="" title="工作台"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg><span class="lbl">工作台</span></a>
+      <a href="#" onclick="return false" class="" title="产品管理"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.8l5.6 3.1v6.2L8 14.2 2.4 11.1V4.9L8 1.8z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="lbl">产品管理</span></a>
+      <a href="#" onclick="return false" class="on" id="railPM" title="项目管理"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4.5h12M2 8h12M2 11.5h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="5" cy="4.5" r="1.4" fill="currentColor"/><circle cx="10" cy="8" r="1.4" fill="currentColor"/><circle cx="6.5" cy="11.5" r="1.4" fill="currentColor"/></svg><span class="lbl">项目管理</span></a>
+      <a href="#" onclick="return false" class="" title="测试管理"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.6l5.4 3v6.8L8 14.4l-5.4-3V4.6L8 1.6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.6 8l1.7 1.7 3.2-3.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="lbl">测试管理</span></a>
+      <a href="#" onclick="return false" class="" title="知识管理"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.2" y="3" width="11.6" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.4 3V1.9M10.6 3V1.9M2.2 6.6h11.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">知识管理</span></a>
+      <a href="#" onclick="return false" class="" title="效能度量"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13V7m4 6V3m4 10V9m4 4V5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><span class="lbl">效能度量</span></a>
+      <div class="rail-sep"></div>
+      <a href="#" onclick="return false" class="" title="协作空间"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5.6" cy="5.6" r="2.6" stroke="currentColor" stroke-width="1.3"/><circle cx="10.6" cy="6.4" r="2.2" stroke="currentColor" stroke-width="1.3"/><path d="M1.8 13c0-2.1 1.7-3.4 3.8-3.4S9.4 10.9 9.4 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">协作空间</span></a>
+      <a href="#" onclick="return false" class="" title="智能引擎"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="4.4" y="4.4" width="7.2" height="7.2" rx="1.6" stroke="currentColor" stroke-width="1.3"/><path d="M6.6 1.8v2.2M9.4 1.8v2.2M6.6 12v2.2M9.4 12v2.2M1.8 6.6H4M12 6.6h2.2M1.8 9.4H4M12 9.4h2.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">智能引擎</span></a>
+      <div class="rail-sep"></div>
+      <a href="#" onclick="return false" class="" title="工时管理"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.6" stroke="currentColor" stroke-width="1.3"/><path d="M8 4.6V8l2.4 1.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">工时管理</span></a>
+      <a href="#" onclick="return false" class="" title="定时报告"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.4" y="3.4" width="11.2" height="10.2" rx="1.4" stroke="currentColor" stroke-width="1.3"/><path d="M2.4 6.6h11.2M5.6 2v2.6M10.4 2v2.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">定时报告</span></a>
+      <a href="#" onclick="return false" class="" title="快捷链接"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.6 9.4l2.8-2.8M6 4.4l1.4-1.4a2.6 2.6 0 013.6 3.6L6.4 11a3.6 3.6 0 01-5-5l4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">快捷链接</span></a>
+      <div class="rail-sep"></div>
+      <a href="#" onclick="return false" id="railPR" title="Ping Runner"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.4 6.6L8 3.2 2.6 6.6v6.8L8 16.8l5.4-3.4V6.6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 8.4l5.4-3.4M8 8.4v8.4M8 8.4L2.6 5" stroke="currentColor" stroke-width="1.2"/></svg><span class="lbl">Ping Runner</span></a>
+    </div>
+    <div class="rail-foot">
+      <a href="#" onclick="return false" class="" title="管理后台"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.4" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.4v1.8M8 12.8v1.8M1.4 8h1.8M12.8 8h1.8M3.4 3.4l1.3 1.3M11.3 11.3l1.3 1.3M12.6 3.4l-1.3 1.3M4.7 11.3l-1.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">管理后台</span></a>
+      <button class="rail-fold" id="railFold" title="收起导航"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10.5 3.5L6 8l4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </aside>
+
+  <div class="pc-body">
+    <!-- ============ 主区域 ============ -->
+    <main class="pmain">
+      <!-- 项目内导航（三级）：项目名 + 项目级页签 -->
+      <div class="phead">
+        <div class="phead-l">
+          <span class="gico"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></span>
+          <span class="pname">玄戒芯片项目</span>
+          <button class="caret"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6.5l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="gear" id="setBtn" title="项目设置"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 5.6A2.4 2.4 0 108 10.4 2.4 2.4 0 018 5.6z" stroke="currentColor" stroke-width="1.3"/><path d="M12.9 9.9a1.1 1.1 0 00.22 1.21l.04.04a1.33 1.33 0 11-1.88 1.88l-.04-.04a1.1 1.1 0 00-1.21-.22 1.1 1.1 0 00-.67 1v.11a1.33 1.33 0 11-2.67 0v-.06a1.1 1.1 0 00-.72-1 1.1 1.1 0 00-1.21.22l-.04.04a1.33 1.33 0 11-1.88-1.88l.04-.04a1.1 1.1 0 00.22-1.21 1.1 1.1 0 00-1-.67h-.11a1.33 1.33 0 110-2.66h.06a1.1 1.1 0 001-.72 1.1 1.1 0 00-.22-1.21l-.04-.04a1.33 1.33 0 111.88-1.88l.04.04a1.1 1.1 0 001.21.22h.05a1.1 1.1 0 00.67-1v-.11a1.33 1.33 0 112.67 0v.06a1.1 1.1 0 00.67 1 1.1 1.1 0 001.21-.22l.04-.04a1.33 1.33 0 111.88 1.88l-.04.04a1.1 1.1 0 00-.22 1.21v.05a1.1 1.1 0 001 .67h.11a1.33 1.33 0 010 2.66h-.06a1.1 1.1 0 00-1 .67z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg></button>
+        </div>
+        <nav class="pnav" id="pnav">
+          <a data-page="overview">概览</a>
+          <a data-page="planning">规划</a>
+          <a data-page="milestone">里程碑</a>
+          <a data-page="items">工作项</a>
+          <a data-page="delivery" class="on">交付物</a>
+          <a data-page="bugs">缺陷</a>
+          <a data-page="workflow">工作流</a>
+          <a data-page="modules">更多</a>
+        </nav>
+      </div>
+
+      <header class="ptop">
+        <div class="ptop-crumb" id="crumb"></div>
+        <div class="ptop-r">
+          <div class="search"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#cacaca" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="#cacaca" stroke-width="1.5" stroke-linecap="round"/></svg>搜索<span class="kbd">⌘K</span></div>
+          <span class="ptop-ico"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 6h5M5.5 8.6h5M5.5 11.2h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+          <span class="ptop-ico"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.2"/><path d="M6.3 6.2a1.8 1.8 0 113.1 1.3c-.6.5-1.4.8-1.4 1.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".7" fill="currentColor"/></svg></span>
+          <span class="ptop-ico"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 6.4a4 4 0 018 0c0 3 1.2 4.2 1.2 4.2H2.8S4 9.4 4 6.4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M6.6 13a1.6 1.6 0 002.8 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="badge">99+</span></span>
+          <span class="avatar">王</span>
+        </div>
+      </header>
+
+      <!-- ---------- 项目列表（二级，ONES 式列表视图） ---------- -->
+      <section class="page on" id="page-projects">
+        <div class="pj-layout">
+          <aside class="pj-side" id="pjSide">
+            <div class="grp">项目</div>
+            <a data-pjgrp="all" class="on"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2.2" y="2.2" width="4.8" height="4.8" rx="1"/><rect x="9" y="2.2" width="4.8" height="4.8" rx="1"/><rect x="2.2" y="9" width="4.8" height="4.8" rx="1"/><rect x="9" y="9" width="4.8" height="4.8" rx="1"/></svg>全部项目</a>
+            <a data-pjgrp="org"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="5.4" cy="5.4" r="2.4"/><circle cx="10.8" cy="5.4" r="2.4"/><path d="M1.6 13.2c0-2 1.7-3.2 3.8-3.2s3.8 1.2 3.8 3.2"/></svg>组织项目</a>
+            <a data-pjgrp="team"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="5.4" r="2.4"/><path d="M3.8 13.2c0-2 1.9-3.2 4.2-3.2s4.2 1.2 4.2 3.2"/></svg>团队项目</a>
+            <div class="grp">工作</div>
+            <a data-pjgrp="set"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="3.2" width="12" height="9.6" rx="1.4"/><path d="M2 6.4h12"/></svg>项目集</a>
+            <a data-pjgrp="filter"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2.4 3.4h11.2l-4.2 5v4.2l-2.8-1.4V8.4z"/></svg>筛选器</a>
+            <div class="grp">更多</div>
+            <a data-pjgrp="archived"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="3" width="12" height="3.2" rx="1"/><path d="M3.2 6.2v6.4h9.6V6.2M6.4 9h3.2"/></svg>归档项目</a>
+            <a data-pjgrp="cfg"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.9v1.7M8 12.4v1.7M1.9 8h1.7M12.4 8h1.7M3.7 3.7l1.2 1.2M11.1 11.1l1.2 1.2M12.3 3.7l-1.2 1.2M4.9 11.1l-1.2 1.2"/></svg>配置中心</a>
+          </aside>
+
+          <div class="pj-main">
+            <div class="pj-hd">
+              <span class="t" id="pjTitle">全部项目</span>
+              <span class="r"><button class="btn btn-primary btn-sm" id="pjNew"><svg class="ic" width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>新建项目</button></span>
+            </div>
+
+            <div class="pj-tools">
+              <span class="pj-search"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#cacaca" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="#cacaca" stroke-width="1.5" stroke-linecap="round"/></svg><input id="pjKw" placeholder="搜索项目名称或标识"></span>
+              <span class="pj-f"><span class="sel" id="pjType">类型：全部<svg width="9" height="9" viewBox="0 0 16 16" fill="none"><path d="M4 6.2L8 10.2l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></span>
+              <span class="pj-seg" id="pjSeg"><button data-seg="all" class="on">全部</button><button data-seg="fav">星标</button><button data-seg="recent">最近</button></span>
+              <span class="pj-count" id="pjCount"></span>
+            </div>
+
+            <div class="pj-tblwrap">
+              <table class="tbl pj-tbl">
+                <thead><tr><th style="width:auto">名称</th><th style="width:110px">标识</th><th style="width:110px">所属</th><th style="width:150px">更新时间</th></tr></thead>
+                <tbody id="pjRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 交付物 ---------- -->
+      <section class="page" id="page-delivery">
+        <div class="ptabs">
+          <button class="on">迭代</button><button>发布</button><button>基线</button><button>评审</button><button>文档</button><button>资源</button><button>报表</button>
+          <div class="ptabs-r"><button class="btn btn-primary btn-sm"><svg class="ic" width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>新建</button></div>
+        </div>
+        <div class="ptools">
+          <div class="tsearch"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#cacaca" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="#cacaca" stroke-width="1.5" stroke-linecap="round"/></svg>搜索</div>
+          <button class="tbtn">筛选</button><button class="tbtn">排序</button><button class="tbtn">分组</button>
+          <span class="tcount">2 个迭代</span>
+        </div>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th class="c-chk"><input type="checkbox" class="ck"></th><th style="width:220px">迭代</th><th style="width:110px">状态</th><th style="width:120px">开始时间</th><th style="width:120px">结束时间</th><th class="c-main">说明</th></tr></thead>
+            <tbody>
+              <tr><td><input type="checkbox" class="ck"></td><td><b>MP2 缺陷收敛</b></td><td><span class="tag tag-pill tag-sm tag-blue">进行中</span></td><td>2026-08-01</td><td>2026-09-30</td><td>量产前缺陷清零，覆盖 NPU / DDR / PMIC 三个子系统。</td></tr>
+              <tr><td><input type="checkbox" class="ck"></td><td><b>MP3 功能冻结</b></td><td><span class="tag tag-pill tag-sm tag-orange">未开始</span></td><td>2026-10-09</td><td>2026-12-20</td><td>功能冻结后仅接受 ECCB 审批的变更。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ppage"><span>共 2 条</span><div class="pager"><span>50 条/页</span><span class="pgbtn">‹</span><span class="pgbtn on">1</span><span class="pgbtn">›</span></div></div>
+      </section>
+
+      <!-- ---------- 缺陷（一级组件，与交付物并列） ---------- -->
+      <section class="page" id="page-bugs">
+        <div class="ptabs">
+          <button class="on">缺陷管理</button><button>全部缺陷</button><button>待验证</button><button>我负责的缺陷</button><button>我创建的缺陷</button><button>已关闭缺陷</button>
+          <div class="ptabs-r">
+            <button class="btn btn-primary btn-sm"><svg class="ic" width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>新建</button>
+            <button class="btn btn-default btn-sm btn-ico"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M4.5 8h7M6.5 11.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="ptools">
+          <div class="tsearch"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#cacaca" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="#cacaca" stroke-width="1.5" stroke-linecap="round"/></svg>搜索<span class="kbd">⌘K+G</span></div>
+          <button class="tbtn">筛选</button><button class="tbtn">排序</button><button class="tbtn">分组</button><button class="tbtn">更多</button>
+          <span class="tcount">5 个工作项</span>
+        </div>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th class="c-chk"><input type="checkbox" class="ck"></th><th class="c-no">编号</th><th class="c-main">标题</th><th class="c-st">状态</th><th class="c-ow">负责人</th><th class="c-cr">创建时间</th><th class="c-pr">优先级</th></tr></thead>
+            <tbody id="listRows"></tbody>
+          </table>
+        </div>
+        <div class="ppage"><span>共 5 条</span><div class="pager"><span>50 条/页</span><span class="pgbtn">‹</span><span class="pgbtn on">1</span><span class="pgbtn">›</span><span>跳至 1 页</span></div></div>
+      </section>
+
+      <!-- ---------- 工作项 ---------- -->
+      <section class="page" id="page-items">
+        <div class="ptabs">
+          <button class="on">全部工作项</button><button>缺陷</button><button>需求</button><button>任务</button>
+          <div class="ptabs-r"><button class="btn btn-primary btn-sm"><svg class="ic" width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>新建</button></div>
+        </div>
+        <div class="ptools">
+          <div class="tsearch"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#cacaca" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="#cacaca" stroke-width="1.5" stroke-linecap="round"/></svg>搜索</div>
+          <button class="tbtn">筛选</button><button class="tbtn">排序</button><button class="tbtn">分组</button>
+          <span class="tcount">5 个工作项</span>
+        </div>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th class="c-chk"><input type="checkbox" class="ck"></th><th class="c-no">编号</th><th class="c-main">标题</th><th class="c-ty">类型</th><th class="c-st">状态</th><th class="c-ow">负责人</th><th class="c-pr">优先级</th></tr></thead>
+            <tbody id="itemRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ---------- 规划 ---------- -->
+      <section class="page" id="page-planning">
+        <div class="pg-head"><div class="pg-title">规划</div><div class="pg-sub">迭代、发布与需求排期。</div></div>
+        <div class="pg-body">
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">进行中的迭代</span><span class="d">3 个</span>
+              <span class="r"><button class="btn btn-primary btn-sm"><svg class="ic" width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>新建迭代</button></span></div>
+            <div class="card-c" style="padding:0"><table class="tbl">
+              <thead><tr><th style="width:200px">迭代</th><th style="width:110px">状态</th><th style="width:120px">开始时间</th><th style="width:120px">结束时间</th><th class="c-main">说明</th></tr></thead>
+              <tbody>
+                <tr><td><b>MP2 缺陷收敛</b></td><td><span class="tag tag-pill tag-sm tag-blue">进行中</span></td><td>2026-08-01</td><td>2026-09-30</td><td>量产前缺陷清零，含 NPU / DDR / PMIC 三个子系统。</td></tr>
+                <tr><td><b>MP3 功能冻结</b></td><td><span class="tag tag-pill tag-sm tag-orange">未开始</span></td><td>2026-10-09</td><td>2026-12-20</td><td>功能冻结后仅接受 ECCB 审批的变更。</td></tr>
+              </tbody></table></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 规则（保留占位，规则配置已移至主导航 Ping Runner） ---------- -->
+      <section class="page" id="page-rules" style="display:none">
+        <div class="pg-head">
+          <div class="pg-title">规则</div>
+          <div class="pg-sub">规则统一在此维护与启停，各项目在项目设置中调整参数。「解决问题规则」是其中一种规则类型。</div>
+        </div>
+        <div class="chiprow">
+          <button class="chip on">全部规则</button><button class="chip">表单规则</button><button class="chip">字段字典</button><button class="chip">校验规则</button><button class="chip">计算规则</button><button class="chip">模板规则</button>
+        </div>
+        <div class="pg-body">
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">规则列表</span><span class="d" id="ruleCount"></span>
+              <span class="r"><button class="btn btn-primary btn-sm"><svg class="ic" width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>新建规则</button></span>
+            </div>
+            <div class="card-c" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th class="c-rn">规则名称</th><th style="width:100px">规则类型</th><th class="c-main">说明</th><th class="c-sp">生效范围</th><th style="width:88px">状态</th><th class="c-up">最近修改</th><th class="c-ac"></th></tr></thead>
+                <tbody id="ruleRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- Ping Runner（全局应用：脚本扩展平台） ---------- -->
+      <section class="page" id="page-pingrunner">
+        <div class="set">
+          <div class="set-side" id="prSide"></div>
+          <div class="set-main" id="prMain" style="padding:0"></div>
+        </div>
+      </section>
+
+      <!-- ---------- 概览 ---------- -->
+      <section class="page" id="page-overview">
+        <div class="pg-head"><div class="pg-title">概览</div><div class="pg-sub">项目整体进度与本周质量指标。</div></div>
+        <div class="stat-row">
+          <div class="stat"><div class="n">246</div><div class="l">工作项总数</div></div>
+          <div class="stat"><div class="n">32</div><div class="l">待处理缺陷</div></div>
+          <div class="stat"><div class="n">3.6 天</div><div class="l">平均解决时长</div></div>
+          <div class="stat"><div class="n">92%</div><div class="l">按期关闭率</div></div>
+        </div>
+        <div class="pg-body">
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">缺陷趋势</span><span class="d">近 8 周</span></div>
+            <div class="card-c">
+              <div style="display:flex;align-items:flex-end;gap:12px;height:136px">
+                <div style="flex:1;height:52%;background:rgba(102,152,255,.3);border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:68%;background:rgba(102,152,255,.3);border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:44%;background:rgba(102,152,255,.3);border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:80%;background:rgba(102,152,255,.3);border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:61%;background:rgba(102,152,255,.3);border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:38%;background:rgba(102,152,255,.3);border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:29%;background:rgba(102,152,255,.3);border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:22%;background:rgba(102,152,255,.55);border-radius:2px 2px 0 0"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 里程碑 ---------- -->
+      <section class="page" id="page-milestone">
+        <div class="pg-head"><div class="pg-title">里程碑</div><div class="pg-sub">项目阶段与交付节点。</div></div>
+        <div class="pg-body">
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">玄戒 X1 量产版本</span>
+              <span class="r"><button class="btn btn-default btn-sm">新建里程碑</button></span></div>
+            <div class="card-c" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th style="width:220px">里程碑</th><th style="width:110px">状态</th><th style="width:120px">开始时间</th><th style="width:120px">结束时间</th><th class="c-main">说明</th></tr></thead>
+                <tbody>
+                  <tr><td>架构设计冻结</td><td><span class="tag tag-pill tag-sm tag-green">已完成</span></td><td>2026-03-10</td><td>2026-04-28</td><td>NPU / DDR / ISP 子系统划分冻结，进入详细设计。</td></tr>
+                  <tr><td>MP1 工程样片</td><td><span class="tag tag-pill tag-sm tag-blue">进行中</span></td><td>2026-05-06</td><td>2026-09-18</td><td>第一版工程样片，NPU 算子性能与整机功耗为本阶段重点。</td></tr>
+                  <tr><td>MP2 量产流片</td><td><span class="tag tag-pill tag-sm tag-grey">未开始</span></td><td>2026-10-09</td><td>2026-12-20</td><td>量产版本缺陷清零，遗留缺陷进入 ECCB 清单。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 更多 ---------- -->
+      <section class="page" id="page-modules">
+        <div class="pg-head"><div class="pg-title">更多</div><div class="pg-sub">项目下其他模块。</div></div>
+        <div class="stat-row">
+          <div class="stat"><div class="n" style="font-size:14px">迭代</div><div class="l">6 个迭代进行中</div></div>
+          <div class="stat"><div class="n" style="font-size:14px">风险</div><div class="l">3 项待跟进</div></div>
+          <div class="stat"><div class="n" style="font-size:14px">发布</div><div class="l">2 个版本待发布</div></div>
+          <div class="stat"><div class="n" style="font-size:14px">基线</div><div class="l">4 条基线记录</div></div>
+          <div class="stat"><div class="n" style="font-size:14px">评审</div><div class="l">8 场评审进行中</div></div>
+          <div class="stat"><div class="n" style="font-size:14px">报告</div><div class="l">本周报告已生成</div></div>
+        </div>
+      </section>
+
+      <!-- ---------- 项目设置 ---------- -->
+      <!-- ---------- 工作项配置（内嵌 workflow-config.html，项目设置上下文） ---------- -->
+      <section class="page" id="page-workflow">
+        <div class="set">
+          <div class="set-side" id="wfSide"></div>
+          <div class="set-main" style="padding:0;overflow:hidden;display:flex;position:relative">
+            <iframe id="wfFrame" title="工作项配置" style="flex:1;width:100%;border:0;display:block"></iframe>
+            <div class="wf-loading" id="wfLoad">正在加载工作项配置…</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-setting">
+        <div class="set">
+          <div class="set-side" id="setSide"></div>
+          <div class="set-main" id="setMain"></div>
+        </div>
+      </section>
+
+      <!-- ---------- 规则配置（全局） ---------- -->
+      <section class="page" id="page-glbcfg">
+        <div class="set">
+          <div class="set-side">
+            <div class="grp">Ping Runner</div>
+            <a class="on">规则列表</a>
+            <div class="grp">当前规则</div>
+            <a>解决问题规则</a>
+          </div>
+          <div class="set-main" id="glbMain"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ================= 工作项详情 ================= -->
+<div class="wim" id="wim">
+ <div class="wim-panel">
+  <div class="wim-l">
+    <div class="wim-h">
+      <div class="wim-top">
+        <span class="wkey"><span class="cdot"></span>XIN-142</span>
+        <div class="wim-tools">
+          <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1.6l1.5 4.2 4.2 1.5-4.2 1.5L8 13l-1.5-4.2L2.3 7.3l4.2-1.5L8 1.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>AI</button>
+          <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10.5 2.5l3 3-7.2 7.2-3.6.6.6-3.6 7.2-7.2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>附件</button>
+          <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6.6 9.4l2.8-2.8M6 4.4l1.4-1.4a2.6 2.6 0 013.6 3.6L6.4 11a3.6 3.6 0 01-5-5l4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>关联</button>
+          <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><circle cx="3.4" cy="8" r="1.2"/><circle cx="8" cy="8" r="1.2"/><circle cx="12.6" cy="8" r="1.2"/></svg></button>
+          <span style="color:var(--g300)">|</span>
+          <button class="wtb" id="wimClose" title="关闭"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+        </div>
+      </div>
+      <div class="wtitle">NPU 张量计算核在 INT8 量化下累加精度偏差超规格</div>
+      <div class="wmeta">
+        <div class="wmeta-i"><div class="wmeta-k">负责人</div><div style="display:flex;align-items:center;gap:7px"><span class="avatar">王</span>王若上</div></div>
+        <div class="wmeta-i"><div class="wmeta-k">状态</div><span class="tag tag-pill tag-md tag-orange"><span class="dot"></span>问题处理中</span></div>
+        <div class="wmeta-i"><div class="wmeta-k">开始时间</div><div style="color:var(--g500)">-</div></div>
+        <div class="wmeta-i"><div class="wmeta-k">结束时间</div><div style="color:var(--g500)">-</div></div>
+        <div class="wacts"><button class="btn btn-primary btn-lg" id="openFromPanel">定位&amp;解决问题</button></div>
+      </div>
+      <div class="wtabs"><button class="on">基本信息</button></div>
+    </div>
+
+    <div class="wbody">
+      <div class="wsec">
+        <div class="wsec-h"><span class="bar"></span><span class="t">描述</span><button class="edit"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11 2.6l2.4 2.4-7.6 7.6-3 .6.6-3L11 2.6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button></div>
+        <div class="wsec-t">在 INT8 量化模式下跑通算子基准（MobileNet / ResNet50）时，张量计算核的累加结果相较参考模型偏差达到 0.031，规格要求 ≤ 0.008，偏差约 3.9 倍。在 FP16 模式下偏差为 0.004，满足规格。初步定位与累加器位宽截断配置及 INT8 反量化时序有关。</div>
+      </div>
+      <div class="wsec">
+        <div class="wsec-h"><span class="bar"></span><span class="t">发现步骤</span><button class="edit"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11 2.6l2.4 2.4-7.6 7.6-3 .6.6-3L11 2.6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button></div>
+        <div class="wsec-t">1. 使用 NPU 算子回归集连续跑 INT8 量化基准 200 次<br>2. 约 8% 轮次偏差超规格，偏差值随批量大小波动<br>3. 定位到 <span class="mono">mac_int8_accum</span> 模块的反量化流水拍配置与规格文档不一致</div>
+      </div>
+      <div class="wsec">
+        <div class="wsec-h"><span class="bar"></span><span class="t">解决信息</span></div>
+        <div id="solveCard"></div>
+      </div>
+      <div class="wsec">
+        <div class="wsec-h"><span class="bar"></span><span class="t">活动</span></div>
+        <div id="actList"></div>
+      </div>
+    </div>
+
+    <div class="wcmt"><span class="avatar">王</span><div class="cbox">发表评论<span class="k"><span class="kbd">M</span></span></div></div>
+
+    <div class="subpage" id="subPage">
+      <div class="dlg-back">
+        <button id="subBack"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>返回工作项</button>
+        <span class="path">pcm:pjm:workitem:panel › 解决问题</span>
+      </div>
+      <div class="dlg-h"><div class="dlg-t" id="dlgTitle">解决问题</div><div class="dlg-sub" id="dlgSub"></div></div>
+      <div class="dlg-b" id="dlgBody"></div>
+      <div class="dlg-f">
+        <span class="msg" id="dlgMsg"></span>
+        <button class="btn btn-default btn-lg" id="dlgCancel">取消</button>
+        <button class="btn btn-primary btn-lg" id="dlgSubmit">提交</button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="wip" id="wip"></aside>
+ </div>
+</div>
+
+<div class="float">
+  <label><input type="checkbox" class="ck" id="annoT">扩展点标注</label>
+  <button class="btn btn-default btn-xs" id="resetB">重置</button>
+</div>
+<div class="toast" id="toast"><span id="toastTx"></span></div>
+<div class="mask" id="mapMask"></div>
+
+<script>
+/* ==========================================================================
+   1. 业务数据
+   ========================================================================== */
+var SUBSYS = {
+  'DDR 控制器': ['控制器核','PHY 训练','ECC 校验','仲裁与调度','低功耗控制'],
+  'SoC 平台': ['总线互联','时钟复位','电源域管理','安全子系统','调试接口'],
+  'AP 应用处理器': ['CPU 集群','缓存一致性','中断控制','功耗管理'],
+  'NPU': ['张量计算核','内存调度','编译器接口','数据搬运'],
+  'ISP 影像': ['ISP 前端','3A 算法','数据通路','输出接口'],
+  'PMIC 电源管理': ['充电管理','电池计量','DC-DC 控制','LDO 与基准'],
+  '射频前端': ['功率放大','滤波器','天线调谐','射频收发'],
+  '无线连接': ['WiFi 基带','蓝牙协议栈','射频校准'],
+  '显示子系统': ['显示控制器','MIPI 接口','图层合成'],
+  '音频子系统': ['音频 DSP','编解码器','音频接口']
+};
+var DEFECT = {
+  '功能缺陷': ['逻辑错误','时序错误','接口异常','状态机异常'],
+  '性能缺陷': ['带宽不足','延迟超标','功耗超标','频率未达标'],
+  '稳定性缺陷': ['偶发失效','复位异常','死机或重启','长时间运行劣化'],
+  '一致性问题': ['与规格不符','与参考模型不一致','与竞品表现差异'],
+  '文档缺陷': [],
+  '测试用例缺陷': ['用例覆盖不足','期望值错误'],
+  '不修复（需CCB）': []
+};
+var DEFECT_CASCADE = Object.keys(DEFECT);
+var RESULT = ['完成','不修复（需CCB）','无法复现','重复问题','需求变更'];
+var SEVERITY = ['致命','严重','一般','提示'];
+var REPRO = ['必现','高频','偶发','极低'];
+var GERRIT_RE = /^I[0-9a-f]{8,40}$/;
+var HANDLE_TPL = ['代码合入分支','代码合入版本','问题及基本测试用例是否测试完成？','代码是否完成 code review？','PClint 等检查是否完成？','风险告知（是否会影响其他模块，影响程度）'];
+var PEOPLE = {
+  'DDR 控制器':   { audit:'责任人 A-01（子系统负责人）', verifier:'责任人 T-01（DDR 验证）' },
+  'SoC 平台':     { audit:'责任人 A-02（子系统负责人）', verifier:'责任人 T-02（平台验证）' },
+  'AP 应用处理器':{ audit:'责任人 A-07（子系统负责人）', verifier:'责任人 T-07（AP 验证）' },
+  'NPU':          { audit:'责任人 A-03（子系统负责人）', verifier:'责任人 T-03（NPU 验证）' },
+  'ISP 影像':     { audit:'责任人 A-04（子系统负责人）', verifier:'责任人 T-04（影像验证）' },
+  'PMIC 电源管理':{ audit:'责任人 A-05（子系统负责人）', verifier:'责任人 T-05（电源验证）' },
+  '射频前端':     { audit:'责任人 A-06（子系统负责人）', verifier:'责任人 T-06（射频验证）' },
+  '无线连接':     { audit:'责任人 A-08（子系统负责人）', verifier:'责任人 T-08（连接验证）' },
+  '显示子系统':   { audit:'责任人 A-09（子系统负责人）', verifier:'责任人 T-09（显示验证）' },
+  '音频子系统':   { audit:'责任人 A-10（子系统负责人）', verifier:'责任人 T-10（音频验证）' }
+};
+var AUDIT_OPTIONS = ['责任人 A-01（软件线）','责任人 A-11（硬件线）','责任人 A-02（子系统负责人）','责任人 A-03（子系统负责人）','责任人 A-05（子系统负责人）'];
+var LIST = [
+  { no:'XIN-142', title:'NPU 张量计算核在 INT8 量化下累加精度偏差超规格', status:'待验证', cls:'tag-orange', pri:'高', clsPri:'tag-red',   cur:true,  type:'缺陷' },
+  { no:'XIN-141', title:'DDR 控制器在 3200Mbps 下偶发读写数据位翻转',   status:'已验证', cls:'tag-blue',   pri:'高', clsPri:'tag-red',   cur:false, type:'缺陷' },
+  { no:'XIN-138', title:'ISP 3A 算法在低照度场景下色彩还原偏差偏大',   status:'待验证', cls:'tag-orange', pri:'中', clsPri:'tag-orange',cur:false, type:'缺陷' },
+  { no:'XIN-136', title:'PMIC 充电管理路径在低温下充电电流衰减',       status:'已验证', cls:'tag-blue',   pri:'低', clsPri:'tag-grey', cur:false, type:'缺陷' },
+  { no:'XIN-133', title:'DDR 控制器 ECC 校验告警上报告警阈值误报',     status:'已验证', cls:'tag-blue',   pri:'中', clsPri:'tag-orange',cur:false, type:'需求' }
+];
+var RULES = [
+  { n:'解决问题规则', type:'表单规则', scope:'全局', on:true, upd:'10-12 10:20', go:1,
+    desc:'定义「解决问题」弹窗的字段、联动与校验规则；各项目可在项目设置中覆盖参数' },
+  { n:'风险等级生成矩阵', type:'计算规则', scope:'全局', on:true, upd:'10-10 18:02', go:1,
+    desc:'严重程度 × 复现概率 → 风险等级的唯一口径' }
+];
+
+/* ==========================================================================
+   2. 状态
+   ========================================================================== */
+var S = { subsys:'', module:'', result:'', defect1:'', defect2:'', severity:'严重', repro:'偶发', risk:'',
+          gerrit:'', handleRecord:'', auditModifier:'', verifier:'', acts:[] };
+var baseActs = [
+  { n:'李', c:'#6698ff', t:'创建了工作项，工作项类型：缺陷', time:'10-12 09:14' },
+  { n:'系', c:'#6f42c1', t:'自动分配「问题修改责任人」，来源：子系统「DDR 控制器」映射表', time:'10-12 10:05' }
+];
+
+/* ==========================================================================
+   3. 工具
+   ========================================================================== */
+function el(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg, kind){
+  var t = el('toast');
+  t.className = 'toast show' + (kind?' '+kind:'');
+  el('toastTx').textContent = msg;
+  clearTimeout(t._h); t._h = setTimeout(function(){ t.className = 'toast'; }, 3200);
+}
+
+/* 下拉组件 */
+var SELS = {};
+function mountSelect(hostId, cfg){
+  SELS[hostId] = cfg;
+  var host = el(hostId);
+  host.className = 'sel';
+  host.innerHTML = '<button type="button" class="sel-trigger"><span class="tv"></span><span class="arw">▾</span></button><div class="sel-dd"></div>';
+  var trig = host.querySelector('.sel-trigger'), dd = host.querySelector('.sel-dd');
+  trig.addEventListener('click', function(e){
+    e.stopPropagation();
+    if(SELS[hostId].disabled || SELS[hostId].loading) return;
+    var open = dd.classList.contains('open');
+    closeAll();
+    if(!open){ dd.classList.add('open'); }
+  });
+  trig.addEventListener('keydown', function(e){
+    var c = SELS[hostId];
+    if(c.disabled || c.loading) return;
+    var n = (c.options || []).length;
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      if(!dd.classList.contains('open')){ closeAll(); dd.classList.add('open'); c.activeIdx = -1; }
+      var i = (c.activeIdx === undefined ? -1 : c.activeIdx) + (e.key === 'ArrowDown' ? 1 : -1);
+      if(i < 0) i = n - 1;
+      if(i >= n) i = 0;
+      if(n) setActive(hostId, i);
+    } else if(e.key === 'Enter'){
+      if(dd.classList.contains('open') && c.activeIdx >= 0){
+        e.preventDefault();
+        var opt = dd.querySelector('.sel-opt[data-i="' + c.activeIdx + '"]');
+        if(opt){ closeAll(); c.value = opt.getAttribute('data-v'); paint(hostId); if(c.onPick) c.onPick(c.value); }
+      }
+    } else if(e.key === 'Escape'){ closeAll(); }
+  });
+  dd.addEventListener('click', function(e){
+    var o = e.target.closest('.sel-opt');
+    if(!o) return;
+    e.stopPropagation();
+    closeAll();
+    var c = SELS[hostId];
+    c.value = o.getAttribute('data-v');
+    paint(hostId);
+    if(c.onPick) c.onPick(c.value);
+  });
+  paint(hostId);
+}
+function setActive(hostId, i){
+  var cfg = SELS[hostId];
+  var dd = el(hostId).querySelector('.sel-dd');
+  cfg.activeIdx = i;
+  dd.querySelectorAll('.sel-opt').forEach(function(o, ix){ o.classList.toggle('active', ix === i); });
+  var a = dd.querySelector('.sel-opt.active');
+  if(a && a.scrollIntoView) a.scrollIntoView({ block:'nearest' });
+}
+function closeAll(){ document.querySelectorAll('.sel-dd.open').forEach(function(d){ d.classList.remove('open'); }); }
+document.addEventListener('click', closeAll);
+function paint(hostId){
+  var cfg = SELS[hostId]; if(!cfg) return;
+  var host = el(hostId); if(!host) return;
+  var trig = host.querySelector('.sel-trigger'), dd = host.querySelector('.sel-dd'), tv = trig.querySelector('.tv');
+  trig.classList.toggle('dis', !!cfg.disabled || !!cfg.loading);
+  if(cfg.loading){
+    tv.className = 'tv ph'; tv.textContent = '加载中…';
+    dd.innerHTML = '<div class="sel-foot"><span class="spin"></span>正在按当前条件获取候选项…</div>';
+    return;
+  }
+  if(cfg.value){ tv.className = 'tv'; tv.textContent = cfg.value; }
+  else { tv.className = 'tv ph'; tv.textContent = cfg.placeholder || '请选择'; }
+  var opts = cfg.options || [];
+  if(!opts.length){ dd.innerHTML = '<div class="sel-empty">' + esc(cfg.emptyText || '暂无候选项') + '</div>'; return; }
+  dd.innerHTML = opts.map(function(o, i){
+    var v = typeof o === 'string' ? o : o.value, lb = typeof o === 'string' ? o : o.label;
+    return '<div class="sel-opt' + (v===cfg.value?' sel':'') + '" data-i="' + i + '" data-v="' + esc(v) + '">' + esc(lb) + '<span class="ckk">✓</span></div>';
+  }).join('');
+}
+
+/* ==========================================================================
+   4. 规则配置
+   ========================================================================== */
+var FIELD_DEF = [
+  { k:'result',   n:'解决结果',        t:'单选',     req:true,  ro:false, src:'缺陷属性', rule:'选「不修复（需CCB）」时自动把缺陷类型联动为同名选项', rk:'resultSync' },
+  { k:'defect1',  n:'缺陷类型',        t:'级联单选', req:true,  ro:false, src:'缺陷属性',   rule:'一级 → 二级级联；值为「不修复（需CCB）」且 CCB裁决结论为空时隐藏「审核通过」', rk:'ccbHide' },
+  { k:'defect2',  n:'缺陷类型（二级）', t:'级联单选', req:true,  ro:false, src:'缺陷属性',   rule:'一级存在子类型时必填，否则报「缺陷类型二级选项必填」' },
+  { k:'subsys',   n:'子系统 / 领域',   t:'单选',     req:true,  ro:false, src:'缺陷属性', rule:'收敛「模块」候选集；按责任映射自动填充责任人（空值保护）', rk:'mapAuto' },
+  { k:'module',   n:'模块',            t:'单选',     req:true,  ro:false, src:'缺陷属性', rule:'候选集随子系统收敛', rk:'cascade' },
+  { k:'severity', n:'严重程度',        t:'单选',     req:true,  ro:false, src:'缺陷属性',   rule:'参与风险等级生成' },
+  { k:'repro',    n:'复现概率',        t:'单选',     req:true,  ro:false, src:'缺陷属性',   rule:'参与风险等级生成' },
+  { k:'risk',     n:'风险等级',        t:'单选',     req:false, ro:true,  src:'缺陷属性', rule:'按全局矩阵由严重程度 × 复现概率自动生成，不手工填写', rk:'riskCalc' },
+  { k:'gerrit',   n:'GerritID',        t:'文本',     req:false, ro:false, src:'缺陷属性', rule:'按 Change-Id 正则校验（I + 8~40 位十六进制）', rk:'gerritRe' },
+  { k:'handle',   n:'处理记录',        t:'多行文本', req:true,  ro:false, src:'缺陷属性', rule:'必须按 6 项模板逐项填写，缺项拦截', rk:'handleTpl' },
+  { k:'audit',    n:'审核修改责任人',  t:'成员',     req:true,  ro:false, src:'缺陷属性', rule:'按子系统映射自动填充；空值保护，不覆盖人工已填值' },
+  { k:'verifier', n:'验证责任人',      t:'成员',     req:false, ro:false, src:'缺陷属性', rule:'按子系统映射自动带出，可人工修改' }
+];
+var CFG_DEFAULT = { people: JSON.parse(JSON.stringify(PEOPLE)), fields:{}, rules:{} };
+FIELD_DEF.forEach(function(f){
+  CFG_DEFAULT.fields[f.k] = { req:f.req, ro:f.ro };
+  if(f.rk) CFG_DEFAULT.rules[f.rk] = true;
+});
+var CFG_DRAFT = JSON.parse(JSON.stringify(CFG_DEFAULT));
+var CFG_ACTIVE = JSON.parse(JSON.stringify(CFG_DEFAULT));
+function needReq(k){ var f = CFG_ACTIVE.fields[k]; return f ? !!f.req : false; }
+function isRO(k){ var f = CFG_ACTIVE.fields[k]; return f ? !!f.ro : false; }
+function ruleOn(k){ return CFG_ACTIVE.rules[k] !== false; }
+var USER_GROUPS = ['NPU 模块组','DDR 控制器组','SoC 平台组','ISP 影像组','PMIC 电源组','射频前端组','显示子系统组','音频子系统组','缺陷分配虚拟组'];
+var CFG_POOL = { audit:[], verifier:[] };
+(function(){
+  Object.keys(PEOPLE).forEach(function(s){
+    var p = PEOPLE[s];
+    if(CFG_POOL.audit.indexOf(p.audit) < 0) CFG_POOL.audit.push(p.audit);
+    if(CFG_POOL.verifier.indexOf(p.verifier) < 0) CFG_POOL.verifier.push(p.verifier);
+  });
+  ['责任人 A-11（硬件线）'].forEach(function(v){ if(CFG_POOL.audit.indexOf(v)<0) CFG_POOL.audit.push(v); });
+  ['责任人 T-11（系统验证）'].forEach(function(v){ if(CFG_POOL.verifier.indexOf(v)<0) CFG_POOL.verifier.push(v); });
+  USER_GROUPS.forEach(function(g){ if(CFG_POOL.audit.indexOf(g)<0) CFG_POOL.audit.push(g); });
+  USER_GROUPS.forEach(function(g){ if(CFG_POOL.verifier.indexOf(g)<0) CFG_POOL.verifier.push(g); });
+})();
+var GLOBAL_SW = { enable:true, log:false };
+
+/* ==========================================================================
+   5. 校验器
+   ========================================================================== */
+function isHandleTemplateOK(v){
+  if(!v || v.trim().length < 30) return false;
+  var hits = 0;
+  if(/分支/.test(v)) hits++;
+  if(/版本/.test(v)) hits++;
+  if(/测试|用例/.test(v)) hits++;
+  if(/review|评审|检视/i.test(v)) hits++;
+  if(/lint|静态/i.test(v)) hits++;
+  if(/风险/.test(v)) hits++;
+  return hits >= 5;
+}
+var TPL_LINE_RE = [/分支[：:]\s*\S/,/版本[：:]\s*\S/,/测试|用例/,/review|评审|检视/i,/lint|静态/i,/风险/];
+function refreshTplBox(val){
+  var box = el('tpl_fHandle'); if(!box) return;
+  var lines = val ? val.split(/\r?\n/) : [], done = 0;
+  box.querySelectorAll('.tpl-item').forEach(function(it, i){
+    var filled = false;
+    for(var j = 0; j < lines.length; j++){ if(lines[j] && TPL_LINE_RE[i].test(lines[j])){ filled = true; break; } }
+    if(filled) done++;
+    it.classList.toggle('done', filled);
+    it.querySelector('.mark').textContent = filled ? '●' : '○';
+  });
+  var pg = el('tplProg');
+  if(pg){ pg.textContent = done + ' / 6'; pg.classList.toggle('ok', done === 6); }
+}
+function calcRisk(){
+  var sev = S.severity, rep = S.repro, risk = '提示';
+  if(sev === '致命') risk = '致命';
+  else if(sev === '严重') risk = '严重';
+  else if(sev === '一般') risk = (rep === '必现' || rep === '高频') ? '严重' : '一般';
+  if(!ruleOn('riskCalc')) risk = '待生成';
+  S.risk = risk;
+  var p = el('riskPill');
+  if(p){
+    var c = risk === '致命' ? 'tag-red' : risk === '严重' ? 'tag-orange' : risk === '一般' ? 'tag-blue' : 'tag-grey';
+    p.className = 'tag tag-pill tag-md ' + c; p.textContent = risk;
+  }
+}
+
+/* ==========================================================================
+   6. 弹窗
+   ========================================================================== */
+function help(t){ return '<div class="f-help">' + t + '</div>'; }
+function row(label, req, kind, id, ph, hp){
+  var lbl = '<label class="f-lbl">' + (req ? '<span class="req">*</span>' : '') + esc(label) + '</label>';
+  var ctl = '';
+  if(kind === 'input') ctl = '<input class="form-control" id="' + id + '" placeholder="' + esc(ph) + '">';
+  else if(kind === 'tpl') ctl = '<textarea class="form-control" id="' + id + '" placeholder="' + esc(ph) + '"></textarea>'
+    + '<div class="tpl-box" id="tpl_' + id + '">'
+    + HANDLE_TPL.map(function(t, i){ return '<div class="tpl-item"><span class="mark">○</span><span>' + (i+1) + '、' + esc(t) + '</span></div>'; }).join('')
+    + '</div>';
+  else ctl = '<div id="' + id + '"></div>';
+  return '<div class="f-row">' + lbl + '<div class="f-ctl">' + ctl + (hp || '') + '</div></div>';
+}
+function skeleton(){
+  var w = [78, 96, 64, 52, 88, 70, 82, 60, 74], s = '';
+  for(var i = 0; i < 9; i++){
+    s += '<div class="f-row"><div class="f-lbl"><span class="sk sk-l" style="width:' + w[i] + 'px"></span></div><div class="f-ctl"><span class="sk sk-i"></span></div></div>';
+  }
+  return s + '<div class="f-row"><div class="f-lbl"><span class="sk sk-l" style="width:64px"></span></div><div class="f-ctl"><span class="sk sk-t"></span></div></div><span class="sk sk-f"></span>';
+}
+function openSolve(){
+  el('dlgTitle').textContent = '解决问题';
+  el('dlgSub').textContent = 'XIN-142 · NPU 张量计算核在 INT8 量化下累加精度偏差超规格';
+  el('dlgBody').innerHTML = skeleton();
+  el('dlgMsg').innerHTML = '正在加载字段与候选项…';
+  el('dlgSubmit').disabled = true;
+  el('subPage').classList.add('open');
+  el('dlgBody').scrollTop = 0;
+  clearTimeout(openSolve._t);
+  openSolve._t = setTimeout(buildSolve, 280);
+}
+function focusFirstEmpty(){
+  var order = ['selResult','selDefect1','selSubsys','selSev','selRepro','selAudit'];
+  for(var i = 0; i < order.length; i++){
+    var c = SELS[order[i]];
+    if(c && !c.value && !c.disabled && el(order[i])){
+      var t = el(order[i]).querySelector('.sel-trigger');
+      if(t){ t.focus(); return; }
+    }
+  }
+}
+function buildSolve(){
+  el('dlgBody').innerHTML =
+      row('解决结果', 1, 'div', 'selResult', '请选择', '')
+    + row('缺陷类型', 1, 'div', 'selDefect1', '请选择缺陷类型（一级）', '<div class="f-err" id="errD1">请选择缺陷类型</div>')
+    + '<div class="f-row" id="d2row"><label class="f-lbl"><span class="req">*</span>缺陷类型（二级）</label><div class="f-ctl">'
+      + '<div id="selDefect2"></div><div class="f-help" id="helpD2">需先选择一级类型</div>'
+      + '<div class="f-err" id="errD2">缺陷类型二级选项必填</div></div></div>'
+    + row('子系统 / 领域', 1, 'div', 'selSubsys', '请选择', help('选定后：模块候选集收敛，并按责任映射自动填充责任人。'))
+    + row('模块', 1, 'div', 'selModule', '请先选择子系统', '')
+    + row('严重程度', 1, 'div', 'selSev', '请选择', '')
+    + row('复现概率', 1, 'div', 'selRepro', '请选择', '')
+    + '<div class="f-row"><label class="f-lbl">风险等级</label><div class="f-ctl">'
+      + '<div style="display:flex;align-items:center;gap:10px"><span class="tag tag-pill tag-md tag-grey" id="riskPill">待生成</span>'
+      + '<span class="chip-auto auto">按严重程度 × 复现概率自动生成</span></div>'
+      + help('只读字段，由规则自动计算并写回工作项属性。') + '</div></div>'
+    + row('GerritID', 0, 'input', 'fGerrit', 'I 开头 + 8~40 位十六进制', help('按 Change-Id 正则校验：<span class="mono">' + esc(String(GERRIT_RE)) + '</span>'))
+    + row('处理记录', 1, 'tpl', 'fHandle', '按模板逐项填写', help('必须按 6 项模板填写，缺项将被拦截。<span class="tpl-prog" id="tplProg">0 / 6</span>'))
+    + row('审核修改责任人', 1, 'div', 'selAudit', '请选择', help('按子系统映射自动填充；空值保护，不覆盖人工已填的值。'))
+    + row('验证责任人', 0, 'div', 'selVerifier', '请选择', help('按子系统映射自动带出，可人工修改。'));
+  el('dlgMsg').innerHTML = '提交后写回工作项属性并追加活动；状态流转由 PingCode 原生工作流承接。';
+  el('dlgSubmit').disabled = false;
+
+  mountSelect('selResult',   { value:S.result, placeholder:'请选择', options:RESULT, onPick:function(v){ S.result = v; onResultChange(); } });
+  mountSelect('selDefect1',  { value:S.defect1, placeholder:'请选择缺陷类型（一级）', options:DEFECT_CASCADE, onPick:function(v){ S.defect1 = v; onDefect1Change(); } });
+  mountSelect('selDefect2',  { value:S.defect2, placeholder:'请先选择一级类型', options:[], disabled:true, onPick:function(v){ S.defect2 = v; paint('selDefect2'); } });
+  mountSelect('selSubsys',   { value:S.subsys, placeholder:'请选择', options:Object.keys(SUBSYS), onPick:function(v){ S.subsys = v; onSubsysChange(); } });
+  mountSelect('selModule',   { value:S.module, placeholder:'请先选择子系统', options:[], disabled:true, onPick:function(v){ S.module = v; paint('selModule'); } });
+  mountSelect('selSev',      { value:S.severity, placeholder:'请选择', options:SEVERITY, onPick:function(v){ S.severity = v; paint('selSev'); calcRisk(); } });
+  mountSelect('selRepro',    { value:S.repro, placeholder:'请选择', options:REPRO, onPick:function(v){ S.repro = v; paint('selRepro'); calcRisk(); } });
+  mountSelect('selAudit',    { value:S.auditModifier, placeholder:'请选择', options:AUDIT_OPTIONS.concat(CFG_POOL.audit), onPick:function(v){ S.auditModifier = v; paint('selAudit'); } });
+  mountSelect('selVerifier', { value:S.verifier, placeholder:'请选择', options:CFG_POOL.verifier, onPick:function(v){ S.verifier = v; paint('selVerifier'); } });
+
+  if(S.defect1) onDefect1Change(true);
+  if(S.subsys) onSubsysChange(true);
+  calcRisk();
+
+  var h = el('fHandle');
+  if(h){ h.value = S.handleRecord; h.addEventListener('input', function(){ refreshTplBox(this.value); }); }
+  var g = el('fGerrit');
+  if(g) g.value = S.gerrit;
+
+  [['result','selResult'],['defect1','selDefect1'],['defect2','selDefect2'],['subsys','selSubsys'],['module','selModule'],['severity','selSev'],['repro','selRepro'],['audit','selAudit'],['verifier','selVerifier']].forEach(function(p){
+    var s = SELS[p[1]];
+    if(s && isRO(p[0])){ s.disabled = true; paint(p[1]); }
+  });
+  if(g && isRO('gerrit')) g.readOnly = true;
+  if(h && isRO('handle')) h.readOnly = true;
+  document.querySelectorAll('#dlgBody .req').forEach(function(n){
+    var r = n.closest('.f-row'), lbl = r && r.querySelector('.f-lbl');
+    if(lbl && !needReq(lbl.textContent.replace('*','').trim())) n.remove();
+  });
+  refreshTplBox(h ? h.value : '');
+  focusFirstEmpty();
+}
+function onResultChange(){
+  if(ruleOn('resultSync') && S.result === '不修复（需CCB）'){
+    S.defect1 = '不修复（需CCB）'; S.defect2 = '';
+    if(SELS.selDefect1) SELS.selDefect1.value = S.defect1;
+    if(SELS.selDefect2) SELS.selDefect2.value = '';
+    paint('selDefect1'); onDefect1Change();
+    toast('解决结果为「不修复（需CCB）」，缺陷类型已联动为同名选项', 'info');
+  }
+  paint('selResult');
+}
+function onDefect1Change(silent){
+  var subs = DEFECT[S.defect1] || [], d2 = el('d2row');
+  if(!S.defect1){
+    SELS.selDefect2.options = []; SELS.selDefect2.value = ''; SELS.selDefect2.disabled = true;
+    paint('selDefect2'); paint('selDefect1'); return;
+  }
+  if(subs.length === 0){
+    if(d2) d2.style.display = 'none';
+    S.defect2 = ''; SELS.selDefect2.value = '';
+    paint('selDefect2');
+    if(!silent) toast('「' + S.defect1 + '」为无子类型项，无需选择二级', 'info');
+  } else {
+    if(d2) d2.style.display = 'flex';
+    S.defect2 = ''; SELS.selDefect2.value = '';
+    SELS.selDefect2.disabled = false;
+    SELS.selDefect2.options = []; SELS.selDefect2.loading = true;
+    paint('selDefect2');
+    setTimeout(function(){
+      SELS.selDefect2.loading = false;
+      SELS.selDefect2.options = subs;
+      paint('selDefect2');
+      var hh = el('helpD2'); if(hh) hh.textContent = '候选 ' + subs.length + ' 项，随一级类型联动';
+    }, 220);
+  }
+  paint('selDefect1');
+}
+function onSubsysChange(silent){
+  S.module = '';
+  if(SELS.selModule){ SELS.selModule.value = ''; SELS.selModule.disabled = false; SELS.selModule.options = []; SELS.selModule.loading = true; }
+  paint('selModule');
+  setTimeout(function(){
+    if(!SELS.selModule) return;
+    SELS.selModule.loading = false;
+    SELS.selModule.options = SUBSYS[S.subsys] || [];
+    paint('selModule');
+  }, 220);
+  if(ruleOn('mapAuto')){
+    var p = PEOPLE[S.subsys];
+    if(p){
+      if(!S.auditModifier && SELS.selAudit){ S.auditModifier = p.audit; SELS.selAudit.value = p.audit; paint('selAudit'); }
+      if(!S.verifier && SELS.selVerifier){ S.verifier = p.verifier; SELS.selVerifier.value = p.verifier; paint('selVerifier'); }
+    }
+  }
+  if(!silent) toast('已按子系统「' + S.subsys + '」自动填充责任人（空值保护：未覆盖已填值）', 'info');
+}
+function submitSolve(){
+  var errs = [];
+  if(needReq('result')   && !SELS.selResult.value)  errs.push('解决结果');
+  if(needReq('defect1')  && !SELS.selDefect1.value) errs.push('缺陷类型（一级）');
+  if(needReq('defect2') && (DEFECT[S.defect1]||[]).length && !SELS.selDefect2.value) errs.push('缺陷类型（二级）');
+  if(needReq('subsys')   && !SELS.selSubsys.value)  errs.push('子系统 / 领域');
+  if(needReq('module')   && !SELS.selModule.value)  errs.push('模块');
+  if(needReq('severity') && !SELS.selSev.value)     errs.push('严重程度');
+  if(needReq('repro')    && !SELS.selRepro.value)   errs.push('复现概率');
+  if(needReq('audit')    && !SELS.selAudit.value)   errs.push('审核修改责任人');
+  var gv = el('fGerrit').value.trim();
+  if(gv && ruleOn('gerritRe') && !GERRIT_RE.test(gv)) errs.push('GerritID（格式不符合 Change-Id 规则）');
+  var hv = el('fHandle').value.trim();
+  if((needReq('handle') || hv) && ruleOn('handleTpl') && !isHandleTemplateOK(hv)) errs.push('处理记录（未按 6 项模板填写）');
+  if(errs.length){
+    el('dlgMsg').innerHTML = '<span class="bad">校验未通过：' + esc(errs.join('、')) + '</span>';
+    toast('校验未通过，请检查：' + errs.join('、'), 'err');
+    return;
+  }
+  S.result = SELS.selResult.value;
+  S.defect1 = SELS.selDefect1.value; S.defect2 = SELS.selDefect2.value;
+  S.subsys = SELS.selSubsys.value;   S.module = SELS.selModule.value;
+  S.severity = SELS.selSev.value;    S.repro = SELS.selRepro.value;
+  S.gerrit = el('fGerrit').value;    S.handleRecord = el('fHandle').value;
+  S.auditModifier = SELS.selAudit.value; S.verifier = SELS.selVerifier.value;
+  calcRisk();
+  S.acts.push({ n:'王', c:'#6698ff', t:'通过扩展「解决问题」提交解决信息',
+    chips:['解决结果 ' + S.result, '缺陷类型 ' + S.defect1 + (S.defect2 ? ' / ' + S.defect2 : ''), '子系统 ' + S.subsys + (S.module ? ' / ' + S.module : ''), '风险等级 ' + S.risk],
+    time:'刚刚' });
+  closeSub(); renderAll();
+  toast('提交成功：已写回工作项属性并追加活动');
+}
+
+/* ==========================================================================
+   7. 后台页面
+   ========================================================================== */
+var CUR_PAGE = null, HIST_LOCK = false;
+var PAGE_META = {
+  delivery:{ nav:'delivery', last:'迭代' }, bugs:{ nav:'bugs', last:'缺陷管理' }, items:{ nav:'items', last:'全部工作项' },
+  planning:{ nav:'planning', last:'规划' },
+  pingrunner:{ nav:'', last:'能力总览' },
+  projects:{ nav:'', last:'全部项目' }, overview:{ nav:'overview', last:'概览' },
+  milestone:{ nav:'milestone', last:'里程碑' }, modules:{ nav:'modules', last:'更多' },
+  setting:{ nav:'', last:'应用' }, glbcfg:{ nav:'', last:'解决问题规则' },
+  workflow:{ nav:'workflow', last:'工作项配置 · 状态流转' }
+};
+function go(page){
+  var prev = CUR_PAGE; CUR_PAGE = page;
+  var m = PAGE_META[page] || PAGE_META.delivery;
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.toggle('on', p.id === 'page-' + page); });
+  document.body.classList.toggle('in-setting', page === 'setting' || page === 'glbcfg');
+  document.body.classList.toggle('in-app', page === 'pingrunner' || page === 'glbcfg' || page === 'projects');
+  document.body.classList.toggle('in-workflow', page === 'workflow');
+  document.querySelectorAll('#pnav a').forEach(function(a){ a.classList.toggle('on', a.getAttribute('data-page') === m.nav); });
+  var app = (page === 'pingrunner' || page === 'glbcfg' || page === 'projects');
+  var mid = page === 'setting' ? '<span class="lnk" data-go="delivery">交付物</span><span>/</span><span>项目设置</span><span>/</span>'
+    : ((page === 'glbcfg' || page === 'pingrunner' || page === 'projects') ? '<span>/</span>'
+    : (page === 'workflow' ? '<span class="lnk" data-go="setting">项目设置</span><span>/</span>' : ''));
+  el('crumb').innerHTML = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 3.4l4 4.6-4 4.6" stroke="#999" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    + (app ? '<b>' + (page === 'pingrunner' ? 'Ping Runner' : page === 'glbcfg' ? 'Ping Runner' : '项目管理') + '</b>'
+            : '<b>' + CUR_PROJ + '</b><span>/</span>')
+    + mid + '<span>' + m.last + '</span>';
+  /* 离开工作项配置：把内嵌页复位到初始态，避免下次进入时残留抽屉 / 停在其他页签 */
+  if(prev === 'workflow' && page !== 'workflow') wfReset();
+  if(page === 'workflow'){
+    var wf = el('wfFrame');
+    if(!wf.getAttribute('src') || wf.getAttribute('src') === ''){
+      var ld = el('wfLoad');
+      if(ld) ld.style.display = 'flex';
+      wf.addEventListener('load', function(){ if(ld) ld.style.display = 'none'; }, { once:true });
+      wf.src = 'workflow-config.html?embed=1';
+    }
+    renderSetSide();
+  }
+  if(page === 'projects') renderProjects();
+  if(page === 'setting') renderSetting();
+  if(page === 'pingrunner') renderPingRunner();
+  if(page === 'glbcfg') renderGlobalCfg();
+  if(page !== prev && !HIST_LOCK){ try{ history.pushState({ p: page }, '', '#' + page); }catch(err){} }
+}
+function wfReset(){
+  var f = el('wfFrame');
+  if(f && f.contentWindow) f.contentWindow.postMessage({ t:'wf:reset' }, '*');
+}
+/* 浏览器前进 / 后退：页面级路由可回退（含工作项配置 ← → 项目设置） */
+window.addEventListener('popstate', function(e){
+  var pg = (e.state && e.state.p) || (location.hash || '').replace('#', '') || 'projects';
+  if(!PAGE_META[pg]) pg = 'projects';
+  HIST_LOCK = true;
+  try{ go(pg); } finally { HIST_LOCK = false; }
+});
+
+/* 内嵌页切换页签时，同步顶部面包屑的最后一段 */
+window.addEventListener('message', function(e){
+  var d = e.data;
+  if(!d || d.t !== 'wf:view') return;
+  var map = { flow:'状态流转', state:'状态', graph:'流程图' };
+  PAGE_META.workflow.last = '工作项配置 · ' + (map[d.v] || '状态流转');
+  if(CUR_PAGE === 'workflow'){
+    var sp = el('crumb').querySelectorAll('span');
+    if(sp.length) sp[sp.length - 1].textContent = PAGE_META.workflow.last;
+  }
+});
+var PROJECTS = [
+  { n:'玄戒芯片项目', code:'XZ', st:'进行中', mode:'混合', grp:'org', fav:true,  ts:8171412, upd:'8月17日 14:12', ds:'玄戒 X1 芯片研发：NPU / DDR / ISP / PMIC 子系统，MP2 阶段缺陷收敛与量产准备。', cur:true },
+  { n:'玄戒 X2 预研', code:'X2', st:'进行中', mode:'Scrum', grp:'org', fav:false, ts:8271137, upd:'8月27日 11:37', ds:'第二代 NPU 架构预研，聚焦算子密度与能效比评估。' },
+  { n:'NPU 编译器工具链', code:'NPU', st:'进行中', mode:'Scrum', grp:'team', fav:false, ts:8271137, upd:'8月27日 11:37', ds:'算子映射与代码生成，覆盖 INT8 / FP16 量化链路。' },
+  { n:'DDR 控制器专项', code:'DD', st:'进行中', mode:'瀑布', grp:'org', fav:true,  ts:6261015, upd:'6月26日 10:15', ds:'DDR5 控制器性能与 ECC 可靠性专项，跨三个 IP 团队协作。' },
+  { n:'ISP 影像调优', code:'IS', st:'未开始', mode:'Scrum', grp:'team', fav:false, ts:5081606, upd:'5月8日 16:06', ds:'ISP 3A 算法与低照度成像质量专项，目标提升夜景成片率。' },
+  { n:'车规 MCU 平台', code:'MC', st:'进行中', mode:'瀑布', grp:'org', fav:false, ts:8171412, upd:'8月17日 14:12', ds:'面向座舱域的 MCU 平台，AEC-Q100 等级 1 认证准备中。' },
+  { n:'PMIC 电源域验证', code:'PMIC', st:'进行中', mode:'瀑布', grp:'org', fav:false, ts:7030941, upd:'7月3日 09:41', ds:'电源域时序与低功耗状态机验证，覆盖 18 个供电场景。' },
+  { n:'量产测试自动化', code:'ATE', st:'进行中', mode:'Kanban', grp:'team', fav:true,  ts:8051506, upd:'8月5日 15:06', ds:'ATE 程序与测试向量自动生成，缩短量产导入周期。' },
+  { n:'芯片安全认证', code:'SEC', st:'未开始', mode:'瀑布', grp:'org', fav:false, ts:6111320, upd:'6月11日 13:20', ds:'安全启动与密钥管理，准备 CC EAL5+ 认证材料。' },
+  { n:'先进封装联合项目', code:'PK', st:'已归档', mode:'瀑布', grp:'org', fav:false, ts:1141102, upd:'1月14日 11:02', ds:'与封测厂联合的 2.5D 封装良率提升专项，已完成结项。' }
+];
+var PJV = { grp:'all', kw:'', type:'', seg:'all' };
+var PJ_GRP_NAME = { all:'全部项目', org:'组织项目', team:'团队项目', archived:'归档项目' };
+var PJ_TYPES = ['', '瀑布', 'Scrum', 'Kanban', '混合'];
+function pjFiltered(){
+  var list = PROJECTS.filter(function(p){
+    if(PJV.grp === 'org' && p.grp !== 'org') return false;
+    if(PJV.grp === 'team' && p.grp !== 'team') return false;
+    if(PJV.grp === 'archived' && p.st !== '已归档') return false;
+    if(PJV.grp === 'all' && p.st === '已归档') return false;
+    if(PJV.type && p.mode !== PJV.type) return false;
+    if(PJV.seg === 'fav' && !p.fav) return false;
+    if(PJV.kw){
+      var k = PJV.kw.toLowerCase();
+      if(p.n.toLowerCase().indexOf(k) < 0 && p.code.toLowerCase().indexOf(k) < 0) return false;
+    }
+    return true;
+  });
+  if(PJV.seg === 'recent') list = list.slice().sort(function(a, b){ return b.ts - a.ts; });
+  return list;
+}
+function renderProjects(){
+  var host = el('pjRows');
+  if(!host) return;
+  var list = pjFiltered();
+  var gname = PJ_GRP_NAME[PJV.grp] || '全部项目';
+  el('pjTitle').textContent = gname;
+  PAGE_META.projects.last = gname;
+  if(CUR_PAGE === 'projects'){
+    var sp = el('crumb').querySelectorAll('span');
+    if(sp.length) sp[sp.length - 1].textContent = gname;
+  }
+  el('pjCount').textContent = list.length + ' 个项目';
+  if(!list.length){
+    host.innerHTML = '<tr><td colspan="4" style="padding:44px 0;text-align:center;color:var(--g500);font-size:13px">没有匹配的项目</td></tr>';
+    return;
+  }
+  host.innerHTML = list.map(function(p){
+    var i = PROJECTS.indexOf(p);
+    return '<tr data-pj="' + i + '">'
+      + '<td><div class="pj-nm"><span class="ico">#</span><span class="tx">' + esc(p.n) + '</span>'
+      + (p.mode ? '<span class="mt">「' + esc(p.mode) + '」</span>' : '')
+      + '<span class="star' + (p.fav ? ' on' : '') + '" data-star="' + i + '" title="星标">' + (p.fav ? '★' : '☆') + '</span></div></td>'
+      + '<td style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--g700)">' + esc(p.code) + '</td>'
+      + '<td>' + (p.grp === 'org' ? '组织' : '团队') + '</td>'
+      + '<td style="color:var(--g600)">' + esc(p.upd) + '</td></tr>';
+  }).join('');
+}
+function renderList(){
+  el('listRows').innerHTML = LIST.map(function(r){
+    return '<tr' + (r.cur ? ' class="on"' : '') + '>'
+      + '<td class="c-chk"><input type="checkbox" class="ck"></td>'
+      + '<td class="c-no">' + esc(r.no) + '</td>'
+      + '<td class="c-main"><div class="ptitle"><span class="dicon">✕</span>' + esc(r.title) + '</div></td>'
+      + '<td class="c-st"><span class="tag tag-pill tag-sm ' + r.cls + '">' + esc(r.status) + '</span></td>'
+      + '<td class="c-ow"><span style="display:flex;align-items:center;gap:7px"><span class="avatar" style="width:20px;height:20px;font-size:10px">王</span>王若上</span></td>'
+      + '<td class="c-cr">4月20日 14:22</td>'
+      + '<td class="c-pr">' + (r.pri ? '<span class="tag tag-pill tag-sm ' + r.clsPri + '">' + esc(r.pri) + '</span>' : '') + '</td></tr>';
+  }).join('');
+  el('itemRows').innerHTML = LIST.map(function(r){
+    return '<tr' + (r.cur ? ' class="on"' : '') + '>'
+      + '<td class="c-chk"><input type="checkbox" class="ck"></td><td class="c-no">' + esc(r.no) + '</td>'
+      + '<td class="c-main"><div class="ptitle"><span class="rtt">' + esc(r.title) + '</span></div></td>'
+      + '<td class="c-ty">' + esc(r.type) + '</td>'
+      + '<td class="c-st"><span class="tag tag-pill tag-sm ' + r.cls + '">' + esc(r.status) + '</span></td>'
+      + '<td class="c-ow">王若上</td>'
+      + '<td class="c-pr">' + (r.pri ? '<span class="tag tag-pill tag-sm ' + r.clsPri + '">' + esc(r.pri) + '</span>' : '') + '</td></tr>';
+  }).join('');
+}
+/* ==========================================================================
+   Ping Runner：脚本扩展平台（模块划分对标 Jira 脚本扩展）
+   ========================================================================== */
+var PR_ICO = {
+  grid:'<rect x="2.2" y="2.2" width="4.6" height="4.6" rx="1"/><rect x="9.2" y="2.2" width="4.6" height="4.6" rx="1"/><rect x="2.2" y="9.2" width="4.6" height="4.6" rx="1"/><rect x="9.2" y="9.2" width="4.6" height="4.6" rx="1"/>',
+  book:'<path d="M8 4.3C6.8 3.2 5.2 2.8 2.9 2.8v10.4c2.3 0 3.9.4 5.1 1.5 1.2-1.1 2.8-1.5 5.1-1.5V2.8c-2.3 0-3.9.4-5.1 1.5z"/><path d="M8 4.3v10.4"/>',
+  term:'<rect x="1.9" y="3" width="12.2" height="10" rx="1.6"/><path d="M4.6 6.6l1.9 1.9-1.9 1.9M8.6 10.5h3"/>',
+  fork:'<circle cx="4" cy="3.6" r="1.6"/><circle cx="12" cy="3.6" r="1.6"/><circle cx="8" cy="12.4" r="1.6"/><path d="M4 5.2v1.2a2 2 0 002 2h4a2 2 0 002-2V5.2"/>',
+  bell:'<path d="M8 2.1a4.1 4.1 0 00-4.1 4.1v3.2L2.8 11.7h10.4l-1.1-2.3V6.2A4.1 4.1 0 008 2.1z"/><path d="M6.5 13.3a1.7 1.7 0 003 0"/>',
+  clock:'<circle cx="8" cy="8" r="5.7"/><path d="M8 4.6V8l2.5 1.6"/>',
+  form:'<rect x="2" y="2.5" width="12" height="11" rx="1.5"/><path d="M4.6 6h6.8M4.6 8.6h6.8M4.6 11.2h4"/>',
+  fx:'<path d="M8.9 3.3H6.6a2 2 0 00-2 2v5.4a2 2 0 01-2 2M2.7 8.1h4.9"/><path d="M10.3 6.3l3.4 4.6M13.7 6.3l-3.4 4.6"/>',
+  search:'<circle cx="7" cy="7" r="4.3"/><path d="M10.2 10.2l3.4 3.4"/>',
+  plug:'<path d="M5.2 2.4v3.3M10.8 2.4v3.3"/><path d="M3.9 5.7h8.2v2.2a4.1 4.1 0 01-8.2 0z"/><path d="M8 12v1.8"/>',
+  layout:'<rect x="2" y="2.5" width="12" height="11" rx="1.5"/><path d="M2 6.4h12M6.5 6.4v7.1"/>',
+  list:'<path d="M5.6 4.4h8.2M5.6 8h8.2M5.6 11.6h8.2"/><circle cx="3" cy="4.4" r=".85"/><circle cx="3" cy="8" r=".85"/><circle cx="3" cy="11.6" r=".85"/>'
+};
+
+/* ok:1 = 已支持；不写 = 规划中（点开是设计要点，非实现） */
+var PR_MODS = [
+  { k:'overview', g:'概览', n:'能力总览', sr:'Overview', ic:'grid', d:'能力矩阵与运行量一览', ok:1 },
+  { k:'map', g:'概览', n:'映射总览', sr:'Mapping Overview', ic:'grid', d:'各项目三组「分类 → 负责人」的配置情况', ok:1 },
+
+  { k:'scripts',  g:'核心能力', n:'脚本库', sr:'Script Registry', ic:'book', d:'Groovy / JavaScript 脚本的版本、引用与发布', mx:'8 个脚本', ok:1 },
+  { k:'console',  g:'核心能力', n:'脚本控制台', sr:'Script Console', ic:'term', d:'临时执行与调试，可直接读写工作项数据', mx:'仅平台管理员', ok:1 },
+  { k:'wf',       g:'核心能力', n:'工作流挂载点', sr:'Conditions / Validators / Post', ic:'fork', d:'脚本先注册为条件 / 校验 / 后置动作，再到各流转里选用', mx:'6 个注册项', ok:1 },
+  { k:'behav',    g:'核心能力', n:'动态表单行为', sr:'Behaviours', ic:'form', d:'选了什么，后面跟着自动变 —— 只读 / 可选项 / 预填模板 / 带出责任人', mx:'5 条行为', ok:1 },
+  { k:'log',      g:'核心能力', n:'执行日志', sr:'Logs', ic:'list', d:'运行记录、失败堆栈与耗时', mx:'今日 1284 次', ok:1 },
+
+  { k:'field',    g:'按需开启', n:'脚本字段', sr:'Script Fields', ic:'fx', d:'公式表达不了的才算，其余用原生公式', mx:'4 个字段', ok:1 },
+  { k:'jql',      g:'按需开启', n:'PQL 函数', sr:'Scripted PQL Functions', ic:'search', d:'扩展查询语法，如 overdueBy("3d")', mx:'4 个函数' }
+];
+
+/* 规划中模块的设计要点 */
+var PR_PLAN = {
+  job: ['按 cron 表达式调度，支持时区设定与手动触发一次','上下文注入 project 与查询 API，可按 PQL 捞取后批量更新','失败重试与运行历史，异常统一写入执行日志'],
+  behav: ['按「触发条件 → 作用字段 → 行为」三要素配置，可叠加多条','行为包括：必填、只读、隐藏、可选项过滤、默认值','作用于工作项创建、编辑与流转弹窗三处'],
+  jql: ['注册函数名与参数签名，函数体返回 PQL 片段','可引用当前用户、所属角色、项目上下文','在筛选器、看板、报表中通用，与内置函数同权'],
+  rest: ['路径 + 方法 + 脚本三段式定义，返回 JSON','鉴权沿用 API Token，可限定项目作用域与调用频率','适合对外暴露统计口径、或给外部系统做批处理入口'],
+  frag: ['按位置注入：详情页顶部 / 属性区 / 看板卡片 / 迭代页侧栏','内容支持 HTML 片段与脚本取值，可做条件渲染','按项目、工作项类型控制生效范围']
+};
+
+var PR_ROWS = {
+  scripts: {
+    h:['脚本名称','语言','版本','引用','最近修改','状态'], w:['','84px','60px','66px','110px','72px'],
+    r:[
+      ['缺陷责任映射','Groovy','v3','4 处','今天 10:24','启用'],
+      ['超期缺陷提醒','Groovy','v2','2 处','昨天 18:02','启用'],
+      ['评审结论回写','Groovy','v2','3 处','10-26 16:40','启用'],
+      ['致命缺陷复现概率必填','JavaScript','v1','1 处','10-24 11:05','启用'],
+      ['迭代容量告警','Groovy','v1','1 处','10-21 09:12','启用'],
+      ['关联需求覆盖率','JavaScript','v1','2 处','10-15 14:30','启用'],
+      ['缺陷自动归档','Groovy','v1','1 处','10-18 17:20','停用'],
+      ['批量改派工具','Groovy','v4','0 处','10-09 10:02','停用']
+    ]
+  },
+  builtin: {
+    h:['内置脚本','用途','适用对象','已执行'], w:['','','150px','86px'],
+    r:[
+      ['批量修改字段','按 PQL 选中后批量改属性，支持回滚','工作项','42 次'],
+      ['复制字段值','跨工作项复制指定属性','工作项','27 次'],
+      ['克隆工作项','复制工作项及其子项、附件与关联','工作项','18 次'],
+      ['关联关系修复','检查并补齐双向关联缺失','缺陷','6 次'],
+      ['批量转派','按子系统映射表重新指派责任人','缺陷','5 次'],
+      ['导出为 CSV','按当前筛选条件导出全字段','工作项','31 次']
+    ]
+  },
+  wf: {
+    h:['注册项','类型','实现方式','被引用','状态'], w:['','92px','150px','90px','76px'],
+    r:[
+      ['关闭前必须已验证','提交校验','脚本 · 验证器','4 条流转','已注册'],
+      ['仅子负责人可挂起','入口条件','脚本 · 条件','2 条流转','已注册'],
+      ['流转后回写责任人','后置动作','脚本 · 后置函数','3 条流转','已注册'],
+      ['致命缺陷需评审','入口条件','脚本 · 条件','1 条流转','已注册'],
+      ['驳回原因必填','提交校验','脚本 · 验证器','2 条流转','已注册'],
+      ['验证人自动指派','后置动作','内置 · 动作','5 条流转','已注册']
+    ]
+  },
+  listener: {
+    h:['监听器','事件','过滤条件','关联脚本','状态'], w:['','70px','','','76px'],
+    r:[
+      ['缺陷创建按子系统派单','创建','类型 = 缺陷','缺陷责任映射','启用'],
+      ['优先级升为致命时通知','更新','严重程度 → 致命','超期缺陷提醒','启用'],
+      ['评审通过联动任务','流转','进入 已验证','评审结论回写','启用'],
+      ['挂起超 3 天升级','更新','状态 = 挂起','超期缺陷提醒','停用']
+    ]
+  },
+  map: {
+    h:['项目','模块 → 负责人','缺陷类型 → 负责人','子系统 → 负责人','最后更新','状态'], w:['','120px','132px','128px','110px','70px'],
+    r:[
+      ['玄戒芯片研发项目','4 条','4 条','4 条','今天 16:02','已配置'],
+      ['澎湃 OS 项目','3 条','5 条','—','10-25 11:40','部分'],
+      ['车机平台项目','2 条','3 条','2 条','10-22 09:15','已配置'],
+      ['AI 大模型项目','—','2 条','—','—','未配置']
+    ]
+  },
+  behav: {
+    h:['行为名称','触发','作用字段','行为','作用于','状态'], w:['182px','112px','124px','','112px','52px'],
+    r:[
+      ['选了模块就带出负责人','模块变更','问题修改责任人','按映射带出责任人','创建·编辑·流转','启用'],
+      ['选子系统带出模块与负责人','子系统变更','模块、责任人','清空后重新带出','创建·编辑','启用'],
+      ['缺陷类型限制严重程度','缺陷类型变更','严重程度','只留「一般/轻微」','创建·编辑','启用'],
+      ['缺陷类型套用描述模板','缺陷类型变更','处理记录','预填对应模板','创建','启用'],
+      ['提交后处理记录只读','状态=审核中','处理记录','设为只读','编辑·流转','停用']
+    ]
+  },
+  field: {
+    h:['字段名称','计算方式','刷新时机','引用','状态'], w:['','','110px','80px','76px'],
+    r:[
+      ['距今天数','now - created','每天 00:00','6 个视图','启用'],
+      ['子任务完成率','done / total','实时','2 个视图','启用'],
+      ['关联需求覆盖率','有关联 / 总数','每次更新','1 个视图','启用'],
+      ['阻塞时长','累计挂起时长','实时','3 个视图','启用']
+    ]
+  },
+  log: {
+    h:['时间','模块','脚本 / 入口','耗时','结果'], w:['96px','110px','','80px','76px'],
+    r:[
+      ['15:24:11','事件监听器','缺陷责任映射','48 ms','成功'],
+      ['15:21:03','工作流扩展','关闭前必须已验证','12 ms','失败'],
+      ['15:15:00','定时任务','超期缺陷提醒','1.2 s','成功'],
+      ['14:58:42','脚本字段','距今天数','6 ms','成功'],
+      ['14:40:19','PQL 函数','overdueBy("3d")','32 ms','成功'],
+      ['14:22:07','REST 端点','/defect/aging','210 ms','成功'],
+      ['14:05:33','事件监听器','评审结论回写','57 ms','警告']
+    ]
+  }
+};
+
+var PR_CUR = 'overview';
+
+function prCard(m){
+  return '<div class="pr-mod' + (m.ok || m.cov ? '' : ' plan') + '" data-prmod="' + m.k + '">'
+    + '<span class="ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">' + PR_ICO[m.ic] + '</svg></span>'
+    + '<div class="bd"><div class="nm">' + m.n + (m.ok ? '<span class="pr-tag on">已支持</span>' : (m.cov ? '<span class="pr-tag cov">已覆盖</span>' : '<span class="pr-tag pl">规划中</span>')) + '</div>'
+    + '<div class="sr">' + esc(m.sr) + '</div>'
+    + '<div class="ds">' + m.d + '</div>'
+    + (m.mx ? '<div class="mx">' + m.mx + '</div>' : '')
+    + '</div></div>';
+}
+
+function prSideHTML(cur){
+  var h = '<div class="set-side-t">Ping Runner</div>', last = '';
+  PR_MODS.forEach(function(m){
+    if(m.g !== last){ h += '<div class="grp">' + m.g + '</div>'; last = m.g; }
+    h += '<a data-prmod="' + m.k + '"' + (m.k === cur ? ' class="on"' : '') + '>' + m.n
+      + (m.ok ? '' : (m.cov ? '<span class="pr-tag cov" style="margin-left:auto">已覆盖</span>' : '<span class="pr-tag" style="margin-left:auto">规划</span>')) + '</a>';
+  });
+  return h;
+}
+
+function prTitle(m){
+  return '<div style="display:flex;align-items:center;gap:10px">'
+    + '<span style="font-size:17px;font-weight:600">' + m.n + '</span>'
+    + (m.ok ? '<span class="pr-tag on">已支持</span>' : (m.cov ? '<span class="pr-tag cov">已覆盖</span>' : '<span class="pr-tag pl">规划中</span>'))
+    + '<span style="font-size:11px;color:var(--g500);font-family:ui-monospace,Menlo,monospace">Ping Runner · ' + esc(m.sr) + '</span>'
+    + '</div>';
+}
+
+var CUR_PROJ = '玄戒芯片研发项目';
+/* 工作流挂载点注册池：对标 Jira 原生 + 脚本扩展的 workflow functions */
+var PR_WF = {
+  cond: { t:'条件', sub:'Conditions · 决定流转按钮是否可见', items:[
+    ['简单脚本条件','一段内联脚本判断 true / false','脚本'],
+    ['自定义脚本条件','从脚本库选用 Groovy 脚本','脚本'],
+    ['子工作项全部完成','所有子项已有解决结果才放行','内置'],
+    ['字段必填条件','指定字段已填写才显示按钮','内置'],
+    ['用户组条件','当前用户在（或不在）指定用户组','内置'],
+    ['PQL 查询匹配条件','当前工作项命中 PQL 才显示','内置'],
+    ['关联工作项条件','按关联项状态 / 解决结果控制','内置'],
+    ['曾处于某状态','要求此前或当前处于指定状态','内置'],
+    ['项目角色条件','当前用户在（或不在）指定项目角色','内置'],
+    ['正则条件','字段值匹配正则表达式','内置'],
+    ['字段内用户条件','当前用户在指定 User 字段里','内置']
+  ]},
+  valid: { t:'验证', sub:'Validators · 提交时拦截，不通过则退回', items:[
+    ['自定义脚本校验','脚本返回错误信息即拦截','脚本'],
+    ['简单脚本校验','一段内联脚本判断 true / false','脚本'],
+    ['字段变更校验','必须已修改指定字段','内置'],
+    ['要求评论','流转时必须填写评论','内置'],
+    ['字段必填校验','必填字段已填写才能通过','内置'],
+    ['正则校验','字段值匹配正则表达式','内置'],
+    ['字段内用户校验','当前用户在指定 User 字段里','内置']
+  ]},
+  post: { t:'后置动作', sub:'Post Functions · 流转成功后按顺序执行', items:[
+    ['自定义脚本后置','从脚本库选用 Groovy 脚本','脚本'],
+    ['加入 / 移出迭代','把工作项加入或移出迭代','内置'],
+    ['添加关注者','把当前用户加为关注者','内置'],
+    ['归档工作项','归档当前工作项，提升性能','内置'],
+    ['指派给角色最后成员','指派给该角色上一次的成员','内置'],
+    ['指派给角色第一个成员','指派给该角色第一个成员','内置'],
+    ['清空字段','清空选中的字段','内置'],
+    ['克隆并链接','克隆到另一项目 / 类型并建立链接','内置']
+  ]}
+};
+function prWfRegistry(){
+  var m = PR_MODS.filter(function(x){ return x.k === 'wf'; })[0];
+  var h = '<div class="pr-wrap">' + prTitle(m)
+    + '<div class="pg-sub" style="margin-bottom:6px">' + m.d + '</div>'
+    + '<div class="pr-lead" style="margin-top:10px">这里是<b>注册池</b>：把脚本或内置能力注册为「条件 / 验证 / 后置动作」。真正在哪条流转上用，到<b>工作流流转配置</b>里选。注册 ≠ 绑定。</div>';
+  ['cond','valid','post'].forEach(function(k){
+    var g = PR_WF[k];
+    h += '<div class="card" style="margin-top:14px;border:1px solid var(--g200);border-radius:4px"><div class="card-h"><span class="bar"></span><span class="t">' + g.t + '</span><span class="d">' + g.sub + '</span></div>'
+      + '<div class="card-c" style="padding:0"><table class="tbl"><thead><tr><th style="width:210px">注册项</th><th>说明</th><th style="width:72px">实现</th><th style="width:92px">被引用</th></tr></thead><tbody>'
+      + g.items.map(function(it, i){
+          var isScript = it[2] === '脚本';
+          return '<tr><td><b>' + esc(it[0]) + '</b></td><td style="color:var(--g600)">' + esc(it[1]) + '</td>'
+            + '<td>' + (isScript ? '<span class="src-chip">脚本</span>' : '<span class="tag tag-sm tag-grey">内置</span>') + '</td>'
+            + '<td>' + (1 + (i % 4)) + ' 条流转</td></tr>';
+        }).join('')
+      + '</tbody></table></div></div>';
+  });
+  el('prMain').innerHTML = h + '</div>';
+}
+/* 映射总览：点击项目名跳到该项目的映射配置 */
+function prMapOverview(){
+  var m = PR_MODS.filter(function(x){ return x.k === 'map'; })[0];
+  var dd = PR_ROWS.map;
+  var h = '<div class="pr-wrap">' + prTitle(m)
+    + '<div class="pg-sub" style="margin-bottom:6px">' + m.d + '</div>'
+    + '<div class="pr-lead" style="margin-top:10px">点击<b>项目名</b>，进入该项目的映射配置（项目设置 → 应用 → 映射）。</div>'
+    + '<div class="card" style="margin-top:12px;border:1px solid var(--g200);border-radius:4px;overflow:hidden"><div class="card-c" style="padding:0"><table class="tbl"><thead><tr>'
+    + dd.h.map(function(t,i){ return '<th' + (dd.w[i] ? ' style="width:' + dd.w[i] + '"' : '') + '>' + t + '</th>'; }).join('')
+    + '</tr></thead><tbody>'
+    + dd.r.map(function(r){
+        return '<tr>'
+          + '<td><b><a class="lnk" data-projmap="' + esc(r[0]) + '" style="color:var(--primary)">' + esc(r[0]) + '</a></b></td>'
+          + r.slice(1).map(function(c){
+              if(/^(已配置|未配置|部分)$/.test(c)){ var cls = c === '已配置' ? 'tag-green' : (c === '部分' ? 'tag-orange' : 'tag-grey'); return '<td><span class="tag tag-pill tag-sm ' + cls + '">' + c + '</span></td>'; }
+              return '<td>' + esc(c) + '</td>';
+            }).join('')
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div></div></div>';
+  el('prMain').innerHTML = h;
+}
+function prTable(dd){
+  if(!dd) return '';
+  var cols = dd.h.map(function(t, i){ return '<th' + (dd.w[i] ? ' style="width:' + dd.w[i] + '"' : '') + '>' + t + '</th>'; }).join('');
+  var rows = dd.r.map(function(r){
+    return '<tr>' + r.map(function(c, i){
+      var v = String(c);
+      if(/^(启用|停用|成功|失败|警告|已配置|未配置|部分|已注册)$/.test(v)){
+        var cls = (v === '启用' || v === '成功' || v === '已配置' || v === '已注册') ? 'tag-green' : (v === '失败' ? 'tag-red' : (v === '警告' || v === '部分' ? 'tag-orange' : 'tag-grey'));
+        return '<td><span class="tag tag-pill tag-sm ' + cls + '">' + v + '</span></td>';
+      }
+      var mono = /^[\d:.\/]+$|ms$|^v\d|^now|^done|^get|^POST|^GET/.test(v);
+      var body = (i === 0 && !mono) ? '<b>' + esc(v) + '</b>' : esc(v);
+      return '<td' + (mono ? ' style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--g700)"' : '') + '>' + body + '</td>';
+    }).join('') + '</tr>';
+  }).join('');
+  return '<div class="card" style="margin-top:12px;border:1px solid var(--g200);border-radius:4px;overflow:hidden">'
+    + '<div class="card-c" style="padding:0"><table class="tbl"><thead><tr>' + cols + '</tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+}
+
+function prOverview(){
+  var okN  = PR_MODS.filter(function(m){ return m.ok && m.k !== 'overview'; }).length;
+  var plN  = PR_MODS.filter(function(m){ return !m.ok; }).length;
+  var kpis = [
+    { ic:'book', l:'脚本总数',   n:'8',     d:'Groovy 6 · JavaScript 2', c:'#6698ff', bg:'rgba(102,152,255,.12)' },
+    { ic:'fork', l:'挂载点引用', n:'16',    d:'流转条件 5 · 校验 4 · 后置动作 7', c:'#6f42c1', bg:'rgba(111,66,193,.11)' },
+    { ic:'term', l:'今日执行',   n:'1,284', d:'较昨日 +12%，峰值 15:00–16:00', c:'#fd7e14', bg:'rgba(253,126,20,.12)' },
+    { ic:'list', l:'成功率',     n:'99.2%', d:'失败 10 次，均已自动重试成功', c:'#2c9e63', bg:'rgba(115,216,151,.18)' }
+  ];
+  var h = '<div class="pr-wrap">'
+    + '<div style="font-size:17px;font-weight:600">能力总览</div>'
+    + '<div class="pg-sub" style="margin-bottom:14px">用脚本补原生配置覆盖不到的最后一公里。对标 Jira 脚本扩展方案，但只保留必要的收口。</div>'
+    + '<div class="pr-lead">当前原型含 <b>' + okN + ' 项已支持</b>、<b>' + plN + ' 项规划中</b>。边界按「原生配置优先、脚本兜底」收敛：'
+    + '原生配得出来的场景一律不进 Ping Runner，只有配不出来的才落到这里。</div>'
+    + '<div class="pr-kpis">' + kpis.map(function(k){
+        return '<div class="pr-kpi">'
+          + '<div class="k-h"><span class="k-ic" style="color:' + k.c + ';background:' + k.bg + '"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + PR_ICO[k.ic] + '</svg></span>'
+          + '<span class="k-l">' + k.l + '</span></div>'
+          + '<div class="k-n" style="color:' + k.c + '">' + k.n + '</div>'
+          + '<div class="k-d">' + k.d + '</div></div>';
+      }).join('') + '</div>';
+  var seen = {}, order = [];
+  PR_MODS.forEach(function(m){ if(m.k === 'overview') return; if(!seen[m.g]){ seen[m.g] = 1; order.push(m.g); } });
+  order.forEach(function(g){
+    h += '<div class="pr-grp">' + g + '</div><div class="pr-mods">';
+    PR_MODS.filter(function(m){ return m.g === g; }).forEach(function(m){ h += prCard(m); });
+    h += '</div>';
+  });
+  el('prMain').innerHTML = h + '</div>';
+}
+
+function prModule(k){
+  var m = PR_MODS.filter(function(x){ return x.k === k; })[0];
+  var h = '<div class="pr-wrap">' + prTitle(m)
+    + '<div class="pg-sub" style="margin-bottom:6px">' + m.d + '</div>';
+  if(m.cov){
+    h += '<div class="pr-lead" style="margin-top:12px">'
+      + '这类能力<b>不单独建设</b>，由「' + m.cov + '」承接 —— 脚本只作为其中的一个动作或取值来源，不再另开一套配置、权限和排障入口。</div>'
+      + '<div class="card" style="margin-top:14px;border:1px solid var(--g200);border-radius:4px"><div class="card-c" style="padding:16px 20px">'
+      + '<div style="font-size:13px;font-weight:600;color:var(--g800);margin-bottom:8px">为什么收敛</div>'
+      + '<ol style="margin:0;padding-left:18px;font-size:13px;color:var(--g700);line-height:2.1">'
+      + '<li>客户现场已经有能配的地方，再开一个入口，同一件事就有两个做法，实施和排障都会分裂。</li>'
+      + '<li>脚本能力集中到少数收口，权限边界和审计范围才管得住；入口一多，谁改了流程就说不清了。</li>'
+      + '</ol></div></div>';
+    el('prMain').innerHTML = h + '</div>';
+    return;
+  }
+  if(!m.ok){
+    h += '<div class="pr-lead" style="margin-top:12px;background:#faf7ff;border-left-color:var(--purple)">'
+      + '该模块在规划中，以下是<b>设计要点</b>，当前原型不含实现。</div>'
+      + '<div class="card" style="margin-top:12px;border:1px solid var(--g200);border-radius:4px"><div class="card-c" style="padding:14px 18px">'
+      + '<ol style="margin:0;padding-left:18px;font-size:13px;color:var(--g700);line-height:2.1">'
+      + (PR_PLAN[k] || []).map(function(t){ return '<li>' + t + '</li>'; }).join('')
+      + '</ol></div></div>';
+    el('prMain').innerHTML = h + '</div>';
+    return;
+  }
+  if(k === 'console'){ prConsole(); return; }
+  if(k === 'map'){ prMapOverview(); return; }
+  if(k === 'wf'){ prWfRegistry(); return; }
+  h += prTable(PR_ROWS[k]);
+  el('prMain').innerHTML = h + '</div>';
+}
+
+var PR_CODE = [
+  '// 缺陷创建后，按「子系统 → 责任人」映射派单',
+  'def sub = issue.fields["子系统"]?.value',
+  'if (!sub) { logger.warn("未填子系统，跳过派单"); return }',
+  '',
+  'def map   = Ping Runner.table("defect_owner")   // 引用脚本库中的数据表',
+  'def owner = map[sub] ?: "缺陷分配虚拟组"',
+  '',
+  'issue.setAssignee(owner)',
+  'issue.addComment("已按子系统 ${sub} 自动派单给 ${owner}")',
+  'logger.info("派单完成 ${issue.key} -> ${owner}")'
+].join('\n');
+
+var PR_OUT = [
+  '<span class="dim">[15:24:11]</span> <span class="k">INFO</span>  加载脚本「缺陷责任映射」v3',
+  '<span class="dim">[15:24:11]</span> <span class="k">INFO</span>  issue = XZ-1428（缺陷 · 致命 · 待处理）',
+  '<span class="dim">[15:24:11]</span> <span class="k">INFO</span>  子系统 = DDR 控制器 → 责任人 = 张彭诚',
+  '<span class="dim">[15:24:11]</span> <span class="ok">OK</span>    派单完成 XZ-1428 -> 张彭诚',
+  '<span class="dim">[15:24:11]</span> <span class="dim">耗时 48 ms · 内存 12.4 MB · 执行 #1284</span>'
+].join('\n');
+
+function prConsole(){
+  var h = '<div class="pr-wrap">'
+    + prTitle({ n:'脚本控制台', ok:1, sr:'Script Console' })
+    + '<div class="pg-sub" style="margin-bottom:12px">临时执行与调试，可直接读写工作项数据，不落库、不入脚本库。</div>'
+    + '<div class="pr-lead">控制台以管理员权限执行，<b>不经过挂载点的条件校验</b>。生产改动请走「脚本库 + 挂载点」，便于审计与回滚。</div>'
+    + '<div class="pr-console" style="margin-top:12px">'
+    + '<div class="pr-con-bar"><span>语言</span>'
+    + '<select class="form-control" style="width:118px;height:26px;font-size:12.5px;padding:0 6px"><option>Groovy</option><option>JavaScript</option></select>'
+    + '<span style="margin-left:6px">绑定变量</span>'
+    + '<span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--primary)">issue · currentUser · project · transientVars</span>'
+    + '<span class="sp"><span style="font-size:11.5px;color:var(--g500)">Ctrl/⌘ + Enter 运行</span>'
+    + '<button class="btn btn-primary btn-sm" id="prRun">运行</button></span></div>'
+    + '<textarea class="pr-code" id="prCode" spellcheck="false">' + PR_CODE + '</textarea>'
+    + '<div class="pr-outbox"><div class="pr-out-h">输出'
+    + '<span style="margin-left:auto;font-size:11px;color:var(--g500)">原型演示：以下为预置的模拟输出，未连接真实执行引擎</span></div>'
+    + '<pre class="pr-out" id="prOut">' + PR_OUT + '</pre></div>'
+    + '</div></div>';
+  el('prMain').innerHTML = h;
+  el('prRun').addEventListener('click', prRun);
+  el('prCode').addEventListener('keydown', function(e){
+    if((e.metaKey || e.ctrlKey) && e.key === 'Enter'){ e.preventDefault(); prRun(); }
+  });
+}
+
+function prRun(){
+  var out = el('prOut');
+  if(!out) return;
+  out.innerHTML = '<span class="dim">[执行中]</span> 正在编译脚本并绑定上下文 …';
+  setTimeout(function(){
+    out.innerHTML = PR_OUT;
+    toast('脚本执行完成 · 耗时 48 ms');
+  }, 420);
+}
+
+function renderPingRunner(){
+  if(!PR_CUR || !PR_MODS.some(function(m){ return m.k === PR_CUR; })) PR_CUR = 'overview';
+  el('prSide').innerHTML = prSideHTML(PR_CUR);
+  if(PR_CUR === 'overview') prOverview(); else prModule(PR_CUR);
+  var mm = PR_MODS.filter(function(x){ return x.k === PR_CUR; })[0] || PR_MODS[0];
+  PAGE_META.pingrunner.last = mm.n;
+  if(CUR_PAGE === 'pingrunner'){
+    var sp = el('crumb').querySelectorAll('span');
+    if(sp.length) sp[sp.length - 1].textContent = mm.n;
+  }
+}
+
+function renderRuleTable(tbodyId){
+  var c = el('ruleCount'); if(c) c.textContent = '共 ' + RULES.length + ' 条';
+  el(tbodyId).innerHTML = RULES.map(function(r, i){
+    return '<tr><td><span class="rname" data-rule="' + i + '">' + esc(r.n) + '</span></td>'
+      + '<td>' + esc(r.type) + '</td><td class="c-main" style="color:var(--g600)">' + esc(r.desc) + '</td>'
+      + '<td class="c-sp">' + esc(r.scope) + '</td>'
+      + '<td><span class="tag tag-pill tag-sm ' + (r.on ? 'tag-green' : 'tag-grey') + '">' + (r.on ? '已启用' : '已停用') + '</span></td>'
+      + '<td class="c-up">' + esc(r.upd) + '</td>'
+      + '<td>' + (r.go ? '<button class="linkbtn" data-cfg="1">配置</button>' : '<button class="linkbtn" data-rule="' + i + '">查看</button>') + '</td></tr>';
+  }).join('');
+}
+function renderRules(){ renderRuleTable('ruleRows'); }
+
+/* ---- 项目设置 · 侧栏（设置页与工作项配置页共用一套定义） ---- */
+var SET_SIDE = [
+  { g:'通用', items:[['','项目成员'],['','标签管理'],['','自动化规则'],['','回收站']] },
+  { g:'流程', items:[['','项目组件'],['','项目属性'],['','项目状态'],['workflow','工作项配置'],['','评审配置']] },
+  { g:'设置', items:[['','基本信息'],['','高级设置']] },
+  { g:'应用', items:[['map','映射',1]] }
+];
+var SET_SUB = 'app';                         /* 设置页当前子视图：app / map / cfg */
+function setSideHTML(active){
+  var h = '<div class="set-side-t">项目设置</div>';
+  SET_SIDE.forEach(function(sec){
+    h += '<div class="grp">' + sec.g + '</div>';
+    sec.items.forEach(function(it){
+      h += '<a data-setnav="' + it[0] + '"' + (it[0] && it[0] === active ? ' class="on"' : '') + '>'
+         + it[1] + (it[2] ? '<span class="nx-tag">Ping Runner</span>' : '') + '</a>';
+    });
+  });
+  return h;
+}
+function renderSetSide(){
+  if(el('setSide')) el('setSide').innerHTML = setSideHTML(SET_SUB);
+  if(el('wfSide'))  el('wfSide').innerHTML  = setSideHTML('workflow');
+}
+
+/* ---- 项目设置 · 应用 ---- */
+function renderSetting(){
+  SET_SUB = 'app'; renderSetSide();
+  el('setMain').innerHTML =
+      '<div class="set-crumb">应用</div>'
+    + '<div style="font-size:17px;font-weight:600">应用</div>'
+    + '<div class="pg-sub" style="margin-bottom:18px">由扩展点注入的应用在此展示，项目管理员可进入配置。</div>'
+    + '<div class="app-card">'
+      + '<span class="app-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5.6" cy="5.6" r="2.6" stroke="currentColor" stroke-width="1.3"/><circle cx="10.6" cy="6.4" r="2.2" stroke="currentColor" stroke-width="1.3"/><path d="M1.8 13c0-2.1 1.7-3.4 3.8-3.4S9.4 10.9 9.4 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>'
+      + '<div><div class="nm">映射</div><div class="ds">维护「模块 / 缺陷类型 / 子系统」与责任人的对应关系，由 Ping Runner 的动态表单行为消费，支持批量导入。</div>'
+      + '<div style="margin-top:8px"><span class="tag tag-sm tag-grey">3 组映射</span><span style="font-size:12px;color:var(--g600);margin-left:8px">模块 · 缺陷类型 · 子系统</span></div></div>'
+      + '<div class="op"><button class="btn btn-primary btn-sm" id="enterMap">进入配置</button></div></div>'
+    + '<div class="hint" style="margin-top:14px">映射作为「分类 → 负责人」的单一数据源，供动态表单行为实时带出责任人。各项目三组映射的配置情况见主导航 <span class="lnk" data-go="pingrunner" style="color:var(--primary);cursor:pointer">Ping Runner · 映射总览</span>。</div>';
+  el('enterMap').addEventListener('click', renderMapping);
+}
+
+/* ---- 映射：三组「分类 → 负责人」，供 Ping Runner 动态表单行为消费 ---- */
+var MAPPINGS = [
+  { key:'module', name:'模块 → 负责人', short:'模块', note:'与 Jira Components 对应的一组关系。',
+    rows:[['DDR 控制器核','责任人 S-11（DDR 模块负责人）'],['SoC 总线互联','责任人 S-12（平台模块负责人）'],['NPU 张量计算核','NPU 模块组'],['ISP 影像通路','责任人 S-14（影像模块负责人）']],
+    rules:['派发规则 · 缺陷指派','校验规则 · 模块必填'] },
+  { key:'defect', name:'缺陷类型 → 负责人', short:'缺陷类型', note:'缺陷类型对应责任人的关系。',
+    rows:[['功能缺陷','责任人 Q-01（功能缺陷）'],['性能缺陷','责任人 Q-02（性能缺陷）'],['稳定性缺陷','缺陷分配虚拟组'],['文档缺陷','责任人 Q-04（文档缺陷）']],
+    rules:['校验规则 · 缺陷类型必填','派发规则 · 缺陷类型指派'] },
+  { key:'subsys', name:'子系统 / 领域 → 负责人', short:'子系统', note:'原先靠脚本维护的一组关系。',
+    rows:[['DDR 控制器','责任人 S-01（DDR 负责人）'],['SoC 平台','责任人 S-02（平台负责人）'],['NPU','NPU 模块组'],['ISP 影像','责任人 S-04（影像负责人）']],
+    rules:['派发规则 · 子系统指派','校验规则 · 模块归属校验','按钮可见性 · 审核按钮'] }
+];
+var MAP_ACTIVE = 'module';
+var OWNER_POOL = ['责任人 S-11（DDR 模块负责人）','责任人 S-12（平台模块负责人）','责任人 S-14（影像模块负责人）','责任人 S-01（DDR 负责人）','责任人 S-02（平台负责人）','责任人 S-04（影像负责人）','责任人 Q-01（功能缺陷）','责任人 Q-02（性能缺陷）','责任人 Q-04（文档缺陷）','缺陷分配虚拟组','NPU 模块组','DDR 控制器组'];
+function mapCur(){ return MAPPINGS.filter(function(m){ return m.key === MAP_ACTIVE; })[0]; }
+function renderMapping(){
+  SET_SUB = 'map'; renderSetSide();
+  var m = mapCur();
+  el('setMain').innerHTML =
+      '<div class="set-crumb"><span class="lnk" id="backApp2">应用</span> / 映射</div>'
+    + '<div style="font-size:17px;font-weight:600">映射</div>'
+    + '<div class="pg-sub">维护「分类 → 负责人」的对应关系。选择分类后，对应责任人由动态表单行为实时带出，改完即生效。</div>'
+    + '<div class="maptabs">'
+    +   MAPPINGS.map(function(x){ return '<button data-mk="' + x.key + '"' + (x.key === m.key ? ' class="on"' : '') + '>' + esc(x.short) + '<span class="cnt">' + x.rows.length + '</span></button>'; }).join('')
+    + '</div>'
+    + '<div class="card" style="margin-top:0"><div class="card-h"><span class="bar"></span><span class="t">' + esc(m.name) + '</span><span class="d">' + esc(m.note) + '</span>'
+    +   '<span class="r"><button class="btn btn-default btn-sm" id="mapImport">批量导入</button><button class="btn btn-primary btn-sm" id="mapAdd">+ 新增</button></span></div>'
+    +   '<div class="card-c" style="padding:0"><table class="tbl">'
+    +     '<thead><tr><th style="width:210px">' + esc(m.short) + '</th><th>负责人（成员 / 用户组）</th><th style="width:90px">操作</th></tr></thead>'
+    +     '<tbody id="mapRows"></tbody></table>'
+    +     '<div class="cfgbar"><span class="f-help" id="mapHint" style="margin:0"></span></div>'
+    +   '</div></div>'
+    + '<div class="card" style="margin-top:14px"><div class="card-h"><span class="bar"></span><span class="t">引用本映射的规则</span><span class="d">改映射后自动同步，规则本身不改</span></div>'
+    +   '<div class="card-c" id="mapRules" style="padding:14px 20px"></div></div>'
+    + '<div class="note" style="margin-top:16px"><b>这套映射由 Ping Runner 的动态表单行为消费。</b>各项目三组映射的配置情况，见主导航 Ping Runner → 映射总览。</div>';
+  el('backApp2').addEventListener('click', renderSetting);
+  el('mapAdd').addEventListener('click', function(){ m.rows.push(['新分类','未指定']); renderMapping(); });
+  el('mapImport').addEventListener('click', mapImportOpen);
+  el('setMain').querySelector('.maptabs').addEventListener('click', function(e){
+    var b = e.target.closest('[data-mk]'); if(!b) return;
+    MAP_ACTIVE = b.getAttribute('data-mk'); renderMapping();
+  });
+  renderMappingRows(m);
+}
+function renderMappingRows(m){
+  el('mapRows').innerHTML = m.rows.map(function(r, i){
+    return '<tr>'
+      + '<td><input class="form-control" value="' + esc(r[0]) + '" data-mi="' + i + '" data-mf="k"></td>'
+      + '<td><select class="form-control" data-mi="' + i + '" data-mf="v">' + OWNER_POOL.map(function(o){ return '<option' + (o === r[1] ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select></td>'
+      + '<td><button class="btn btn-danger btn-sm" data-mdel="' + i + '">删除</button></td></tr>';
+  }).join('');
+  el('mapRows').onchange = function(e){
+    var t = e.target.closest('[data-mi]'); if(!t) return;
+    var i = +t.getAttribute('data-mi'), f = t.getAttribute('data-mf');
+    m.rows[i][f === 'k' ? 0 : 1] = t.value;
+    el('mapHint').textContent = '共 ' + m.rows.length + ' 条，改动即时生效';
+  };
+  el('mapRows').onclick = function(e){
+    var d = e.target.closest('[data-mdel]'); if(!d) return;
+    m.rows.splice(+d.getAttribute('data-mdel'), 1); renderMapping();
+  };
+  el('mapHint').textContent = '共 ' + m.rows.length + ' 条，改动即时生效';
+  el('mapRules').innerHTML = m.rules.map(function(r){ return '<span class="tag tag-grey" style="margin:2px 6px 2px 0">' + esc(r) + '</span>'; }).join('') || '<span style="color:var(--g500);font-size:12.5px">暂无规则引用</span>';
+}
+/* 批量导入：粘贴 CSV（分类,负责人） */
+function mapImportOpen(){
+  var m = mapCur();
+  el('mapMask').innerHTML = '<div class="modal">'
+    + '<div class="modal-h"><span>批量导入「' + esc(m.short) + ' → 负责人」</span><button class="modal-x" id="mapMaskClose">×</button></div>'
+    + '<div class="modal-b">'
+    +   '<div style="font-size:12.5px;color:var(--g600);margin-bottom:8px">每行一条，格式：<b>分类,负责人</b>。负责人需从可选池取值。</div>'
+    +   '<textarea class="form-control" id="mapCsv" style="height:150px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6" placeholder="DDR 控制器核,责任人 S-11（DDR 模块负责人）&#10;SoC 总线互联,NPU 模块组"></textarea>'
+    +   '<div style="display:flex;align-items:center;gap:10px;margin-top:10px"><button class="btn btn-default btn-sm" id="mapFileBtn">从 CSV 文件导入</button><span style="font-size:11.5px;color:var(--g500)">支持 Excel 另存为 CSV（UTF-8）</span></div>'
+    + '</div>'
+    + '<div class="modal-f"><span class="f-help" id="mapImportMsg" style="margin:0"></span><button class="btn btn-default btn-sm" id="mapImportCancel">取消</button><button class="btn btn-primary btn-sm" id="mapImportOk">导入</button></div>'
+    + '</div>';
+  el('mapMask').classList.add('on');
+  el('mapMaskClose').addEventListener('click', closeMapImport);
+  el('mapImportCancel').addEventListener('click', closeMapImport);
+  el('mapFileBtn').addEventListener('click', function(){ el('mapImportMsg').textContent = '演示环境：直接粘贴 CSV 到上方文本框即可'; });
+  el('mapImportOk').addEventListener('click', function(){
+    var txt = el('mapCsv').value.trim();
+    if(!txt){ el('mapImportMsg').textContent = '请先粘贴要导入的内容'; return; }
+    var lines = txt.split(/\n/).filter(Boolean), added = 0, skip = 0;
+    lines.forEach(function(ln){
+      var pp = ln.split(/[,，]/);
+      if(pp.length < 2){ skip++; return; }
+      m.rows.push([pp[0].trim(), pp[1].trim()]); added++;
+    });
+    closeMapImport(); renderMapping();
+    toast('已导入 ' + added + ' 条' + (skip ? '，跳过 ' + skip + ' 条' : ''), 'info');
+  });
+}
+function closeMapImport(){ el('mapMask').classList.remove('on'); el('mapMask').innerHTML = ''; }
+
+function renderSettingCfg(){
+  SET_SUB = 'cfg'; renderSetSide();
+  el('setMain').innerHTML =
+      '<div class="set-crumb"><span class="lnk" id="backApp">应用</span> / 规则中心</div>'
+    + '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:17px;font-weight:600">规则中心</span><span class="tag tag-pill tag-sm tag-green">解决问题规则</span></div>'
+    + '<div class="pg-sub">字段来自缺陷属性，规则决定联动与校验行为。保存后立即生效，无需研发发版。</div>'
+    + '<div class="card" style="margin-top:18px"><div class="card-h"><span class="bar"></span><span class="t">字段与规则</span></div>'
+      + '<div class="card-c" style="padding:0"><table class="tbl">'
+      + '<thead><tr><th style="width:132px">字段</th><th style="width:84px">属性类型</th><th style="width:56px">必填</th><th style="width:64px">可编辑</th><th style="width:104px">属性来源</th><th>联动与校验规则</th></tr></thead>'
+      + '<tbody id="cfgFieldRows"></tbody></table>'
+      + '<div class="cfgbar"><button class="btn btn-primary btn-sm" id="cfgSave">保存并应用</button><button class="btn btn-default btn-sm" id="cfgReset">恢复默认</button><span class="f-help" id="cfgMsg" style="margin:0"></span></div>'
+      + '</div></div>'
+    + '<div class="card"><div class="card-h"><span class="bar"></span><span class="t">领域责任人</span><span class="d">独立维护</span></div>'
+      + '<div class="card-c"><div class="hint" style="margin:0 0 12px">「子系统 / 领域」与审核修改责任人、验证责任人的对应关系已独立成页维护，本页不再重复。</div>'
+      + '<button class="btn btn-default btn-sm" id="gotoMap">前往「领域责任人」</button></div></div>'
+    + '<div class="note" style="margin-top:16px">此处配置<b>必填、可编辑与规则开关</b>；属性的取值与校验口径在主导航 <span class="lnk" data-go="pingrunner" style="color:var(--primary);cursor:pointer">Ping Runner · 解决问题规则</span> 中维护。</div>';
+
+  el('backApp').addEventListener('click', renderSetting);
+  el('gotoMap').addEventListener('click', renderMapping);
+  el('cfgFieldRows').addEventListener('change', function(e){
+    var c = e.target.closest('input[data-fk]');
+    if(c){ CFG_DRAFT.fields[c.getAttribute('data-fk')][c.getAttribute('data-fp')] = c.checked; cfgMsgState(); return; }
+    var r = e.target.closest('input[data-rk]');
+    if(r){ CFG_DRAFT.rules[r.getAttribute('data-rk')] = r.checked; cfgMsgState(); }
+  });
+  el('cfgSave').addEventListener('click', saveCfg);
+  el('cfgReset').addEventListener('click', function(){
+    CFG_DRAFT = JSON.parse(JSON.stringify(CFG_DEFAULT));
+    renderCfgRows(); toast('已恢复默认配置（尚未保存）', 'info');
+  });
+  renderCfgRows();
+}
+function csel(field, sub, cur){
+  var opts = CFG_POOL[field].slice();
+  if(cur && opts.indexOf(cur) < 0) opts.unshift(cur);
+  return '<select class="form-control" data-sub="' + esc(sub) + '" data-field="' + field + '">'
+    + opts.map(function(o){ return '<option value="' + esc(o) + '"' + (o===cur?' selected':'') + '>' + esc(o) + '</option>'; }).join('') + '</select>';
+}
+function renderCfgRows(){
+  if(!el('cfgFieldRows')){ renderMapRows(); return; }
+  el('cfgFieldRows').innerHTML = FIELD_DEF.map(function(f){
+    var d = CFG_DRAFT.fields[f.k];
+    var rule = f.rk
+      ? '<label class="ckrow"><input type="checkbox" class="ck" data-rk="' + f.rk + '"' + (CFG_DRAFT.rules[f.rk]?' checked':'') + '>启用</label> ' + esc(f.rule)
+      : '<span style="color:var(--g600)">' + esc(f.rule) + '</span>';
+    return '<tr><td><b>' + esc(f.n) + '</b></td><td>' + esc(f.t) + '</td>'
+      + '<td><label class="ckrow"><input type="checkbox" class="ck" data-fk="' + f.k + '" data-fp="req"' + (d.req?' checked':'') + '></label></td>'
+      + '<td><label class="ckrow"><input type="checkbox" class="ck" data-fk="' + f.k + '" data-fp="ro"' + (d.ro?' checked':'') + '></label></td>'
+      + '<td style="color:var(--g600)">' + esc(f.src) + '</td><td class="c-wrap">' + rule + '</td></tr>';
+  }).join('');
+  renderMapRows();
+  cfgMsgState();
+}
+function renderMapRows(){
+  if(!el('cfgPeopleRows')) return;
+  el('cfgPeopleRows').innerHTML = Object.keys(SUBSYS).map(function(sub){
+    var v = CFG_DRAFT.people[sub] || { audit:'', verifier:'' };
+    return '<tr><td><b>' + esc(sub) + '</b></td><td>' + csel('audit', sub, v.audit) + '</td><td>' + csel('verifier', sub, v.verifier) + '</td></tr>';
+  }).join('');
+}
+function cfgDirty(){ return JSON.stringify(CFG_DRAFT) !== JSON.stringify(CFG_ACTIVE); }
+function cfgMsgState(){
+  var b = el('cfgMsg'); if(!b) return;
+  b.innerHTML = cfgDirty() ? '<span class="cfg-dirty">有未保存的改动</span>' : '<span class="cfg-ok">配置已保存，与运行态一致</span>';
+}
+function saveCfg(){
+  if(!cfgDirty()){ toast('配置与当前运行态一致，无需保存', 'info'); return; }
+  var prev = JSON.parse(JSON.stringify(PEOPLE)), changed = [];
+  Object.keys(CFG_DRAFT.people).forEach(function(sub){
+    var n = CFG_DRAFT.people[sub], o = prev[sub] || {};
+    if(o.audit !== n.audit || o.verifier !== n.verifier) changed.push(sub);
+    PEOPLE[sub] = { audit:n.audit, verifier:n.verifier };
+  });
+  CFG_ACTIVE = JSON.parse(JSON.stringify(CFG_DRAFT));
+  var applied = [];
+  if(S.subsys && changed.indexOf(S.subsys) >= 0){
+    var o = prev[S.subsys], n = PEOPLE[S.subsys];
+    if(S.auditModifier === o.audit){ S.auditModifier = n.audit; applied.push('审核修改责任人'); }
+    if(S.verifier === o.verifier){ S.verifier = n.verifier; applied.push('验证责任人'); }
+    if(el('selAudit') && SELS.selAudit){ SELS.selAudit.value = S.auditModifier; paint('selAudit'); }
+    if(el('selVerifier') && SELS.selVerifier){ SELS.selVerifier.value = S.verifier; paint('selVerifier'); }
+  }
+  renderAll(); cfgMsgState();
+  var m = '配置已保存并生效：责任映射改动 ' + changed.length + ' 行';
+  if(applied.length) m += '；当前工作项的 ' + applied.join('、') + ' 已按新映射刷新（人工改过的不覆盖）';
+  toast(m, 'info');
+}
+/* ---- 全局：规则 · 解决问题规则 ---- */
+function renderGlobalCfg(){
+  el('glbMain').innerHTML =
+      '<div class="set-crumb"><span class="lnk" data-go="pingrunner">Ping Runner</span> / 规则 / 解决问题规则</div>'
+    + '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:17px;font-weight:600">解决问题规则</span>'
+    + '<span class="tag tag-pill tag-sm tag-green">已启用</span></div>'
+    + '<div class="pg-sub">规则类型：弹窗规则　·　生效范围：全局　·　各项目可在项目设置中覆盖参数</div>'
+    + '<div class="card" style="margin-top:18px"><div class="card-h"><span class="bar"></span><span class="t">缺陷属性与字段</span><span class="d">弹窗按这些属性渲染并取值</span></div>'
+      + '<div class="card-c" style="padding:0"><table class="tbl">'
+      + '<thead><tr><th style="width:150px">属性 / 字段</th><th style="width:96px">类型</th><th class="c-main">说明</th><th style="width:190px">项目级关系</th></tr></thead><tbody>'
+      + '<tr><td><b>解决结果</b></td><td>单选属性</td><td class="c-wrap">完成 / 不修复（需CCB）/ 无法复现 / 重复问题 / 需求变更</td><td style="color:var(--g600)">项目级统一</td></tr>'
+      + '<tr><td><b>缺陷类型</b></td><td>级联属性</td><td class="c-wrap">7 个一级选项，4 个含二级；「文档缺陷」「不修复（需CCB）」无子类型</td><td style="color:var(--g600)">项目级只能取子集</td></tr>'
+      + '<tr><td><b>严重程度</b></td><td>单选属性</td><td class="c-wrap">致命 / 严重 / 一般 / 提示</td><td style="color:var(--g600)">全局统一</td></tr>'
+      + '<tr><td><b>复现概率</b></td><td>单选属性</td><td class="c-wrap">必现 / 高频 / 偶发 / 极低</td><td style="color:var(--g600)">全局统一</td></tr>'
+      + '<tr><td><b>风险等级</b></td><td>单选属性</td><td class="c-wrap">按下方矩阵由严重程度 × 复现概率 自动生成，弹窗内只读</td><td style="color:var(--g600)">全局唯一口径</td></tr>'
+      + '<tr><td><b>处理记录</b></td><td>多行字段</td><td class="c-wrap">6 项模板文本，逐项校验</td><td style="color:var(--g600)">项目级可追加，不可删减</td></tr>'
+      + '<tr><td><b>GerritID</b></td><td>文本字段</td><td class="c-wrap"><span class="mono">' + esc(String(GERRIT_RE)) + '</span></td><td style="color:var(--g600)">项目级可覆盖</td></tr>'
+      + '</tbody></table></div></div>'
+    + '<div class="card"><div class="card-h"><span class="bar"></span><span class="t">风险等级计算矩阵</span><span class="d">严重程度 × 复现概率</span></div>'
+      + '<div class="card-c" style="padding:0"><table class="tbl">'
+      + '<thead><tr><th style="width:150px">严重程度 \\ 复现概率</th><th>必现 / 高频</th><th>偶发 / 极低</th></tr></thead><tbody>'
+      + '<tr><td><b>致命</b></td><td><span class="tag tag-sm tag-red">致命</span></td><td><span class="tag tag-sm tag-red">致命</span></td></tr>'
+      + '<tr><td><b>严重</b></td><td><span class="tag tag-sm tag-orange">严重</span></td><td><span class="tag tag-sm tag-orange">严重</span></td></tr>'
+      + '<tr><td><b>一般</b></td><td><span class="tag tag-sm tag-blue">严重</span></td><td><span class="tag tag-sm tag-blue">一般</span></td></tr>'
+      + '<tr><td><b>提示</b></td><td><span class="tag tag-sm tag-grey">提示</span></td><td><span class="tag tag-sm tag-grey">提示</span></td></tr>'
+      + '</tbody></table></div></div>'
+    + '<div class="card"><div class="card-h"><span class="bar"></span><span class="t">应用级开关</span></div>'
+      + '<div class="card-c">'
+      + '<div class="ckcol"><div class="ckrow"><input type="checkbox" class="ck" id="swEnable"' + (GLOBAL_SW.enable?' checked':'') + '>启用「解决问题」扩展入口</div>'
+      + '<div class="ckrow"><input type="checkbox" class="ck" id="swLog"' + (GLOBAL_SW.log?' checked':'') + '>记录字段级校验日志（写入工作项动态）</div></div>'
+      + '<div class="cfgbar"><button class="btn btn-primary btn-sm" id="swSave">保存</button><span class="f-help" id="swMsg" style="margin:0"></span></div>'
+      + '</div></div>'
+    + '<div class="note warn" style="margin-top:16px">Ping Runner 为全局入口，<b>拿不到项目上下文</b>，因此不能按项目筛选；需要按项目维护的参数（责任映射、字段必填、规则开关）在项目设置 · 应用 · 解决问题规则 中配置。</div>';
+  el('swEnable').addEventListener('change', function(){ GLOBAL_SW.enable = this.checked; });
+  el('swLog').addEventListener('change', function(){ GLOBAL_SW.log = this.checked; });
+  el('swSave').addEventListener('click', function(){
+    el('swMsg').innerHTML = '<span class="cfg-ok">已保存</span>';
+    toast('应用级开关已保存', 'info');
+  });
+}
+
+/* ==========================================================================
+   8. 工作项详情渲染
+   ========================================================================== */
+function sevTag(v){ var c = v==='致命'?'tag-red':v==='严重'?'tag-orange':v==='一般'?'tag-blue':'tag-grey'; return '<span class="tag tag-pill tag-sm ' + c + '">' + esc(v) + '</span>'; }
+function repTag(v){ var c = v==='必现'?'tag-red':v==='高频'?'tag-orange':v==='偶发'?'tag-blue':'tag-grey'; return '<span class="tag tag-pill tag-sm ' + c + '">' + esc(v) + '</span>'; }
+function renderProps(){
+  var dim = '<span class="dim">-</span>';
+  var g = [
+    { h:'属性', rows:[
+      ['状态', '<span class="tag tag-pill tag-sm tag-orange"><span class="dot"></span>问题处理中</span>'],
+      ['优先级', '<span class="tag tag-pill tag-sm tag-red">高</span>'],
+      ['看板', '芯片质量看板'], ['迭代', '玄戒 X1 · MP2'], ['负责人', '王若上'], ['报告人', '王若上'], ['故事点', '3'],
+      ['标签', '<span class="tag tag-sm tag-grey">NPU</span> <span class="tag tag-sm tag-grey">INT8</span> <span class="tag tag-sm tag-grey">算子</span>']
+    ]},
+    { h:'缺陷信息', cap:'插件写入', rows:[
+      ['缺陷类型', S.defect1 ? '<span class="tag tag-sm tag-purple">' + esc(S.defect1) + (S.defect2 ? ' / ' + esc(S.defect2) : '') + '</span>' : dim],
+      ['严重程度', sevTag(S.severity)],
+      ['复现概率', repTag(S.repro)],
+      ['风险等级', sevTag(S.risk || '提示')],
+      ['问题发现活动', '芯片回归测试'],
+      ['验证设备类型', '算子基准 / 长时间运行'],
+      ['GerritID', S.gerrit ? '<span class="tag tag-sm tag-grey">' + esc(S.gerrit) + '</span>' : dim],
+      ['影响版本', '玄戒 X1 · MP2'],
+      ['修复版本', S.result ? '玄戒 X1 · MP3' : dim]
+    ]},
+    { h:'责任分工', cap:'映射表填充', rows:[
+      ['问题分配责任人', '责任人 V-01（组件负责人）'],
+      ['审核修改责任人', S.auditModifier ? esc(S.auditModifier) : dim],
+      ['问题修改责任人', '责任人 M-01（DDR）'],
+      ['验证分配责任人', '责任人 V-01（组件负责人）'],
+      ['验证责任人', S.verifier ? esc(S.verifier) : dim]
+    ]},
+    { h:'处理信息', cap:'插件写入', rows:[
+      ['解决结果', S.result ? '<span class="tag tag-pill tag-sm tag-green">' + esc(S.result) + '</span>' : dim],
+      ['原因分析', dim],
+      ['解决方案', S.result ? '修正反量化流水拍配置并补齐位宽断言' : dim],
+      ['处理记录', S.handleRecord ? '<span class="clip" title="' + esc(S.handleRecord.replace(/\n/g,'；')) + '">' + esc(S.handleRecord) + '</span>' : dim],
+      ['验证记录', dim],
+      ['测试用例号', 'TC-NPU-0231'],
+      ['关联重复单', '<span class="tag tag-sm tag-grey">XIN-138 已关闭</span>']
+    ]},
+    { h:'变更', rows:[['版本','v5',5],['评审','待评审',1],['基线',dim,2]]},
+    { h:'发布', rows:[['发布', dim]]},
+    { h:'开发', rows:[['代码', dim],['构建', dim],['部署', dim]]}
+  ];
+  var html = '';
+  g.forEach(function(grp){
+    html += '<div class="wip-gh"><span>' + esc(grp.h) + '</span>' + (grp.cap ? '<span class="cap src">' + esc(grp.cap) + '</span>' : '') + '<span class="caret">⌃</span></div>';
+    html += grp.rows.map(function(r){
+      var cnt = r[2] ? '<span class="tag-count" style="margin-left:6px">' + r[2] + '</span>' : '';
+      return '<div class="wip-row"><span class="k">' + esc(r[0]) + '</span><span class="v">' + r[1] + cnt + '</span></div>';
+    }).join('');
+  });
+  html += '<div class="wip-gh">应用<span class="cap src mono">pcm:pjm:workitem:panel</span></div>'
+    + '<div class="wip-app"><button class="nx-entry" id="openFromPanel2">'
+    + '<svg class="ic" width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.4" stroke="currentColor" stroke-width="1.3"/><path d="M8 4.6v3.8l2.6 1.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    + '解决问题<span class="arw">›</span></button><div class="nx-sum" id="nxSum"></div></div>'
+    + '<div class="wip-follow"><span>关注</span><span class="tag tag-sm tag-blue">王若上</span><span style="margin-left:auto;color:var(--g600)">未关注</span></div>';
+  el('wip').innerHTML = html;
+  el('openFromPanel2').addEventListener('click', openSolve);
+}
+function renderSolveCard(){
+  var box = el('solveCard');
+  if(!S.result && !S.defect1){
+    box.innerHTML = '<div class="wsec-t" style="color:var(--g600)">尚未提交解决信息。点击右上角「定位&amp;解决问题」开始填写，右侧属性面板中的字段会同步更新。</div>';
+    return;
+  }
+  var t = [
+    ['解决结果', S.result || '-'], ['缺陷类型', (S.defect1 || '-') + (S.defect2 ? ' / ' + S.defect2 : '')],
+    ['子系统 / 模块', (S.subsys || '-') + (S.module ? ' / ' + S.module : '')],
+    ['严重程度 / 复现概率', S.severity + ' / ' + S.repro], ['风险等级', S.risk || '-'],
+    ['GerritID', S.gerrit || '-'], ['审核修改责任人', S.auditModifier || '-'], ['验证责任人', S.verifier || '-'],
+    ['处理记录', S.handleRecord ? S.handleRecord.replace(/\n/g,'；') : '-']
+  ];
+  box.innerHTML = '<div class="wcards">' + t.map(function(r){
+    return '<div class="wcard"><div class="k">' + esc(r[0]) + '</div><div class="v">' + esc(r[1]) + '</div></div>';
+  }).join('') + '</div>';
+}
+function renderActs(){
+  var all = baseActs.concat(S.acts);
+  el('actList').innerHTML = all.map(function(a){
+    return '<div class="wact"><div class="av" style="background:' + a.c + '">' + esc(a.n) + '</div>'
+      + '<div class="bd"><b>' + esc(a.n) + '</b> ' + a.t + '<span class="tm">' + esc(a.time) + '</span>'
+      + (a.chips && a.chips.length ? '<div>' + a.chips.map(function(c){ return '<span class="wact-chip">' + esc(c) + '</span>'; }).join('') + '</div>' : '')
+      + '</div></div>';
+  }).join('');
+}
+function renderNxSum(){
+  var box = el('nxSum'); if(!box) return;
+  if(!S.result && !S.defect1){ box.style.display = 'none'; return; }
+  box.style.display = '';
+  box.innerHTML = '<b>解决结果</b>　' + esc(S.result || '-') + '<br><b>缺陷类型</b>　' + esc((S.defect1 || '-') + (S.defect2 ? ' / ' + S.defect2 : ''))
+    + '<br><b>风险等级</b>　' + esc(S.risk || '-') + '<br><b>审核修改责任人</b>　' + esc(S.auditModifier || '-');
+}
+function renderAll(){ renderProps(); renderSolveCard(); renderActs(); renderNxSum(); }
+
+/* ==========================================================================
+   9. 事件
+   ========================================================================== */
+function openItem(){ el('wim').classList.add('open'); }
+function closeItem(){ el('wim').classList.remove('open'); closeSub(); }
+function closeSub(){ clearTimeout(openSolve._t); el('subPage').classList.remove('open'); }
+
+['listRows','itemRows'].forEach(function(id){
+  el(id).addEventListener('click', function(e){ if(!e.target.closest('.c-chk')) openItem(); });
+});
+el('wimClose').addEventListener('click', closeItem);
+el('openFromPanel').addEventListener('click', openSolve);
+el('subBack').addEventListener('click', closeSub);
+el('dlgCancel').addEventListener('click', closeSub);
+el('dlgSubmit').addEventListener('click', submitSolve);
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){ closeSub(); closeItem(); return; }
+  if((e.metaKey || e.ctrlKey) && e.key === 'Enter' && el('subPage').classList.contains('open') && !el('dlgSubmit').disabled){ e.preventDefault(); submitSolve(); }
+});
+el('annoT').addEventListener('change', function(){ document.body.classList.toggle('anno-on', this.checked); });
+el('resetB').addEventListener('click', function(){ location.reload(); });
+el('pnav').addEventListener('click', function(e){
+  var a = e.target.closest('[data-page]'); if(a) go(a.getAttribute('data-page'));
+});
+el('setBtn').addEventListener('click', function(){ go('setting'); });
+/* 项目设置侧栏（设置页与工作项配置页共用）—— 统一走 data-setnav 委托 */
+function onSetNav(k, label){
+  if(k === 'workflow'){ go('workflow'); return; }
+  if(k === 'app'){ go('setting'); renderSetting(); return; }
+  if(k === 'map'){ go('setting'); renderMapping(); return; }
+  go('setting'); renderSetting();
+  toast('演示原型未展开「' + label + '」这一项', 'info');
+}
+document.addEventListener('click', function(e){
+  var a = e.target.closest('[data-setnav]');
+  if(a) onSetNav(a.getAttribute('data-setnav'), a.textContent.replace('Ping Runner','').trim());
+});
+el('railFold').addEventListener('click', function(){
+  document.body.classList.toggle('rail-mini');
+  this.title = document.body.classList.contains('rail-mini') ? '展开导航' : '收起导航';
+});
+el('railPR').addEventListener('click', function(){ PR_CUR = 'overview'; go('pingrunner'); });
+document.addEventListener('click', function(e){
+  var a = e.target.closest('[data-projmap]');
+  if(!a) return;
+  CUR_PROJ = a.getAttribute('data-projmap');
+  go('setting'); renderMapping();
+});
+document.addEventListener('click', function(e){
+  var t = e.target.closest('[data-prmod]');
+  if(!t) return;
+  PR_CUR = t.getAttribute('data-prmod');
+  renderPingRunner();
+});
+el('railPM').addEventListener('click', function(){ go('projects'); });
+/* 项目列表：侧栏 / 搜索 / 类型 / 分段 / 星标 / 进入 */
+el('pjSide').addEventListener('click', function(e){
+  var a = e.target.closest('[data-pjgrp]'); if(!a) return;
+  var k = a.getAttribute('data-pjgrp');
+  if(!PJ_GRP_NAME[k]){
+    toast('演示原型未展开「' + a.textContent.trim() + '」', 'info');
+    return;
+  }
+  PJV.grp = k;
+  this.querySelectorAll('a').forEach(function(x){ x.classList.toggle('on', x === a); });
+  renderProjects();
+});
+el('pjKw').addEventListener('input', function(){ PJV.kw = this.value.trim(); renderProjects(); });
+el('pjType').addEventListener('click', function(){
+  var i = PJ_TYPES.indexOf(PJV.type);
+  PJV.type = PJ_TYPES[(i + 1) % PJ_TYPES.length];
+  this.innerHTML = '类型：' + (PJV.type || '全部')
+    + '<svg width="9" height="9" viewBox="0 0 16 16" fill="none"><path d="M4 6.2L8 10.2l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+  renderProjects();
+});
+el('pjSeg').addEventListener('click', function(e){
+  var b = e.target.closest('[data-seg]'); if(!b) return;
+  PJV.seg = b.getAttribute('data-seg');
+  this.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+  renderProjects();
+});
+el('pjRows').addEventListener('click', function(e){
+  var st = e.target.closest('[data-star]');
+  if(st){
+    e.stopPropagation();
+    PROJECTS[+st.getAttribute('data-star')].fav = !PROJECTS[+st.getAttribute('data-star')].fav;
+    renderProjects();
+    return;
+  }
+  var row = e.target.closest('[data-pj]');
+  if(row) go('delivery');
+});
+el('pjNew').addEventListener('click', function(){ toast('演示原型未展开「新建项目」', 'info'); });
+document.addEventListener('click', function(e){
+  var g = e.target.closest('[data-go]');
+  if(g) go(g.getAttribute('data-go'));
+});
+document.querySelectorAll('.chip').forEach(function(c){
+  c.addEventListener('click', function(){ document.querySelectorAll('.chip').forEach(function(x){ x.classList.toggle('on', x === c); }); });
+});
+['ruleRows'].forEach(function(id){
+  el(id).addEventListener('click', function(e){
+    if(e.target.closest('[data-cfg]')){ go('glbcfg'); return; }
+    var r = e.target.closest('[data-rule]');
+    if(r) toast('本方案未覆盖「' + RULES[+r.getAttribute('data-rule')].n + '」的配置界面', 'info');
+  });
+});
+el('ruleRows').addEventListener('click', function(e){
+  if(e.target.closest('[data-cfg]')){ go('glbcfg'); return; }
+  var r = e.target.closest('[data-rule]');
+  if(r) toast('本方案未覆盖「' + RULES[+r.getAttribute('data-rule')].n + '」的配置界面', 'info');
+});
+
+/* ==========================================================================
+   10. 初始化
+   ========================================================================== */
+renderList(); renderRules(); renderProjects(); renderAll();
+(function(){
+  var pg = (location.hash || '').replace('#', '');
+  go(PAGE_META[pg] ? pg : 'projects');
+  try{ history.replaceState({ p: CUR_PAGE }, '', '#' + CUR_PAGE); }catch(e){}
+})();
+</script>
+</body>
+</html>
