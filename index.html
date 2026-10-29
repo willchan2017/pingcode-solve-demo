@@ -873,6 +873,17 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
               </div>
             </div>
           </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">跨实例 Clone · 项目范围</span><span class="d">按项目配置允许 / 禁止跨实例克隆；禁止的项目不展示发起入口，接口调用返回无权限</span></div>
+            <div class="card-c" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th style="width:170px">项目</th><th style="width:110px">跨实例 Clone</th><th style="width:130px">目标实例</th><th style="width:190px">接收方审核人</th><th>说明</th><th style="width:76px">操作</th></tr></thead>
+                <tbody id="xprojRows"></tbody>
+              </table>
+              <div class="cfgbar"><span class="f-help" style="margin:0">允许 = 该项目的工作项详情展示「跨实例 Clone」，发起后走对方审批；禁止 = 入口不展示（界面扩展控制），REST / 批量发起返回无权限。</span></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1069,6 +1080,7 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
 <div class="mask" id="dyMask"></div>
 <div class="mask" id="cloneMask"></div>
 <div class="mask" id="stdMask"></div>
+<div class="mask" id="scrMask"></div>
 
 <script>
 /* ==========================================================================
@@ -1889,6 +1901,36 @@ function bindClone(){
   var bl = el('clBulkLog'); if(bl) bl.addEventListener('click', function(){ PR_CUR = 'log'; go('pingrunner'); });
 }
 
+/* 跨实例 Clone · 项目范围：按项目配置允许 / 禁止 */
+var XPROJ = [
+  { n:'玄戒芯片研发项目', on:true,  to:'小米集团 Jira',  rev:'集团芯片平台 · SE-Leader', note:'双向连接已建立（专线），源单 ↔ 副本回写 remote link' },
+  { n:'澎湃 OS 项目',     on:true,  to:'小米汽车 Jira',  rev:'汽车软件测试组',           note:'单向发出，克隆后由对方审批落库' },
+  { n:'车机平台项目',     on:true,  to:'小米集团 Jira',  rev:'集团车机平台管理员',       note:'双向' },
+  { n:'AI 大模型项目',    on:false, to:'—',              rev:'—',                        note:'未建立专线连接' },
+  { n:'玄戒 X2 预研项目', on:false, to:'—',              rev:'—',                        note:'保密阶段，禁止对外克隆' }
+];
+function renderXproj(){
+  var box = el('xprojRows'); if(!box) return;
+  box.innerHTML = XPROJ.map(function(p, i){
+    return '<tr>'
+      + '<td><b>' + esc(p.n) + '</b></td>'
+      + '<td><span class="tag tag-pill tag-sm ' + (p.on ? 'tag-green' : 'tag-red') + '">' + (p.on ? '允许' : '禁止') + '</span></td>'
+      + '<td>' + esc(p.to) + '</td>'
+      + '<td>' + esc(p.rev) + '</td>'
+      + '<td style="color:var(--g600)">' + esc(p.note) + '</td>'
+      + '<td><button class="btn btn-default btn-sm" data-xpt="' + i + '">' + (p.on ? '禁止' : '允许') + '</button></td>'
+      + '</tr>';
+  }).join('');
+  box.onclick = function(e){
+    var b = e.target.closest('[data-xpt]'); if(!b) return;
+    var p = XPROJ[+b.getAttribute('data-xpt')];
+    p.on = !p.on;
+    renderXproj();
+    toast(p.n + (p.on ? ' 已允许跨实例 Clone' : ' 已禁止跨实例 Clone，发起入口同步隐藏'), p.on ? undefined : 'info');
+  };
+}
+renderXproj();
+
 /* 动态字段：主入口，下面分「公式字段」「脚本字段」两类 */
 var DY_FIELDS = ['严重程度','复现概率','概率','操作','场景','可恢复性','影响','优先级','处理时限'];
 var DY_TAB = 'formula';                    /* formula / script */
@@ -1978,6 +2020,111 @@ function dyFormulaOpen(field){
   el('dySave').addEventListener('click', function(){ var nm = el('dyName').value; closeDy(); toast('公式已保存：' + nm, 'info'); });
 }
 function closeDy(){ el('dyMask').classList.remove('on'); el('dyMask').innerHTML = ''; }
+
+/* 脚本库：点脚本名查看真实脚本内容（模拟数据，口径取自小米缺陷流程） */
+var SCRIPT_DB = {
+  '缺陷责任映射': { lang:'Groovy', ver:'v3', refs:['派发规则 · 缺陷指派','校验规则 · 模块归属校验','后置动作 · 子系统派单'],
+    desc:'创建 / 流转时按「子系统 → 责任人」映射带出责任人，只在字段为空时填充，不覆盖人工已填值。',
+    code:[
+      '// 数据源：项目设置 → 应用 → 映射（子系统 → 负责人）',
+      'def sub = issue.fields["子系统"]?.value',
+      'if (!sub) { logger.warn("未填子系统，跳过派单"); return }',
+      '',
+      'def owner = Mapping.table("subsys_owner").ownerOf(sub)',
+      'if (owner == null) { logger.warn("映射缺少 ${sub}，走默认分配组"); return }',
+      '',
+      '// 空值保护：不覆盖人工已填的责任人',
+      'if (issue.fields["审核修改责任人"] == null) {',
+      '  issue.setField("审核修改责任人", owner)',
+      '  issue.addComment("已按子系统 ${sub} 自动带出责任人：${owner}")',
+      '}',
+      'logger.info("映射派单完成 ${issue.key} -> ${owner}")'
+    ].join('\n') },
+  '超期缺陷提醒': { lang:'Groovy', ver:'v2', refs:['定时任务 · 每天 09:00','飞书推送 · SLA 超时'],
+    desc:'每天 09:00 扫描停留在「定位中 / 审核中」超过 48 小时的缺陷，按责任人推飞书提醒。',
+    code:[
+      '// 定时任务：cron 0 0 9 * * ?　上下文：project',
+      'def stale = pql(\'status in ["定位中","审核中"] AND updated < now("-48h")\')',
+      '',
+      'stale.each { it ->',
+      '  def hours = Duration.since(it.updated).toHours()',
+      '  Feishu.send(it.fields["问题修改责任人"],',
+      '    "[超时提醒] ${it.key} 已停留 ${hours} 小时，请及时处理")',
+      '  logger.info("已提醒 ${it.key}（${hours}h）")',
+      '}',
+      'logger.info("本轮共提醒 ${stale.size()} 条")'
+    ].join('\n') },
+  '评审结论回写': { lang:'Groovy', ver:'v2', refs:['事件监听器 · 进入已验证'],
+    desc:'缺陷验证通过后，把评审结论回写到关联需求的「评审结论」属性，免二次录入。',
+    code:[
+      '// 触发：工作项进入「已验证」',
+      'def req = issue.linked("需求")[0]',
+      'if (req == null) { logger.warn("未关联需求，跳过回写"); return }',
+      '',
+      'def verdict = issue.fields["评审结论"]?.value',
+      'if (verdict) {',
+      '  req.setField("评审结论", verdict)',
+      '  req.addComment("来自 ${issue.key} 的评审结论自动回写")',
+      '}',
+      'logger.info("回写完成 ${issue.key} -> ${req.key}")'
+    ].join('\n') },
+  '致命缺陷复现概率必填': { lang:'JavaScript', ver:'v1', refs:['动态表单行为 · 创建 / 编辑'],
+    desc:'严重程度为「致命」时，复现概率必填；返回错误文案即拦截保存。',
+    code:[
+      '// 动态表单行为脚本：返回字符串 = 校验失败提示；返回 null = 通过',
+      'if (form["严重程度"] === "致命" && !form["复现概率"]) {',
+      '  return "致命缺陷必须填写复现概率"',
+      '}',
+      'return null'
+    ].join('\n') },
+  '迭代容量告警': { lang:'Groovy', ver:'v1', refs:['定时任务 · 迭代开始时'],
+    desc:'迭代开始时统计工作量，超过容量 90% 则通知迭代负责人并给出超载清单。',
+    code:[
+      'def iter = context.iteration',
+      'def load = iter.workitems.sum { it.estimate ?: 0 }',
+      'def cap  = iter.capacity ?: 0',
+      '',
+      'if (cap > 0 && load > cap * 0.9) {',
+      '  def over = iter.workitems.findAll { it.estimate > 8 }',
+      '  Feishu.send(iter.owner, "[容量告警] ${iter.name} 负载 ${load}/${cap}，超载 ${over.size()} 项")',
+      '}'
+    ].join('\n') },
+  '关联需求覆盖率': { lang:'JavaScript', ver:'v1', refs:['脚本字段 · 关联需求覆盖率','2 个视图'],
+    desc:'计算当前缺陷所属需求簇的用例覆盖情况，实时刷新，供报表引用。',
+    code:[
+      '// 脚本字段：返回 0~1 的小数，视图里格式化为百分比',
+      'const req = issue.linked("需求")[0]',
+      'if (!req) return 0',
+      'const cases = req.children.filter(c => c.type === "测试用例")',
+      'if (!cases.length) return 0',
+      'return cases.filter(c => c.status === "已通过").length / cases.length'
+    ].join('\n') }
+};
+function openScript(name){
+  var s = SCRIPT_DB[name];
+  if(!s){ toast('演示原型未展开「' + name + '」的脚本内容', 'info'); return; }
+  el('scrMask').innerHTML = '<div class="modal" style="width:720px">'
+    + '<div class="modal-h"><span>' + esc(name) + '</span><button class="modal-x" id="scrClose">×</button></div>'
+    + '<div class="modal-b">'
+    +   '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">'
+    +     '<span class="src-chip">' + s.lang + '</span>'
+    +     '<span class="tag tag-sm tag-grey">' + s.ver + '</span>'
+    +     '<span class="tag tag-sm tag-grey">引用 ' + s.refs.length + ' 处</span>'
+    +   '</div>'
+    +   '<div style="font-size:12.5px;color:var(--g600);line-height:1.8;margin-bottom:12px">' + esc(s.desc) + '</div>'
+    +   '<div style="font-size:12.5px;color:var(--g600);margin-bottom:6px">脚本内容</div>'
+    +   '<pre style="margin:0;background:#2b2f36;color:#d6e2f0;border-radius:4px;padding:14px 16px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.75;overflow:auto;max-height:340px">' + esc(s.code) + '</pre>'
+    +   '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">被引用于</div>'
+    +   '<div>' + s.refs.map(function(r){ return '<span class="tag tag-sm tag-grey" style="margin:0 6px 4px 0">' + esc(r) + '</span>'; }).join('') + '</div>'
+    + '</div>'
+    + '<div class="modal-f"><button class="btn btn-default btn-sm" id="scrConsole">去脚本控制台调试</button><button class="btn btn-primary btn-sm" id="scrOk">关闭</button></div>'
+    + '</div>';
+  el('scrMask').classList.add('on');
+  el('scrClose').addEventListener('click', closeScript);
+  el('scrOk').addEventListener('click', closeScript);
+  el('scrConsole').addEventListener('click', function(){ closeScript(); PR_CUR = 'console'; go('pingrunner'); });
+}
+function closeScript(){ el('scrMask').classList.remove('on'); el('scrMask').innerHTML = ''; }
 
 /* 工作流挂载点注册池：对标 Jira 原生 + 脚本扩展的 workflow functions */
 var PR_WF = {
@@ -2227,6 +2374,19 @@ function prModule(k){
   if(k === 'dynamic'){ prDynamic(); return; }
   h += prTable(PR_ROWS[k]);
   el('prMain').innerHTML = h + '</div>';
+  /* 脚本库：脚本名可点击，弹出真实脚本内容 */
+  if(k === 'scripts'){
+    Array.prototype.forEach.call(el('prMain').querySelectorAll('tbody tr'), function(tr, i){
+      var name = PR_ROWS.scripts.r[i] && PR_ROWS.scripts.r[i][0];
+      if(!name) return;
+      var td = tr.querySelector('td b');
+      if(!td) return;
+      td.style.cursor = 'pointer';
+      td.style.color = 'var(--primary)';
+      td.title = '点击查看脚本内容';
+      td.addEventListener('click', function(){ openScript(name); });
+    });
+  }
 }
 
 var PR_CODE = [
