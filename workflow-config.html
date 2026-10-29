@@ -1226,7 +1226,9 @@ function condRowText(it){
   }
   var opTxt = OP_TXT[it.op] || it.op;
   var needVal = ['empty','notempty'].indexOf(it.op) < 0;
-  return esc(it.f) + ' ' + opTxt + (needVal && it.v ? ' 「' + esc(it.v) + '」' : '');
+  /* 值为空时显式标出，回读一眼看出这条条件还缺什么 */
+  var valTxt = !needVal ? '' : (it.v ? ' 「' + esc(it.v) + '」' : ' <span style="color:var(--danger)">「未填值」</span>');
+  return esc(it.f) + ' ' + opTxt + valTxt;
 }
 function condSummary(g){
   if(!g || !g.items || !g.items.length) return '';
@@ -1289,7 +1291,21 @@ function paneCond(f, kind){
   }
   h += '<div data-cg="' + kind + '">' + condGroupHTML(d, [], 0, true, scope) + '</div>';
   var sum = condSummary(d);
-  if(sum) h += '<div class="cond-summary"><b>回读</b>' + sum + (isCond ? '　→ 展示该流转' : '　→ 允许提交') + '</div>';
+  if(sum){
+    var eff;
+    if(isCond){
+      /* 按条件类型给出对应效果，与「隐藏入口 / 点击校验」标注一致 */
+      var gates = [];
+      (function walk(g){ g.items.forEach(function(x){ if(x.t === 'g') walk(x); else gates.push((COND_KINDS[x.kind] || COND_KINDS.field).gate); }); })(d);
+      var hasShow = gates.indexOf('show') >= 0, hasCheck = gates.indexOf('check') >= 0;
+      eff = (hasShow && hasCheck) ? '　→ 「人 / 状态」条件决定入口是否展示；其余条件点击时校验，不满足提示「条件不满足」并拦截'
+          : hasShow               ? '　→ 满足时展示流转入口，不满足则隐藏'
+          :                         '　→ 点击时校验：不满足提示「条件不满足」并拦截';
+    } else {
+      eff = '　→ 允许提交';
+    }
+    h += '<div class="cond-summary"><b>回读</b>' + sum + eff + '</div>';
+  }
   return h;
 }
 
