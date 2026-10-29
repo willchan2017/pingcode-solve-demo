@@ -496,6 +496,8 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
       <a href="#" onclick="return false" class="" title="快捷链接"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.6 9.4l2.8-2.8M6 4.4l1.4-1.4a2.6 2.6 0 013.6 3.6L6.4 11a3.6 3.6 0 01-5-5l4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">快捷链接</span></a>
       <div class="rail-sep"></div>
       <a href="#" onclick="return false" id="railPR" title="Ping Runner"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.4 6.6L8 3.2 2.6 6.6v6.8L8 16.8l5.4-3.4V6.6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 8.4l5.4-3.4M8 8.4v8.4M8 8.4L2.6 5" stroke="currentColor" stroke-width="1.2"/></svg><span class="lbl">Ping Runner</span></a>
+      <a href="#" onclick="return false" id="railClone" title="Ping Clone"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V4.5A1.5 1.5 0 014.5 3H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">Ping Clone</span></a>
+      <a href="#" onclick="return false" id="railFeishu" title="飞书推送"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14.5 1.5L1.5 7.5l5 1.8 2 4.7 1.8-2.7 3.2 2.3 1-11.1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="lbl">飞书推送</span></a>
     </div>
     <div class="rail-foot">
       <a href="#" onclick="return false" class="" title="管理后台"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.4" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.4v1.8M8 12.8v1.8M1.4 8h1.8M12.8 8h1.8M3.4 3.4l1.3 1.3M11.3 11.3l1.3 1.3M12.6 3.4l-1.3 1.3M4.7 11.3l-1.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">管理后台</span></a>
@@ -770,6 +772,78 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
           <div class="stat"><div class="n" style="font-size:14px">基线</div><div class="l">4 条基线记录</div></div>
           <div class="stat"><div class="n" style="font-size:14px">评审</div><div class="l">8 场评审进行中</div></div>
           <div class="stat"><div class="n" style="font-size:14px">报告</div><div class="l">本周报告已生成</div></div>
+        </div>
+      </section>
+
+      <!-- ---------- Ping Clone ---------- -->
+      <section class="page" id="page-clone">
+        <div class="pg-head"><div class="pg-title">Ping Clone</div><div class="pg-sub">克隆能力：单实例 Clone 对标 Jira Clone Plus，跨实例 Clone 走专线网络 + 对方审核。</div></div>
+        <div class="pg-body">
+          <div style="display:flex;gap:16px">
+            <div style="flex:1;border:1px solid var(--g200);border-radius:8px;padding:20px;background:#fff">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                <span style="font-size:17px;font-weight:600;color:var(--g800)">单实例 Clone</span>
+                <span class="tag tag-pill tag-sm tag-blue">对标 Clone Plus</span>
+              </div>
+              <div style="font-size:13px;color:var(--g600);line-height:1.7">同项目 / 跨项目复制缺陷，支持批量克隆、克隆模板、选择性复制字段与附件。</div>
+              <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-sm tag-grey">批量克隆</span><span class="tag tag-sm tag-grey">克隆模板</span><span class="tag tag-sm tag-grey">字段选择</span><span class="tag tag-sm tag-grey">改目标项目/类型</span>
+              </div>
+              <button class="btn btn-primary btn-sm" style="margin-top:16px">发起克隆</button>
+            </div>
+            <div style="flex:1;border:1px solid var(--g200);border-radius:8px;padding:20px;background:#fff">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                <span style="font-size:17px;font-weight:600;color:var(--g800)">跨实例 Clone</span>
+                <span class="tag tag-pill tag-sm tag-orange">专线 · 双方审核</span>
+              </div>
+              <div style="font-size:13px;color:var(--g600);line-height:1.7">小米汽车 ↔ 集团双向克隆，走专线网络，对方审核通过后才落库，字段 / 值 / 用户逐层映射。</div>
+              <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-sm tag-grey">专线网络</span><span class="tag tag-sm tag-grey">字段/值/用户映射</span><span class="tag tag-sm tag-grey">审批流</span><span class="tag tag-sm tag-grey">双向同步</span>
+              </div>
+              <button class="btn btn-primary btn-sm" style="margin-top:16px">发起克隆</button>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">克隆后置动作与状态联动</span></div>
+            <div class="card-c" style="padding:0"><table class="tbl">
+              <thead><tr><th style="width:190px">能力</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td><b>克隆后置动作</b></td><td>克隆时复制字段、附件、评论、关联、子工作项；克隆后触发指派、通知等动作</td></tr>
+                <tr><td><b>状态属性联动</b></td><td>副本按目标项目工作流落在初始状态，源单与副本关键属性保持联动</td></tr>
+              </tbody>
+            </table></div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">主单 / 重复单规则</span><span class="d">1 对多关系约束</span></div>
+            <div class="card-c">
+              <div style="font-size:13px;color:var(--g600);line-height:2">
+                · 主单与重复单是 1 对多关系，重复单不能当作主单（重复单不能再 Clone）<br />
+                · 重复单全部关闭后，才能关闭主单<br />
+                · 主单关闭时校验是否还有未关闭的重复单
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 飞书推送 ---------- -->
+      <section class="page" id="page-feishu">
+        <div class="pg-head"><div class="pg-title">飞书推送</div><div class="pg-sub">SLA 场景：定义某个状态下停留时长多久后，通知飞书。</div></div>
+        <div class="pg-body">
+          <div class="card" style="margin-top:4px">
+            <div class="card-h"><span class="bar"></span><span class="t">SLA 推送规则</span><span class="r"><button class="btn btn-primary btn-sm" id="feishuNew">+ 新建规则</button></span></div>
+            <div class="card-c" style="padding:0"><table class="tbl">
+              <thead><tr><th style="width:200px">规则名称</th><th style="width:140px">监控状态</th><th style="width:130px">停留时长</th><th>通知对象</th><th style="width:90px">状态</th></tr></thead>
+              <tbody>
+                <tr><td><b>审核停留超时提醒</b></td><td>审核中</td><td>&gt; 24 小时</td><td>子系统负责人</td><td><span class="tag tag-pill tag-sm tag-green">启用</span></td></tr>
+                <tr><td><b>待验证停留超时</b></td><td>待验证</td><td>&gt; 48 小时</td><td>验证责任人</td><td><span class="tag tag-pill tag-sm tag-green">启用</span></td></tr>
+                <tr><td><b>定位中停留超时</b></td><td>定位中</td><td>&gt; 72 小时</td><td>问题修改责任人</td><td><span class="tag tag-pill tag-sm tag-grey">停用</span></td></tr>
+              </tbody>
+            </table></div>
+          </div>
+          <div class="note" style="margin-top:16px">规则命中后，通过飞书机器人向对应责任人 / 群发送提醒，含工作项标题、状态、已停留时长与直达链接。</div>
         </div>
       </section>
 
@@ -1320,6 +1394,7 @@ var PAGE_META = {
   milestone:{ nav:'milestone', last:'里程碑' }, modules:{ nav:'modules', last:'更多' },
   setting:{ nav:'', last:'应用' }, glbcfg:{ nav:'', last:'解决问题规则' },
   workflow:{ nav:'workflow', last:'工作项配置 · 状态流转' }
+  , clone:{ nav:'', last:'Ping Clone' }, feishu:{ nav:'', last:'飞书推送' }
 };
 function go(page){
   var prev = CUR_PAGE; CUR_PAGE = page;
@@ -2174,13 +2249,19 @@ function renderProps(){
       return '<div class="wip-row"><span class="k">' + esc(r[0]) + '</span><span class="v">' + r[1] + cnt + '</span></div>';
     }).join('');
   });
-  html += '<div class="wip-gh">应用<span class="cap src mono">pcm:pjm:workitem:panel</span></div>'
+  html += '<div class="wip-gh">Clone<span class="cap src mono">pcm:pjm:workitem:action</span></div>'
+    + '<div class="wip-app">'
+    + '<button class="nx-entry" id="cloneSingle">单实例 Clone<span class="arw">›</span></button>'
+    + '<button class="nx-entry" id="cloneCross">跨实例 Clone<span class="arw">›</span></button></div>'
+    + '<div class="wip-gh">应用<span class="cap src mono">pcm:pjm:workitem:panel</span></div>'
     + '<div class="wip-app"><button class="nx-entry" id="openFromPanel2">'
     + '<svg class="ic" width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.4" stroke="currentColor" stroke-width="1.3"/><path d="M8 4.6v3.8l2.6 1.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     + '解决问题<span class="arw">›</span></button><div class="nx-sum" id="nxSum"></div></div>'
     + '<div class="wip-follow"><span>关注</span><span class="tag tag-sm tag-blue">王若上</span><span style="margin-left:auto;color:var(--g600)">未关注</span></div>';
   el('wip').innerHTML = html;
   el('openFromPanel2').addEventListener('click', openSolve);
+  el('cloneSingle').addEventListener('click', function(){ go('clone'); toast('单实例 Clone：对标 Jira Clone Plus', 'info'); });
+  el('cloneCross').addEventListener('click', function(){ go('clone'); toast('跨实例 Clone：专线网络 + 对方审核', 'info'); });
 }
 function renderSolveCard(){
   var box = el('solveCard');
@@ -2254,11 +2335,14 @@ document.addEventListener('click', function(e){
   var a = e.target.closest('[data-setnav]');
   if(a) onSetNav(a.getAttribute('data-setnav'), a.textContent.replace('Ping Runner','').trim());
 });
+var _fb=document.getElementById('feishuNew'); if(_fb) _fb.addEventListener('click', function(){ toast('演示原型未展开「新建规则」', 'info'); });
 el('railFold').addEventListener('click', function(){
   document.body.classList.toggle('rail-mini');
   this.title = document.body.classList.contains('rail-mini') ? '展开导航' : '收起导航';
 });
 el('railPR').addEventListener('click', function(){ PR_CUR = 'overview'; go('pingrunner'); });
+el('railClone').addEventListener('click', function(){ go('clone'); });
+el('railFeishu').addEventListener('click', function(){ go('feishu'); });
 document.addEventListener('click', function(e){
   var a = e.target.closest('[data-projmap]');
   if(!a) return;
