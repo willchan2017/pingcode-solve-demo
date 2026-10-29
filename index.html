@@ -813,24 +813,28 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
           </div>
 
           <div class="card" style="margin-top:16px">
-            <div class="card-h"><span class="bar"></span><span class="t">克隆后置动作与状态联动</span></div>
-            <div class="card-c" style="padding:0"><table class="tbl">
-              <thead><tr><th style="width:190px">能力</th><th>说明</th></tr></thead>
-              <tbody>
-                <tr><td><b>克隆后置动作</b></td><td>克隆时复制字段、附件、评论、关联、子工作项；克隆后触发指派、通知等动作</td></tr>
-                <tr><td><b>状态属性联动</b></td><td>副本按目标项目工作流落在初始状态，源单与副本关键属性保持联动</td></tr>
-              </tbody>
-            </table></div>
-          </div>
-
-          <div class="card" style="margin-top:16px">
-            <div class="card-h"><span class="bar"></span><span class="t">主单 / 重复单规则</span><span class="d">1 对多关系约束</span></div>
+            <div class="card-h"><span class="bar"></span><span class="t">克隆规则配置</span><span class="d">针对克隆时与克隆后的联动，可自行增删与开关</span><span class="r"><button class="btn btn-primary btn-sm" id="cloneRuleAdd">+ 新增规则</button></span></div>
             <div class="card-c">
-              <div style="font-size:13px;color:var(--g600);line-height:2">
-                · 主单与重复单是 1 对多关系，重复单不能当作主单（重复单不能再 Clone）<br />
-                · 重复单全部关闭后，才能关闭主单<br />
-                · 主单关闭时校验是否还有未关闭的重复单
+              <div style="font-size:13px;font-weight:600;color:var(--g800);margin-bottom:8px">克隆时复制内容</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px 20px">
+                <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 字段值</label>
+                <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 附件</label>
+                <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 评论</label>
+                <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 关联</label>
+                <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 子工作项</label>
+                <label class="ckrow" style="margin:0"><input type="checkbox" class="ck"> 关注者</label>
+                <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 父版本</label>
               </div>
+              <div style="font-size:13px;font-weight:600;color:var(--g800);margin:18px 0 8px">克隆后动作</div>
+              <div id="cloneActs"></div>
+              <button class="btn btn-text btn-xs" id="cloneActAdd" style="margin-top:6px">+ 添加动作</button>
+              <div style="font-size:13px;font-weight:600;color:var(--g800);margin:18px 0 8px">状态属性联动</div>
+              <label class="ckrow" style="margin:0 0 5px"><input type="checkbox" class="ck" checked> 副本按目标项目工作流落在初始状态</label>
+              <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 源单与副本关键属性保持联动</label>
+              <div style="font-size:13px;font-weight:600;color:var(--g800);margin:18px 0 8px">主单 / 重复单规则</div>
+              <label class="ckrow" style="margin:0 0 5px"><input type="checkbox" class="ck" checked> 重复单不能当作主单（重复单不能再 Clone）</label>
+              <label class="ckrow" style="margin:0 0 5px"><input type="checkbox" class="ck" checked> 重复单全部关闭后，才能关闭主单</label>
+              <label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 主单关闭时校验是否还有未关闭的重复单</label>
             </div>
           </div>
         </div>
@@ -843,11 +847,11 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
           <div class="card" style="margin-top:4px">
             <div class="card-h"><span class="bar"></span><span class="t">SLA 推送规则</span><span class="r"><button class="btn btn-primary btn-sm" id="feishuNew">+ 新建规则</button></span></div>
             <div class="card-c" style="padding:0"><table class="tbl">
-              <thead><tr><th style="width:200px">规则名称</th><th style="width:140px">监控状态</th><th style="width:130px">停留时长</th><th>通知对象</th><th style="width:90px">状态</th></tr></thead>
+              <thead><tr><th style="width:180px">规则名称</th><th style="width:110px">工作项类型</th><th style="width:120px">监控状态</th><th style="width:110px">停留时长</th><th>通知对象</th><th style="width:90px">状态</th></tr></thead>
               <tbody>
-                <tr><td><b>审核停留超时提醒</b></td><td>审核中</td><td>&gt; 24 小时</td><td>子系统负责人</td><td><span class="tag tag-pill tag-sm tag-green">启用</span></td></tr>
-                <tr><td><b>待验证停留超时</b></td><td>待验证</td><td>&gt; 48 小时</td><td>验证责任人</td><td><span class="tag tag-pill tag-sm tag-green">启用</span></td></tr>
-                <tr><td><b>定位中停留超时</b></td><td>定位中</td><td>&gt; 72 小时</td><td>问题修改责任人</td><td><span class="tag tag-pill tag-sm tag-grey">停用</span></td></tr>
+                <tr><td><b>审核停留超时提醒</b></td><td>缺陷</td><td>审核中</td><td>&gt; 24 小时</td><td>子系统负责人</td><td><span class="tag tag-pill tag-sm tag-green">启用</span></td></tr>
+                <tr><td><b>待验证停留超时</b></td><td>缺陷</td><td>待验证</td><td>&gt; 48 小时</td><td>验证责任人</td><td><span class="tag tag-pill tag-sm tag-green">启用</span></td></tr>
+                <tr><td><b>定位中停留超时</b></td><td>缺陷</td><td>定位中</td><td>&gt; 72 小时</td><td>问题修改责任人</td><td><span class="tag tag-pill tag-sm tag-grey">停用</span></td></tr>
               </tbody>
             </table></div>
           </div>
@@ -981,6 +985,7 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
 <div class="toast" id="toast"><span id="toastTx"></span></div>
 <div class="mask" id="mapMask"></div>
 <div class="mask" id="dyMask"></div>
+<div class="mask" id="cloneMask"></div>
 
 <script>
 /* ==========================================================================
@@ -1420,22 +1425,22 @@ var PAGE_META = {
   milestone:{ nav:'milestone', last:'里程碑' }, modules:{ nav:'modules', last:'更多' },
   setting:{ nav:'', last:'应用' }, glbcfg:{ nav:'', last:'解决问题规则' },
   workflow:{ nav:'workflow', last:'工作项配置 · 状态流转' }
-  , clone:{ nav:'', last:'Ping Clone' }, feishu:{ nav:'', last:'飞书推送' }
+  , clone:{ nav:'', last:'克隆规则' }, feishu:{ nav:'', last:'SLA 推送规则' }
 };
 function go(page){
   var prev = CUR_PAGE; CUR_PAGE = page;
   var m = PAGE_META[page] || PAGE_META.delivery;
   document.querySelectorAll('.page').forEach(function(p){ p.classList.toggle('on', p.id === 'page-' + page); });
   document.body.classList.toggle('in-setting', page === 'setting' || page === 'glbcfg');
-  document.body.classList.toggle('in-app', page === 'pingrunner' || page === 'glbcfg' || page === 'projects');
+  document.body.classList.toggle('in-app', page === 'pingrunner' || page === 'glbcfg' || page === 'projects' || page === 'clone' || page === 'feishu');
   document.body.classList.toggle('in-workflow', page === 'workflow');
   document.querySelectorAll('#pnav a').forEach(function(a){ a.classList.toggle('on', a.getAttribute('data-page') === m.nav); });
-  var app = (page === 'pingrunner' || page === 'glbcfg' || page === 'projects');
+  var app = (page === 'pingrunner' || page === 'glbcfg' || page === 'projects' || page === 'clone' || page === 'feishu');
   var mid = page === 'setting' ? '<span class="lnk" data-go="delivery">交付物</span><span>/</span><span>项目设置</span><span>/</span>'
-    : ((page === 'glbcfg' || page === 'pingrunner' || page === 'projects') ? '<span>/</span>'
+    : ((page === 'glbcfg' || page === 'pingrunner' || page === 'projects' || page === 'clone' || page === 'feishu') ? '<span>/</span>'
     : (page === 'workflow' ? '<span class="lnk" data-go="setting">项目设置</span><span>/</span>' : ''));
   el('crumb').innerHTML = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 3.4l4 4.6-4 4.6" stroke="#999" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-    + (app ? '<b>' + (page === 'pingrunner' ? 'Ping Runner' : page === 'glbcfg' ? 'Ping Runner' : '项目管理') + '</b>'
+    + (app ? '<b>' + (page === 'pingrunner' ? 'Ping Runner' : page === 'glbcfg' ? 'Ping Runner' : page === 'clone' ? 'Ping Clone' : page === 'feishu' ? '飞书推送' : '项目管理') + '</b>'
             : '<b>' + CUR_PROJ + '</b><span>/</span>')
     + mid + '<span>' + m.last + '</span>';
   /* 离开工作项配置：把内嵌页复位到初始态，避免下次进入时残留抽屉 / 停在其他页签 */
@@ -1454,6 +1459,7 @@ function go(page){
   if(page === 'setting') renderSetting();
   if(page === 'pingrunner') renderPingRunner();
   if(page === 'glbcfg') renderGlobalCfg();
+  if(page === 'clone') renderCloneActs();
   if(page !== prev && !HIST_LOCK){ try{ history.pushState({ p: page }, '', '#' + page); }catch(err){} }
 }
 function wfReset(){
@@ -1729,6 +1735,55 @@ function prTitle(m){
 }
 
 var CUR_PROJ = '玄戒芯片研发项目';
+/* Ping Clone：克隆规则配置（可增删的克隆后动作） */
+var CLONE_ACTS = [{t:'指派',v:'审核修改责任人'},{t:'通知',v:'站内信'}];
+var CLONE_ACT_TYPES = ['指派','通知','加标签','创建关联','调用开放 API'];
+function renderCloneActs(){
+  var box = el('cloneActs'); if(!box) return;
+  box.innerHTML = CLONE_ACTS.map(function(a,i){
+    return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+      + '<select class="form-control" style="width:130px;flex:none" data-cai="'+i+'" data-caf="t">'+CLONE_ACT_TYPES.map(function(x){return '<option'+(x===a.t?' selected':'')+'>'+x+'</option>';}).join('')+'</select>'
+      + '<input class="form-control" style="flex:1" value="'+esc(a.v)+'" data-cai="'+i+'" data-caf="v">'
+      + '<button class="btn btn-danger btn-xs" data-cadel="'+i+'">×</button></div>';
+  }).join('');
+  box.onchange = function(e){
+    var t = e.target.closest('[data-cai]'); if(!t) return;
+    CLONE_ACTS[+t.getAttribute('data-cai')][t.getAttribute('data-caf')] = t.value;
+  };
+  box.onclick = function(e){
+    var d = e.target.closest('[data-cadel]'); if(!d) return;
+    CLONE_ACTS.splice(+d.getAttribute('data-cadel'),1); renderCloneActs();
+  };
+}
+function openCloneModal(kind){
+  var isSingle = kind === 'single';
+  var h = '<div class="modal">'
+    + '<div class="modal-h"><span>' + (isSingle ? '单实例 Clone' : '跨实例 Clone') + '</span><button class="modal-x" id="cloneMaskClose">×</button></div>'
+    + '<div class="modal-b">'
+    + (isSingle
+      ? '<div style="font-size:12.5px;color:var(--g600);margin-bottom:6px">目标项目</div><select class="form-control"><option>玄戒芯片项目</option><option>澎湃 OS 项目</option><option>车机平台项目</option></select>'
+        + '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">问题类型</div><select class="form-control"><option>缺陷（保持）</option><option>任务</option><option>需求</option></select>'
+        + '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">复制内容</div>'
+        + '<div style="display:flex;flex-wrap:wrap;gap:6px 16px"><label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 附件</label><label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 评论</label><label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 关联</label><label class="ckrow" style="margin:0"><input type="checkbox" class="ck" checked> 子工作项</label><label class="ckrow" style="margin:0"><input type="checkbox" class="ck"> 关注者</label></div>'
+      : '<div style="font-size:12.5px;color:var(--g600);margin-bottom:6px">目标实例</div><select class="form-control"><option>小米集团 Jira</option><option>小米汽车 Jira</option></select>'
+        + '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">目标项目</div><select class="form-control"><option>集团芯片平台项目</option><option>集团车机项目</option></select>'
+        + '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">字段映射</div><div style="font-size:12.5px;color:var(--g700);background:var(--g80);border-radius:4px;padding:8px 12px;line-height:1.8">严重程度 → 严重级别　复现概率 → 复现概率　子系统 → 所属领域</div>'
+        + '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">审批</div><div style="font-size:12.5px;color:var(--g700)">提交后由对方「子系统负责人」审核，通过后才在目标实例创建副本。</div>')
+    + '</div>'
+    + '<div class="modal-f"><button class="btn btn-default btn-sm" id="cloneModalCancel">取消</button><button class="btn btn-primary btn-sm" id="cloneModalOk">' + (isSingle ? '确定克隆' : '提交审核') + '</button></div>'
+    + '</div>';
+  el('cloneMask').innerHTML = h;
+  el('cloneMask').classList.add('on');
+  el('cloneMaskClose').addEventListener('click', closeCloneModal);
+  el('cloneModalCancel').addEventListener('click', closeCloneModal);
+  el('cloneModalOk').addEventListener('click', function(){ closeCloneModal(); toast(isSingle ? '克隆请求已提交' : '已提交审核，等待对方审批', 'info'); });
+}
+function closeCloneModal(){ el('cloneMask').classList.remove('on'); el('cloneMask').innerHTML = ''; }
+function bindClone(){
+  var add = el('cloneActAdd'); if(add) add.addEventListener('click', function(){ CLONE_ACTS.push({t:'通知',v:'站内信'}); renderCloneActs(); });
+  var nr = el('cloneRuleAdd'); if(nr) nr.addEventListener('click', function(){ toast('演示原型未展开「新增规则」', 'info'); });
+}
+
 /* 动态字段：公式计算字段（优先级 / 风险等级 / 处理时限） */
 var DY_FIELDS = ['严重程度','复现概率','概率','操作','场景','可恢复性','影响','优先级','处理时限'];
 function prDynamic(){
@@ -2396,8 +2451,8 @@ document.addEventListener('click', function(e){ if(!e.target.closest('#wimMenu')
 var _wmm=el('wimMenu'); if(_wmm) _wmm.addEventListener('click', function(e){
   var it=e.target.closest('.wim-menu-item'); if(!it) return;
   el('wimMenu').classList.remove('on');
-  if(it.getAttribute('data-clone')==='single'){ go('clone'); toast('单实例 Clone：对标 Jira Clone Plus', 'info'); return; }
-  if(it.getAttribute('data-clone')==='cross'){ go('clone'); toast('跨实例 Clone：专线网络 + 对方审核', 'info'); return; }
+  if(it.getAttribute('data-clone')==='single'){ openCloneModal('single'); return; }
+  if(it.getAttribute('data-clone')==='cross'){ openCloneModal('cross'); return; }
   toast('演示原型未展开「' + it.getAttribute('data-wm') + '」', 'info');
 });
 el('wimClose').addEventListener('click', closeItem);
@@ -2434,6 +2489,7 @@ el('railFold').addEventListener('click', function(){
 });
 el('railPR').addEventListener('click', function(){ PR_CUR = 'overview'; go('pingrunner'); });
 el('railClone').addEventListener('click', function(){ go('clone'); });
+bindClone();
 el('railFeishu').addEventListener('click', function(){ go('feishu'); });
 document.addEventListener('click', function(e){
   var a = e.target.closest('[data-projmap]');
