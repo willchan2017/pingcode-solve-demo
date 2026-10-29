@@ -593,6 +593,17 @@ var FLOWS = [
 var FIELDS = ['缺陷类型','严重程度','复现概率','子系统 / 领域','模块','风险等级','解决结果','处理记录','验证记录','驳回次数','GerritID','关联重复单','影响版本','修复版本','问题修改责任人','审核修改责任人','验证责任人','优先级','迭代','子工作项'];
 var OPS = ['eq','ne','in','contains','empty','notempty','gt','lt'];
 var OP_TXT = { eq:'等于', ne:'不等于', in:'属于', contains:'包含', empty:'为空', notempty:'不为空', gt:'大于', lt:'小于' };
+/* 枚举字段的候选值：条件里选到这些字段时，「值」直接给下拉，避免手输 */
+var FIELD_VALS = {
+  '缺陷类型':['功能缺陷','性能缺陷','稳定性缺陷','功耗缺陷','文档缺陷','工艺缺陷','不修复（需CCB）','被克隆'],
+  '严重程度':['致命','严重','一般','轻微'],
+  '复现概率':['必现','高','中','低'],
+  '风险等级':['致命','严重','一般','提示'],
+  '解决结果':['已修复','不修复','不修复（需CCB）','重复单','外部原因','无法复现'],
+  '子系统 / 领域':['DDR 控制器','SoC 平台','NPU','ISP 影像','PMIC 电源','显示与触控'],
+  '模块':['DDR 控制器核','SoC 总线互联','NPU 张量计算核','ISP 影像通路','PMIC 充电通路'],
+  '优先级':['P0','P1','P2','P3']
+};
 /* ---- 条件 / 校验的类型表：内置 + 来自 Ping Runner（对标 Jira 插件注册机制） ----
    src:'in' 内置；src:'pr' 由 Ping Runner 提供，界面上带底色小字后缀 */
 var COND_KINDS = {
@@ -1143,6 +1154,15 @@ function newAct(k){
 function srcChip(src){ return src === 'pr' ? '<span class="src-chip">Ping Runner</span>' : ''; }
 function condRowHTML(it, path, scope){
   scope = scope || 'cond';
+  function valCtl(x){
+    var vs = FIELD_VALS[x.f];
+    if(vs && vs.length){
+      return '<select class="form-control" data-ik="v">' + vs.map(function(v){
+        return '<option' + (v === x.v ? ' selected' : '') + '>' + esc(v) + '</option>';
+      }).join('') + '</select>';
+    }
+    return '<input class="form-control" data-ik="v" value="' + esc(x.v || '') + '" placeholder="值">';
+  }
   var kind = COND_KINDS[it.kind] ? it.kind : 'field';
   var kd = COND_KINDS[kind], isPr = kd.src === 'pr';
   var xBtn = '<button class="btn btn-danger btn-xs" data-idx="' + path + '">×</button>';
@@ -1165,7 +1185,7 @@ function condRowHTML(it, path, scope){
   } else if(kind === 'field'){
     h += '<select class="form-control" data-ik="f">' + FIELDS.map(function(x){ return '<option' + (x===it.f?' selected':'') + '>' + esc(x) + '</option>'; }).join('') + '</select>'
       +  '<select class="form-control" data-ik="op">' + OPS.map(function(o){ return '<option value="' + o + '"' + (o===it.op?' selected':'') + '>' + OP_TXT[o] + '</option>'; }).join('') + '</select>'
-      +  (['empty','notempty'].indexOf(it.op) < 0 ? '<input class="form-control" data-ik="v" value="' + esc(it.v || '') + '" placeholder="值">' : '<span class="cond-na">无需填写</span>')
+      +  (['empty','notempty'].indexOf(it.op) < 0 ? valCtl(it) : '<span class="cond-na">无需填写</span>')
       +  xBtn;
   } else if(kind === 'pscript' || kind === 'pvalid'){
     var list = (kind === 'pscript') ? PR_SCRIPTS.cond : PR_SCRIPTS.valid;
@@ -1361,17 +1381,17 @@ function bind(){
     g.fields.push({ key:k, ctl:'text', bind:true, req:true, ph:'', def:'' });
     draw();
   });
-  qsa('[data-fi]').forEach(function(row){
-    var gi = +row.getAttribute('data-fi'), fi = +row.getAttribute('data-fj');
+  qsa('[data-fj]').forEach(function(row){
+    var gi = +row.getAttribute('data-gi'), fi = +row.getAttribute('data-fj');
     qsa('[data-fx]', row).forEach(function(i){
       i.addEventListener('change', function(){ fieldOf(f, gi, fi)[i.getAttribute('data-fx')] = i.type === 'checkbox' ? i.checked : i.value; });
     });
   });
   qsa('[data-fm]').forEach(function(sel){
     sel.addEventListener('change', function(){
-      var row = sel.closest('[data-fi]');
+      var row = sel.closest('[data-fj]');
       if(!row) return;
-      var gi = +row.getAttribute('data-fi'), fi = +row.getAttribute('data-fj');
+      var gi = +row.getAttribute('data-gi'), fi = +row.getAttribute('data-fj');
       var x = fieldOf(f, gi, fi), k = sel.getAttribute('data-fm'), v = sel.value;
       if(k === 'req'){
         x.req = v;
@@ -1466,7 +1486,13 @@ function bind(){
     qsa('[data-p]', box).forEach(function(row){
       var p = row.getAttribute('data-p');
       qsa('[data-ik]', row).forEach(function(i){
-        i.addEventListener('change', function(){ node(p)[i.getAttribute('data-ik')] = i.value; draw(); });
+        i.addEventListener('change', function(){
+          var it = node(p), k = i.getAttribute('data-ik');
+          it[k] = i.value;
+          /* 换字段后，原值不在新字段的候选里就取第一个候选，避免留下矛盾的条件 */
+          if(k === 'f' && FIELD_VALS[it.f] && FIELD_VALS[it.f].indexOf(it.v) < 0) it.v = FIELD_VALS[it.f][0];
+          draw();
+        });
       });
     });
   });
