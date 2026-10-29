@@ -453,6 +453,14 @@ body:not(.anno-on) .dlg-back .path{display:none}
 .toast.show{opacity:1;transform:translateX(-50%)}
 .toast.err{border-left-color:var(--danger)}
 .toast.info{border-left-color:var(--primary)}
+.wim-tools{position:relative}
+.wim-menu{position:absolute;top:36px;right:0;min-width:200px;background:#fff;border:1px solid var(--g200);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.16);padding:5px;display:none;z-index:300;text-align:left}
+.wim-menu.on{display:block}
+.wim-menu-item{padding:8px 12px;font-size:13px;color:var(--g800);border-radius:4px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.wim-menu-item:hover{background:var(--g80)}
+.wim-menu-item.danger{color:var(--danger)}
+.wim-menu-item .nx-tag{margin-left:auto}
+.wim-menu-sep{height:1px;background:var(--g100);margin:5px 8px}
 .maptabs{display:flex;gap:2px;margin-top:16px;border-bottom:1px solid var(--g200)}
 .maptabs button{border:none;background:none;padding:9px 16px;font-size:13.5px;color:var(--g600);border-bottom:2px solid transparent;display:flex;align-items:center;gap:6px;cursor:pointer}
 .maptabs button.on{color:var(--primary);border-bottom-color:var(--primary);font-weight:500}
@@ -789,7 +797,7 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
               <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
                 <span class="tag tag-sm tag-grey">批量克隆</span><span class="tag tag-sm tag-grey">克隆模板</span><span class="tag tag-sm tag-grey">字段选择</span><span class="tag tag-sm tag-grey">改目标项目/类型</span>
               </div>
-              <button class="btn btn-primary btn-sm" style="margin-top:16px">发起克隆</button>
+              <div style="margin-top:16px;font-size:12.5px;color:var(--g500)">克隆规则在工作项「更多操作 → 单实例 Clone」发起，此处配置克隆时 / 克隆后的联动规则。</div>
             </div>
             <div style="flex:1;border:1px solid var(--g200);border-radius:8px;padding:20px;background:#fff">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
@@ -800,7 +808,7 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
               <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
                 <span class="tag tag-sm tag-grey">专线网络</span><span class="tag tag-sm tag-grey">字段/值/用户映射</span><span class="tag tag-sm tag-grey">审批流</span><span class="tag tag-sm tag-grey">双向同步</span>
               </div>
-              <button class="btn btn-primary btn-sm" style="margin-top:16px">发起克隆</button>
+              <div style="margin-top:16px;font-size:12.5px;color:var(--g500)">克隆规则在工作项「更多操作 → 跨实例 Clone」发起，此处配置跨实例的连接与审批规则。</div>
             </div>
           </div>
 
@@ -893,9 +901,26 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
           <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1.6l1.5 4.2 4.2 1.5-4.2 1.5L8 13l-1.5-4.2L2.3 7.3l4.2-1.5L8 1.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>AI</button>
           <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10.5 2.5l3 3-7.2 7.2-3.6.6.6-3.6 7.2-7.2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>附件</button>
           <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6.6 9.4l2.8-2.8M6 4.4l1.4-1.4a2.6 2.6 0 013.6 3.6L6.4 11a3.6 3.6 0 01-5-5l4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>关联</button>
-          <button class="wtb"><svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><circle cx="3.4" cy="8" r="1.2"/><circle cx="8" cy="8" r="1.2"/><circle cx="12.6" cy="8" r="1.2"/></svg></button>
+          <button class="wtb" id="wimMore" title="更多操作"><svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><circle cx="3.4" cy="8" r="1.2"/><circle cx="8" cy="8" r="1.2"/><circle cx="12.6" cy="8" r="1.2"/></svg></button>
           <span style="color:var(--g300)">|</span>
           <button class="wtb" id="wimClose" title="关闭"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          <div class="wim-menu" id="wimMenu">
+            <div class="wim-menu-item" data-wm="变更父工作项">变更父工作项</div>
+            <div class="wim-menu-item" data-wm="变更工作项类型">变更工作项类型</div>
+            <div class="wim-menu-item" data-wm="登记工时">登记工时</div>
+            <div class="wim-menu-item" data-wm="设置可见范围">设置可见范围</div>
+            <div class="wim-menu-item" data-wm="锁定工作项">锁定工作项</div>
+            <div class="wim-menu-item" data-wm="创建新版本">创建新版本</div>
+            <div class="wim-menu-item" data-wm="属性与视图配置">属性与视图配置</div>
+            <div class="wim-menu-sep"></div>
+            <div class="wim-menu-item" data-clone="single">单实例 Clone<span class="nx-tag">Clone</span></div>
+            <div class="wim-menu-item" data-clone="cross">跨实例 Clone<span class="nx-tag">Clone</span></div>
+            <div class="wim-menu-sep"></div>
+            <div class="wim-menu-item" data-wm="复制">复制</div>
+            <div class="wim-menu-item" data-wm="移动">移动</div>
+            <div class="wim-menu-item" data-wm="归档">归档</div>
+            <div class="wim-menu-item danger" data-wm="删除">删除</div>
+          </div>
         </div>
       </div>
       <div class="wtitle">NPU 张量计算核在 INT8 量化下累加精度偏差超规格</div>
@@ -2365,6 +2390,15 @@ function closeSub(){ clearTimeout(openSolve._t); el('subPage').classList.remove(
 
 ['listRows','itemRows'].forEach(function(id){
   el(id).addEventListener('click', function(e){ if(!e.target.closest('.c-chk')) openItem(); });
+});
+var _wm=el('wimMore'); if(_wm) _wm.addEventListener('click', function(e){ e.stopPropagation(); el('wimMenu').classList.toggle('on'); });
+document.addEventListener('click', function(e){ if(!e.target.closest('#wimMenu') && !e.target.closest('#wimMore')){ var _m=el('wimMenu'); if(_m) _m.classList.remove('on'); } });
+var _wmm=el('wimMenu'); if(_wmm) _wmm.addEventListener('click', function(e){
+  var it=e.target.closest('.wim-menu-item'); if(!it) return;
+  el('wimMenu').classList.remove('on');
+  if(it.getAttribute('data-clone')==='single'){ go('clone'); toast('单实例 Clone：对标 Jira Clone Plus', 'info'); return; }
+  if(it.getAttribute('data-clone')==='cross'){ go('clone'); toast('跨实例 Clone：专线网络 + 对方审核', 'info'); return; }
+  toast('演示原型未展开「' + it.getAttribute('data-wm') + '」', 'info');
 });
 el('wimClose').addEventListener('click', closeItem);
 el('openFromPanel').addEventListener('click', openSolve);
