@@ -955,6 +955,7 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
 </div>
 <div class="toast" id="toast"><span id="toastTx"></span></div>
 <div class="mask" id="mapMask"></div>
+<div class="mask" id="dyMask"></div>
 
 <script>
 /* ==========================================================================
@@ -1560,6 +1561,7 @@ var PR_MODS = [
   { k:'console',  g:'核心能力', n:'脚本控制台', sr:'Script Console', ic:'term', d:'临时执行与调试，可直接读写工作项数据', mx:'仅平台管理员', ok:1 },
   { k:'wf',       g:'核心能力', n:'工作流挂载点', sr:'Conditions / Validators / Post', ic:'fork', d:'脚本先注册为条件 / 校验 / 后置动作，再到各流转里选用', mx:'6 个注册项', ok:1 },
   { k:'behav',    g:'核心能力', n:'动态表单行为', sr:'Behaviours', ic:'form', d:'选了什么，后面跟着自动变 —— 只读 / 可选项 / 预填模板 / 带出责任人 / 模板校验', mx:'6 条行为', ok:1 },
+  { k:'dynamic',  g:'核心能力', n:'动态字段', sr:'Dynamic Fields', ic:'fx', d:'按公式计算字段值 —— 优先级、风险等级、处理时限', mx:'3 个字段', ok:1 },
   { k:'log',      g:'核心能力', n:'执行日志', sr:'Logs', ic:'list', d:'运行记录、失败堆栈与耗时', mx:'今日 1284 次', ok:1 },
 
   { k:'field',    g:'按需开启', n:'脚本字段', sr:'Script Fields', ic:'fx', d:'公式表达不了的才算，其余用原生公式', mx:'4 个字段', ok:1 },
@@ -1629,6 +1631,14 @@ var PR_ROWS = {
       ['AI 大模型项目','—','2 条','—','—','未配置']
     ]
   },
+  dynamic: {
+    h:['字段名称','计算公式','输入字段','被引用','状态',''], w:['110px','','','80px','70px','96px'],
+    r:[
+      ['优先级','严重程度 × 复现概率 → P0 / P1 / P2 / P3','严重程度、复现概率','2 个视图','启用'],
+      ['风险等级','概率 · 操作 · 场景 · 可恢复性 · 影响 → 致命 / 严重 / 一般 / 提示','概率、操作、场景、可恢复性、影响','1 个视图','启用'],
+      ['处理时限','优先级 → SLA 处理时限','优先级','3 个视图','启用']
+    ]
+  },
   behav: {
     h:['行为名称','触发','作用字段','行为','作用于','状态'], w:['182px','112px','124px','','112px','52px'],
     r:[
@@ -1694,6 +1704,53 @@ function prTitle(m){
 }
 
 var CUR_PROJ = '玄戒芯片研发项目';
+/* 动态字段：公式计算字段（优先级 / 风险等级 / 处理时限） */
+var DY_FIELDS = ['严重程度','复现概率','概率','操作','场景','可恢复性','影响','优先级','处理时限'];
+function prDynamic(){
+  var m = PR_MODS.filter(function(x){ return x.k === 'dynamic'; })[0];
+  var dd = PR_ROWS.dynamic;
+  var h = '<div class="pr-wrap">' + prTitle(m)
+    + '<div class="pg-sub" style="margin-bottom:6px">' + m.d + '</div>'
+    + '<div class="pr-lead" style="margin-top:10px">动态字段 = 公式计算字段：选输入字段、配计算逻辑、写回结果。<b>优先级只是其中一个典型场景</b>，风险等级、处理时限同理。</div>'
+    + '<div class="card" style="margin-top:14px;border:1px solid var(--g200);border-radius:4px"><div class="card-h"><span class="bar"></span><span class="t">动态字段</span><span class="r"><button class="btn btn-primary btn-sm" id="dyNew">+ 新建动态字段</button></span></div>'
+    + '<div class="card-c" style="padding:0"><table class="tbl"><thead><tr>'
+    + dd.h.map(function(t,i){ return '<th' + (dd.w[i] ? ' style="width:' + dd.w[i] + '"' : '') + '>' + t + '</th>'; }).join('')
+    + '</tr></thead><tbody>'
+    + dd.r.map(function(r,i){
+        return '<tr><td><b>' + esc(r[0]) + '</b></td><td><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--purple)">' + esc(r[1]) + '</span></td><td style="color:var(--g600)">' + esc(r[2]) + '</td><td>' + esc(r[3]) + '</td><td><span class="tag tag-pill tag-sm tag-green">' + esc(r[4]) + '</span></td><td><button class="btn btn-text btn-xs" data-dycfg="' + i + '">配置公式</button></td></tr>';
+      }).join('')
+    + '</tbody></table></div></div></div>';
+  el('prMain').innerHTML = h;
+  el('dyNew').addEventListener('click', function(){ dyFormulaOpen(''); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-dycfg]'), function(b){
+    b.addEventListener('click', function(){ dyFormulaOpen(PR_ROWS.dynamic.r[+b.getAttribute('data-dycfg')][0]); });
+  });
+}
+function dyFormulaOpen(field){
+  var cur = field || '优先级';
+  var check = ['严重程度','复现概率'];
+  el('dyMask').innerHTML = '<div class="modal">'
+    + '<div class="modal-h"><span>配置公式' + (field ? ' · ' + esc(field) : '') + '</span><button class="modal-x" id="dyMaskClose">×</button></div>'
+    + '<div class="modal-b">'
+    +   '<div style="font-size:12.5px;color:var(--g600);margin-bottom:6px">字段名称</div><input class="form-control" id="dyName" value="' + esc(cur) + '">'
+    +   '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">输入字段（参与计算的字段，可多选）</div>'
+    +   '<div style="display:flex;flex-wrap:wrap;gap:6px">'
+    +     DY_FIELDS.map(function(f){ return '<label class="ckrow" style="margin:0;font-size:12.5px"><input type="checkbox" class="ck"' + (check.indexOf(f) >= 0 ? ' checked' : '') + '> ' + f + '</label>'; }).join('')
+    +   '</div>'
+    +   '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">计算方式</div>'
+    +   '<select class="form-control" id="dyMethod"><option>加权求和</option><option>条件矩阵</option><option>自定义表达式</option></select>'
+    +   '<div style="font-size:12.5px;color:var(--g600);margin:12px 0 6px">输出字段</div>'
+    +   '<select class="form-control" id="dyOut"><option>优先级</option><option>风险等级</option><option>处理时限</option></select>'
+    + '</div>'
+    + '<div class="modal-f"><button class="btn btn-default btn-sm" id="dyCancel">取消</button><button class="btn btn-primary btn-sm" id="dySave">保存公式</button></div>'
+    + '</div>';
+  el('dyMask').classList.add('on');
+  el('dyMaskClose').addEventListener('click', closeDy);
+  el('dyCancel').addEventListener('click', closeDy);
+  el('dySave').addEventListener('click', function(){ var nm = el('dyName').value; closeDy(); toast('公式已保存：' + nm, 'info'); });
+}
+function closeDy(){ el('dyMask').classList.remove('on'); el('dyMask').innerHTML = ''; }
+
 /* 工作流挂载点注册池：对标 Jira 原生 + 脚本扩展的 workflow functions */
 var PR_WF = {
   cond: { t:'条件', sub:'Conditions · 决定流转按钮是否可见', items:[
@@ -1849,6 +1906,7 @@ function prModule(k){
   if(k === 'console'){ prConsole(); return; }
   if(k === 'map'){ prMapOverview(); return; }
   if(k === 'wf'){ prWfRegistry(); return; }
+  if(k === 'dynamic'){ prDynamic(); return; }
   h += prTable(PR_ROWS[k]);
   el('prMain').innerHTML = h + '</div>';
 }
