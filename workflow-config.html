@@ -607,16 +607,17 @@ var FIELD_VALS = {
 /* ---- 条件 / 校验的类型表：内置 + 来自 Ping Runner（对标 Jira 插件注册机制） ----
    src:'in' 内置；src:'pr' 由 Ping Runner 提供，界面上带底色小字后缀 */
 var COND_KINDS = {
-  field:  { n:'工作项字段',   src:'in', d:'按工作项属性值判断' },
-  system: { n:'系统上下文',   src:'in', d:'当前用户 / 时间 / 迭代' },
-  linked: { n:'关联对象',     src:'in', d:'子工作项、关联单状态' },
-  pscript:{ n:'脚本条件',     src:'pr', d:'Groovy 脚本返回 true 才放行' },
-  pjql:   { n:'Scripted PQL 条件', src:'pr', d:'PQL 查到结果才放行' },
-  puattr: { n:'用户属性判断', src:'pr', d:'按当前用户的属性判断' },
-  pvalid: { n:'脚本校验',     src:'pr', d:'脚本返回错误信息即拦截提交' },
-  puniq:  { n:'唯一性校验',   src:'pr', d:'同项目内该字段值不可重复' },
-  ppattern:{ n:'正则校验',    src:'pr', d:'字段值需匹配正则，否则拦截' }
+  field:  { n:'工作项字段',   src:'in', d:'按工作项属性值判断', gate:'check' },
+  system: { n:'系统上下文',   src:'in', d:'当前用户 / 时间 / 迭代', gate:'show' },
+  linked: { n:'关联对象',     src:'in', d:'子工作项、关联单状态', gate:'check' },
+  pscript:{ n:'脚本条件',     src:'pr', d:'Groovy 脚本返回 true 才放行', gate:'check' },
+  pjql:   { n:'Scripted PQL 条件', src:'pr', d:'PQL 查到结果才放行', gate:'check' },
+  puattr: { n:'用户属性判断', src:'pr', d:'按当前用户的属性判断', gate:'show' },
+  pvalid: { n:'脚本校验',     src:'pr', d:'脚本返回错误信息即拦截提交', gate:'check' },
+  puniq:  { n:'唯一性校验',   src:'pr', d:'同项目内该字段值不可重复', gate:'check' },
+  ppattern:{ n:'正则校验',    src:'pr', d:'字段值需匹配正则，否则拦截', gate:'check' }
 };
+/* gate:'show' ＝ 不满足时隐藏流转入口；gate:'check' ＝ 入口照常展示，点击时校验并报错 */
 /* 流转条件 / 字段级条件可用的类型 */
 var COND_ORDER  = ['field','system','linked','pscript','pjql','puattr'];
 /* 流转验证可用的类型 */
@@ -1170,7 +1171,9 @@ function condRowHTML(it, path, scope){
     + '<span class="drag-h" title="按住上下拖动排序"></span>'
     + '<button class="dd-btn" data-dd="kind" data-scope="' + scope + '" data-p="' + path + '" title="' + esc(kd.n + '：' + (kd.d || '')) + '">'
     +   '<span class="dd-tx">' + esc(kd.n) + '</span>' + srcChip(kd.src) + '<span class="dd-cr">▼</span>'
-    + '</button>';
+    + '</button>'
+    /* 流转条件页签：标注该条件的效果 —— 人/状态类隐藏入口，其余点击时校验 */
+    + (scope === 'cond' ? '<span class="tag tag-sm ' + (kd.gate === 'show' ? 'tag-purple' : 'tag-orange') + '" style="flex:none" title="' + (kd.gate === 'show' ? '不满足时流转入口不展示' : '入口照常展示，点击后校验并报错') + '">' + (kd.gate === 'show' ? '隐藏入口' : '点击校验') + '</span>' : '');
 
   if(kind === 'system'){
     h += '<select class="form-control" data-ik="f">' + ['当前用户','当前用户所属角色','当前时间','当前迭代'].map(function(x){ return '<option' + (x===it.f?' selected':'') + '>' + x + '</option>'; }).join('') + '</select>'
@@ -1267,8 +1270,9 @@ function paneCond(f, kind){
   var scope = isCond ? 'cond' : 'valid';
   var h = '<div class="info-bar"><ol>'
     + (isCond
-      ? '<li>不满足时<b>流转入口不展示</b>，用户看不到这个操作 —— 对应 Jira 的 Condition。</li>'
-        + '<li>可用于「只给某类人」或「只在某状态下」开放流转；条件支持<b>且 / 或</b>组合并可嵌套分组。</li>'
+      ? '<li><b>「人」和「状态」类条件控制入口展示</b>：不满足时流转入口不展示，用户看不到这个操作 —— 对应 Jira 的 Condition。</li>'
+        + '<li><b>其他属性、关联对象类条件在点击时校验</b>：入口照常展示，点击后不满足则提示「xx 条件不满足」并拦截，工作项状态不改变。</li>'
+        + '<li>条件支持<b>且 / 或</b>组合并可嵌套分组；每条条件右侧标注其效果（隐藏入口 / 点击校验）。</li>'
       : '<li>不满足时<b>拦截提交</b>并提示，工作项状态不改变 —— 对应 Jira 的 Validator。</li>'
         + '<li>用户能看到并点击该流转，但提交时被校验拦下；条件支持<b>且 / 或</b>组合并可嵌套分组。</li>')
     + '<li>除内置类型外，可直接选用由 <b>Ping Runner</b> 注册的'
@@ -1345,7 +1349,7 @@ function condPanel(gi, fi, kind, x){
     + '<button class="fc-tg" data-fctg="' + k2 + '">' + (open ? '收起' : '展开') + '</button></div>'
     + (open
         ? '<div class="fc-bd">'
-          + '<div data-cg="f:' + gi + '-' + fi + ':' + key + '">' + condGroupHTML(d, [], 0, true) + '</div>'
+          + '<div data-cg="f:' + gi + '-' + fi + ':' + key + '">' + condGroupHTML(d, [], 0, true, 'field') + '</div>'
           + (sum ? '<div class="fc-read">回读　' + sum + '　→ 该字段' + (kind === 'req' ? '必填' : '显示') + '</div>' : '')
           + '</div>'
         : '')
