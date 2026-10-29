@@ -1014,7 +1014,8 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
         <div class="wmeta-i"><div class="wmeta-k">状态</div><span class="tag tag-pill tag-md tag-orange"><span class="dot"></span>问题处理中</span></div>
         <div class="wmeta-i"><div class="wmeta-k">开始时间</div><div style="color:var(--g500)">-</div></div>
         <div class="wmeta-i"><div class="wmeta-k">结束时间</div><div style="color:var(--g500)">-</div></div>
-        <div class="wacts"><button class="btn btn-primary btn-lg" id="openFromPanel">定位&amp;解决问题</button></div>
+        <div class="wacts"><button class="btn btn-primary btn-lg" id="openFromPanel">定位&amp;解决问题</button><button class="btn btn-default btn-lg" id="closeIssue">关闭问题</button></div>
+        <div style="margin-top:8px;font-size:12px;color:var(--g500)">「关闭问题」挂了关联对象条件：入口照常展示，点击时校验；「挂起」按角色条件（仅子系统负责人）对当前用户不展示。</div>
       </div>
       <div class="wtabs"><button class="on">基本信息</button></div>
     </div>
@@ -2722,6 +2723,9 @@ var _wmm=el('wimMenu'); if(_wmm) _wmm.addEventListener('click', function(e){
 });
 el('wimClose').addEventListener('click', closeItem);
 el('openFromPanel').addEventListener('click', openSolve);
+el('closeIssue').addEventListener('click', function(){
+  toast('条件不满足：存在未关闭的重复单（关联对象条件 · 点击校验），「关闭问题」未执行', 'err');
+});
 el('subBack').addEventListener('click', closeSub);
 el('dlgCancel').addEventListener('click', closeSub);
 el('dlgSubmit').addEventListener('click', submitSolve);
