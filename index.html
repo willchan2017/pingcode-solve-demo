@@ -875,13 +875,13 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
           </div>
 
           <div class="card" style="margin-top:16px">
-            <div class="card-h"><span class="bar"></span><span class="t">跨实例 Clone · 项目范围</span><span class="d">按项目配置允许 / 禁止跨实例克隆；禁止的项目不展示发起入口，接口调用返回无权限</span></div>
+            <div class="card-h"><span class="bar"></span><span class="t">跨实例 Clone · 项目范围</span><span class="d">按项目配置允许 / 禁止与发起角色；禁止的项目不展示发起入口，接口调用返回无权限</span></div>
             <div class="card-c" style="padding:0">
               <table class="tbl">
-                <thead><tr><th style="width:170px">项目</th><th style="width:110px">跨实例 Clone</th><th style="width:130px">目标实例</th><th style="width:190px">接收方审核人</th><th>说明</th><th style="width:76px">操作</th></tr></thead>
+                <thead><tr><th style="width:160px">项目</th><th style="width:96px">跨实例 Clone</th><th style="width:150px">可发起角色</th><th style="width:126px">目标实例</th><th style="width:170px">接收方审核人</th><th>说明</th><th style="width:70px">操作</th></tr></thead>
                 <tbody id="xprojRows"></tbody>
               </table>
-              <div class="cfgbar"><span class="f-help" style="margin:0">允许 = 该项目的工作项详情展示「跨实例 Clone」，发起后走对方审批；禁止 = 入口不展示（界面扩展控制），REST / 批量发起返回无权限。</span></div>
+              <div class="cfgbar"><span class="f-help" style="margin:0">允许 = 该项目的「可发起角色」成员在工作项详情看到「跨实例 Clone」，发起后走对方审批；禁止 = 入口不展示（界面扩展控制），REST / 批量发起返回无权限。</span></div>
             </div>
           </div>
         </div>
@@ -1901,13 +1901,14 @@ function bindClone(){
   var bl = el('clBulkLog'); if(bl) bl.addEventListener('click', function(){ PR_CUR = 'log'; go('pingrunner'); });
 }
 
-/* 跨实例 Clone · 项目范围：按项目配置允许 / 禁止 */
+/* 跨实例 Clone · 项目范围：按项目配置允许 / 禁止 + 可发起角色 */
+var XPROJ_ROLES = ['项目管理员','clone 角色','子系统负责人','测试组','全体成员'];
 var XPROJ = [
-  { n:'玄戒芯片研发项目', on:true,  to:'小米集团 Jira',  rev:'集团芯片平台 · SE-Leader', note:'双向连接已建立（专线），源单 ↔ 副本回写 remote link' },
-  { n:'澎湃 OS 项目',     on:true,  to:'小米汽车 Jira',  rev:'汽车软件测试组',           note:'单向发出，克隆后由对方审批落库' },
-  { n:'车机平台项目',     on:true,  to:'小米集团 Jira',  rev:'集团车机平台管理员',       note:'双向' },
-  { n:'AI 大模型项目',    on:false, to:'—',              rev:'—',                        note:'未建立专线连接' },
-  { n:'玄戒 X2 预研项目', on:false, to:'—',              rev:'—',                        note:'保密阶段，禁止对外克隆' }
+  { n:'玄戒芯片研发项目', on:true,  role:'clone 角色', to:'小米集团 Jira',  rev:'集团芯片平台 · SE-Leader', note:'双向连接已建立（专线），源单 ↔ 副本回写 remote link' },
+  { n:'澎湃 OS 项目',     on:true,  role:'测试组',     to:'小米汽车 Jira',  rev:'汽车软件测试组',           note:'单向发出，克隆后由对方审批落库' },
+  { n:'车机平台项目',     on:true,  role:'项目管理员', to:'小米集团 Jira',  rev:'集团车机平台管理员',       note:'双向' },
+  { n:'AI 大模型项目',    on:false, role:'项目管理员', to:'—',              rev:'—',                        note:'未建立专线连接' },
+  { n:'玄戒 X2 预研项目', on:false, role:'项目管理员', to:'—',              rev:'—',                        note:'保密阶段，禁止对外克隆' }
 ];
 function renderXproj(){
   var box = el('xprojRows'); if(!box) return;
@@ -1915,6 +1916,9 @@ function renderXproj(){
     return '<tr>'
       + '<td><b>' + esc(p.n) + '</b></td>'
       + '<td><span class="tag tag-pill tag-sm ' + (p.on ? 'tag-green' : 'tag-red') + '">' + (p.on ? '允许' : '禁止') + '</span></td>'
+      + '<td><select class="form-control" style="width:130px;height:28px" data-xpr="' + i + '"' + (p.on ? '' : ' disabled') + '>'
+      +     XPROJ_ROLES.map(function(r){ return '<option' + (r === p.role ? ' selected' : '') + '>' + r + '</option>'; }).join('')
+      +   '</select></td>'
       + '<td>' + esc(p.to) + '</td>'
       + '<td>' + esc(p.rev) + '</td>'
       + '<td style="color:var(--g600)">' + esc(p.note) + '</td>'
@@ -1926,7 +1930,13 @@ function renderXproj(){
     var p = XPROJ[+b.getAttribute('data-xpt')];
     p.on = !p.on;
     renderXproj();
-    toast(p.n + (p.on ? ' 已允许跨实例 Clone' : ' 已禁止跨实例 Clone，发起入口同步隐藏'), p.on ? undefined : 'info');
+    toast(p.n + (p.on ? ' 已允许跨实例 Clone（可发起角色：' + p.role + '）' : ' 已禁止跨实例 Clone，发起入口同步隐藏'), p.on ? undefined : 'info');
+  };
+  box.onchange = function(e){
+    var s = e.target.closest('[data-xpr]'); if(!s) return;
+    var p = XPROJ[+s.getAttribute('data-xpr')];
+    p.role = s.value;
+    toast(p.n + ' 跨实例 Clone 可发起角色已设为「' + s.value + '」', 'info');
   };
 }
 renderXproj();
