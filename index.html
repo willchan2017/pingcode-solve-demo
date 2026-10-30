@@ -202,10 +202,10 @@ body.in-app .phead{display:none}   /* 全局独立应用不显示项目导航 */
 .linkbtn:hover{background:rgba(102,152,255,.1)}
 
 /* 普通页面块 */
-.pg-head{padding:20px 20px 0}
+.pg-head{padding:20px 20px 0;flex:none}
 .pg-title{font-size:18px;font-weight:600}
 .pg-sub{font-size:12.5px;color:var(--g600);margin-top:6px;line-height:1.8}
-.pg-body{padding:0 20px 32px}
+.pg-body{flex:1;min-height:0;overflow-y:auto;padding:0 20px 32px}
 .chiprow{display:flex;gap:8px;flex-wrap:wrap;padding:16px 20px 0}
 .chip{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:18px;font-size:12.5px;color:var(--tx2);border:1px solid var(--g200);background:#fff;cursor:pointer}
 .chip:hover{border-color:var(--g300)}
