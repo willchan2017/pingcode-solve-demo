@@ -502,6 +502,7 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
       <div class="rail-sep"></div>
       <a href="#" onclick="return false" id="railPR" title="Ping Runner"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.4 6.6L8 3.2 2.6 6.6v6.8L8 16.8l5.4-3.4V6.6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 8.4l5.4-3.4M8 8.4v8.4M8 8.4L2.6 5" stroke="currentColor" stroke-width="1.2"/></svg><span class="lbl">Ping Runner</span></a>
       <a href="#" onclick="return false" id="railClone" title="Ping Clone"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V4.5A1.5 1.5 0 014.5 3H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lbl">Ping Clone</span></a>
+      <a href="#" onclick="return false" id="railXClone" title="Ping Clone++"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="6.5" y="6.5" width="7" height="7" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M4 9.5V3.6A1.1 1.1 0 015.1 2.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M13 1.2v2.6M11.7 2.5h2.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="lbl">Ping Clone++</span></a>
       <a href="#" onclick="return false" id="railFeishu" title="飞书推送"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14.5 1.5L1.5 7.5l5 1.8 2 4.7 1.8-2.7 3.2 2.3 1-11.1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="lbl">飞书推送</span></a>
     </div>
     <div class="rail-foot">
@@ -780,32 +781,29 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
         </div>
       </section>
 
-      <!-- ---------- Ping Clone ---------- -->
+      <!-- ---------- Ping Clone（单实例） ---------- -->
       <section class="page" id="page-clone">
-        <div class="pg-head"><div class="pg-title">Ping Clone</div><div class="pg-sub">克隆能力：单实例 Clone 对标 Jira Clone Plus，跨实例 Clone 走专线网络 + 对方审核。</div></div>
+        <div class="pg-head"><div class="pg-title">Ping Clone</div><div class="pg-sub">单实例克隆：同项目 / 跨项目复制工作项，对标 Jira Clone Plus —— 模板、字段处置、批量执行。</div></div>
         <div class="pg-body">
           <div style="display:flex;gap:16px">
             <div style="flex:1;border:1px solid var(--g200);border-radius:8px;padding:20px;background:#fff">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-                <span style="font-size:17px;font-weight:600;color:var(--g800)">单实例 Clone</span>
+                <span style="font-size:17px;font-weight:600;color:var(--g800)">单实例克隆</span>
                 <span class="tag tag-pill tag-sm tag-blue">对标 Clone Plus</span>
               </div>
-              <div style="font-size:13px;color:var(--g600);line-height:1.7">同项目 / 跨项目复制缺陷，支持批量克隆、克隆模板、选择性复制字段与附件。</div>
+              <div style="font-size:13px;color:var(--g600);line-height:1.7">同一 PingCode 实例内，同项目或跨项目复制缺陷，支持批量克隆、克隆模板、选择性复制字段与附件。</div>
               <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
                 <span class="tag tag-sm tag-grey">批量克隆</span><span class="tag tag-sm tag-grey">克隆模板</span><span class="tag tag-sm tag-grey">字段选择</span><span class="tag tag-sm tag-grey">改目标项目/类型</span>
               </div>
               <div style="margin-top:16px;font-size:12.5px;color:var(--g500)">克隆规则在工作项「更多操作 → 单实例 Clone」发起，此处配置克隆时 / 克隆后的联动规则。</div>
             </div>
-            <div style="flex:1;border:1px solid var(--g200);border-radius:8px;padding:20px;background:#fff">
+            <div style="width:340px;border:1px dashed var(--g300);border-radius:8px;padding:20px;background:var(--g80)">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-                <span style="font-size:17px;font-weight:600;color:var(--g800)">跨实例 Clone</span>
-                <span class="tag tag-pill tag-sm tag-orange">专线 · 双方审核</span>
+                <span style="font-size:15px;font-weight:600;color:var(--g800)">跨实例克隆</span>
+                <span class="tag tag-pill tag-sm tag-orange">Ping Clone++</span>
               </div>
-              <div style="font-size:13px;color:var(--g600);line-height:1.7">小米汽车 ↔ 集团双向克隆，走专线网络，对方审核通过后才落库，字段 / 值 / 用户逐层映射。</div>
-              <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
-                <span class="tag tag-sm tag-grey">专线网络</span><span class="tag tag-sm tag-grey">字段/值/用户映射</span><span class="tag tag-sm tag-grey">审批流</span><span class="tag tag-sm tag-grey">双向同步</span>
-              </div>
-              <div style="margin-top:16px;font-size:12.5px;color:var(--g500)">克隆规则在工作项「更多操作 → 跨实例 Clone」发起，此处配置跨实例的连接与审批规则。</div>
+              <div style="font-size:12.5px;color:var(--g600);line-height:1.8">跨实例场景（专线连接、三层映射、双方审核、双向回写）已独立为 <b>Ping Clone++</b>，在左侧导航进入。</div>
+              <button class="btn btn-default btn-sm" id="goXclone" style="margin-top:12px">进入 Ping Clone++ ›</button>
             </div>
           </div>
 
@@ -868,20 +866,203 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
                   <div style="font-size:13px;font-weight:600;color:var(--g800);margin-bottom:8px">批量克隆</div>
                   <div style="font-size:12.5px;color:var(--g600);line-height:2">按 <b>PQL</b> 筛选后一次执行，<b>最多 1000 条</b>，可跨多项目；克隆前支持统一编辑字段值，执行结果逐条回写日志。</div>
                   <div style="margin-top:10px;padding:10px 12px;background:var(--g80);border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--g700);line-height:1.8">project = XJ AND status = 已验证<br>AND updated &gt; startOfMonth("-1M")</div>
-                  <div style="margin-top:10px;display:flex;gap:6px"><button class="btn btn-default btn-sm" id="clBulkRun">批量执行</button><button class="btn btn-default btn-sm" id="clBulkLog">查看执行日志</button></div>
+                  <div style="margin-top:10px;display:flex;gap:6px"><button class="btn btn-default btn-sm" id="clBulkRun">批量执行</button><button class="btn btn-default btn-sm" id="clBulkLog">查看运行日志</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- Ping Clone++（跨实例） ---------- -->
+      <section class="page" id="page-xclone">
+        <div class="pg-head"><div class="pg-title">Ping Clone++</div><div class="pg-sub">跨实例克隆：专线连接 · 字段 / 值 / 用户三层映射 · 双方审核 · 副本回写，按项目与角色控制谁能发起。</div></div>
+        <div class="pg-body">
+
+          <div class="card" style="margin-top:4px">
+            <div class="card-h"><span class="bar"></span><span class="t">克隆链路</span><span class="d">一次跨实例克隆要过的六道关</span></div>
+            <div class="card-c">
+              <div style="display:flex;align-items:stretch;gap:0;flex-wrap:wrap">
+                <div style="flex:1;min-width:150px;padding:12px 14px;border:1px solid var(--g200);border-radius:6px;background:#fff">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800)">① 发起</div>
+                  <div style="font-size:12.5px;color:var(--g600);margin-top:4px;line-height:1.7">工作项详情「更多操作 → 跨实例 Clone」，入口由项目范围 + 角色共同决定。</div>
+                </div>
+                <div style="display:flex;align-items:center;padding:0 8px;color:var(--g400)">›</div>
+                <div style="flex:1;min-width:150px;padding:12px 14px;border:1px solid var(--g200);border-radius:6px;background:#fff">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800)">② 三层映射</div>
+                  <div style="font-size:12.5px;color:var(--g600);margin-top:4px;line-height:1.7">字段 → 值（枚举） → 用户，映射缺失则在发起前拦截。</div>
+                </div>
+                <div style="display:flex;align-items:center;padding:0 8px;color:var(--g400)">›</div>
+                <div style="flex:1;min-width:150px;padding:12px 14px;border:1px solid var(--g200);border-radius:6px;background:#fff">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800)">③ 前置校验</div>
+                  <div style="font-size:12.5px;color:var(--g600);margin-top:4px;line-height:1.7">目标实例必填字段、枚举合法性、附件大小、用户映射完整性。</div>
+                </div>
+                <div style="display:flex;align-items:center;padding:0 8px;color:var(--g400)">›</div>
+                <div style="flex:1;min-width:150px;padding:12px 14px;border:1px solid var(--g200);border-radius:6px;background:#fff">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800)">④ 专线传输</div>
+                  <div style="font-size:12.5px;color:var(--g600);margin-top:4px;line-height:1.7">走内网专线，数据不出公网；失败按指数退避重试 3 次。</div>
+                </div>
+                <div style="display:flex;align-items:center;padding:0 8px;color:var(--g400)">›</div>
+                <div style="flex:1;min-width:150px;padding:12px 14px;border:1px solid var(--g200);border-radius:6px;background:#fff">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800)">⑤ 对方审核</div>
+                  <div style="font-size:12.5px;color:var(--g600);margin-top:4px;line-height:1.7">接收方审核人审批通过后才落库；驳回则回写失败原因。</div>
+                </div>
+                <div style="display:flex;align-items:center;padding:0 8px;color:var(--g400)">›</div>
+                <div style="flex:1;min-width:150px;padding:12px 14px;border:1px solid var(--g200);border-radius:6px;background:#fff">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800)">⑥ 回写关联</div>
+                  <div style="font-size:12.5px;color:var(--g600);margin-top:4px;line-height:1.7">副本 ID / 链接写回源单 remote link，双方关键属性按策略联动。</div>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="card" style="margin-top:16px">
-            <div class="card-h"><span class="bar"></span><span class="t">跨实例 Clone · 项目范围</span><span class="d">按项目配置允许 / 禁止与发起角色；禁止的项目不展示发起入口，接口调用返回无权限</span></div>
+            <div class="card-h"><span class="bar"></span><span class="t">实例连接</span><span class="d">跨实例克隆的网络与认证前提；只有已连接的实例才能作为目标</span><span class="r"><button class="btn btn-default btn-sm" id="xconnAdd">+ 新增实例</button></span></div>
             <div class="card-c" style="padding:0">
               <table class="tbl">
-                <thead><tr><th style="width:160px">项目</th><th style="width:96px">跨实例 Clone</th><th style="width:150px">可发起角色</th><th style="width:126px">目标实例</th><th style="width:170px">接收方审核人</th><th>说明</th><th style="width:70px">操作</th></tr></thead>
+                <thead><tr><th style="width:132px">实例名称</th><th style="width:206px">地址</th><th style="width:88px">网络</th><th style="width:118px">认证方式</th><th style="width:104px">方向</th><th style="width:112px">状态</th><th>最近心跳</th><th style="width:126px">操作</th></tr></thead>
+                <tbody id="xconnRows"></tbody>
+              </table>
+              <div class="cfgbar"><span class="f-help" style="margin:0">跨实例只走内网专线；公网实例一律不允许建立连接（数据不出公网为硬性合规要求）。</span></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">项目范围与发起权限</span><span class="d">按项目配置允许 / 禁止、可发起角色与审核流；禁止的项目不展示发起入口，接口调用返回无权限</span></div>
+            <div class="card-c" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th style="width:144px">项目</th><th style="width:92px">跨实例</th><th style="width:158px">可发起角色</th><th style="width:118px">目标实例</th><th style="width:96px">审核流</th><th style="width:172px">接收方审核人</th><th>说明</th><th style="width:106px">操作</th></tr></thead>
                 <tbody id="xprojRows"></tbody>
               </table>
-              <div class="cfgbar"><span class="f-help" style="margin:0">允许 = 该项目的「可发起角色」成员在工作项详情看到「跨实例 Clone」，发起后走对方审批；禁止 = 入口不展示（界面扩展控制），REST / 批量发起返回无权限。</span></div>
+              <div class="cfgbar"><span class="f-help" style="margin:0">允许 = 该项目的「可发起角色」成员在工作项详情看到「跨实例 Clone」；禁止 = 入口不展示（界面扩展控制），REST / 批量发起返回无权限；审核流为「自动落库」时跳过对方审批，仅对白名单项目开放。</span></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">三层映射</span><span class="d">字段 → 值 → 用户；任一层缺失，发起时前置校验直接拦截</span><span class="r"><button class="btn btn-default btn-sm" id="xmapEdit">编辑映射</button></span></div>
+            <div class="card-c" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th style="width:92px">层级</th><th style="width:230px">源（本实例）</th><th style="width:230px">目标（对方实例）</th><th>规则与兜底</th><th style="width:112px">状态</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><span class="tag tag-pill tag-sm tag-blue">字段</span></td>
+                    <td class="c-wrap">严重程度、复现概率、子系统 / 模块、风险等级、GerritID、处理记录</td>
+                    <td class="c-wrap">Severity、ReproRate、Component、RiskLevel、CF_10231、Comment 模板</td>
+                    <td class="c-wrap">未映射字段按「留空 / 置默认 / 拦截」三选一，默认置默认</td>
+                    <td><span class="tag tag-pill tag-sm tag-green">已配置</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="tag tag-pill tag-sm tag-blue">值</span></td>
+                    <td class="c-wrap">P0 / P1 / P2；致命 / 严重 / 一般；高 / 中 / 低</td>
+                    <td class="c-wrap">Blocker / Critical / Major；S1 / S2 / S3；High / Medium / Low</td>
+                    <td class="c-wrap">枚举值逐一映射，未命中的值落到目标默认项并在回执中提示</td>
+                    <td><span class="tag tag-pill tag-sm tag-green">已配置</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="tag tag-pill tag-sm tag-blue">用户</span></td>
+                    <td class="c-wrap">责任人、报告人、关注者、问题修改责任人</td>
+                    <td class="c-wrap">assignee、reporter、watchers、CF_Assignee_Fix</td>
+                    <td class="c-wrap">按企业邮箱匹配；未匹配账号落到该实例默认账号，并在副本备注原责任人</td>
+                    <td><span class="tag tag-pill tag-sm tag-orange">3 人未匹配</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="cfgbar"><span class="f-help" style="margin:0">映射按「目标实例 + 工作项类型」维度维护，修改后对存量副本不回溯，仅影响后续发起。</span></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">审核与回写</span><span class="d">副本落库前谁说了算，落库后两边怎么保持一致</span></div>
+            <div class="card-c">
+              <div style="display:flex;gap:16px;flex-wrap:wrap">
+                <div style="flex:1;min-width:300px">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800);margin-bottom:8px">审核策略</div>
+                  <table class="tbl" style="border:1px solid var(--g200);border-radius:4px">
+                    <thead><tr><th style="width:130px">项</th><th>配置</th></tr></thead>
+                    <tbody>
+                      <tr><td>审批模式</td><td class="c-wrap">对方审核通过后才落库（默认）；白名单项目可设「自动落库」</td></tr>
+                      <tr><td>审核人</td><td class="c-wrap">按目标项目指定接收方审核人，可配置代理人</td></tr>
+                      <tr><td>驳回处理</td><td class="c-wrap">源单记录「跨实例克隆失败」+ 通知发起人，可修改后重新发起</td></tr>
+                      <tr><td>超时</td><td class="c-wrap">48 小时未审批自动挂起并提醒审核人与发起人</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="flex:1;min-width:300px">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800);margin-bottom:8px">回写与冲突</div>
+                  <table class="tbl" style="border:1px solid var(--g200);border-radius:4px">
+                    <thead><tr><th style="width:130px">项</th><th>配置</th></tr></thead>
+                    <tbody>
+                      <tr><td>关联回写</td><td class="c-wrap">副本 ID 与链接回写源单 remote link，源单详情可直达副本</td></tr>
+                      <tr><td>属性联动</td><td class="c-wrap">状态、解决结果、严重程度双向同步；其余字段单向（源 → 副本）</td></tr>
+                      <tr><td>冲突策略</td><td class="c-wrap">可设「以源单为准 / 以副本为准 / 人工确认」，默认人工确认</td></tr>
+                      <tr><td>幂等</td><td class="c-wrap">同一源单 24 小时内重复发起 → 提示已存在副本，不重复创建</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">跨实例克隆规则</span><span class="d">复制什么、哪些不能出去、出了事怎么办</span></div>
+            <div class="card-c">
+              <div style="display:flex;gap:16px;flex-wrap:wrap">
+                <div style="flex:1;min-width:300px">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800);margin-bottom:8px">复制内容与限制</div>
+                  <table class="tbl" style="border:1px solid var(--g200);border-radius:4px">
+                    <thead><tr><th style="width:110px">项</th><th>规则</th></tr></thead>
+                    <tbody>
+                      <tr><td>复制内容</td><td class="c-wrap">字段值、附件、评论、关联、子工作项、处理记录模板（与单实例同源，可按目标类型裁剪）</td></tr>
+                      <tr><td>字段白名单</td><td class="c-wrap">内部备注、成本与人力字段默认不跨实例；如需带出需项目管理员显式放行</td></tr>
+                      <tr><td>脱敏</td><td class="c-wrap">手机号、邮箱按脱敏规则输出；附件名含「机密」关键字则拦截并提示</td></tr>
+                      <tr><td>附件</td><td class="c-wrap">单文件 ≤ 50MB、单次 ≤ 200MB；超限改为内部网盘链接</td></tr>
+                      <tr><td>批量上限</td><td class="c-wrap">跨实例单次 ≤ 200 条（低于单实例 1000 条，受对方审核能力约束）</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="flex:1;min-width:300px">
+                  <div style="font-size:13px;font-weight:600;color:var(--g800);margin-bottom:8px">失败处理与前置校验</div>
+                  <div style="font-size:12.5px;color:var(--g600);line-height:2">
+                    发起前校验（任一不通过即拦截，不产生副本）：<br>
+                    · 目标实例字段必填校验（按目标工作流）<br>
+                    · 枚举值在目标端是否合法<br>
+                    · 用户映射是否完整（未匹配按兜底策略处理）<br>
+                    · 附件大小与白名单校验
+                  </div>
+                  <div style="margin-top:10px;padding:10px 12px;background:var(--g80);border-radius:4px;font-size:12.5px;color:var(--g700);line-height:1.9">
+                    网络类失败：指数退避重试 3 次（1s / 5s / 30s）<br>
+                    业务校验失败：不重试，回写失败原因并通知发起人<br>
+                    序列化冲突：进入「人工确认」队列，由双方管理员处理
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">传输与执行监控</span><span class="d">近期跨实例克隆记录；全量日志在 Ping Runner · 运行日志</span><span class="r"><button class="btn btn-default btn-sm" id="xcloneLog">查看运行日志</button></span></div>
+            <div class="card-c" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th style="width:126px">时间</th><th style="width:210px">源工作项</th><th style="width:140px">目标实例</th><th style="width:130px">副本</th><th style="width:110px">结果</th><th>审核人 / 失败原因</th><th style="width:70px">耗时</th></tr></thead>
+                <tbody>
+                  <tr><td>10-29 14:32</td><td>XJ-2481 NPU 算子精度异常</td><td>小米集团 Jira</td><td>JIRA-88213</td><td><span class="tag tag-pill tag-sm tag-green">已落库</span></td><td>集团芯片平台 · SE-Leader</td><td>1.8s</td></tr>
+                  <tr><td>10-29 11:07</td><td>XJ-2475 DDR ECC 报错</td><td>小米汽车 Jira</td><td>—</td><td><span class="tag tag-pill tag-sm tag-orange">待审核</span></td><td>汽车软件测试组</td><td>—</td></tr>
+                  <tr><td>10-28 18:20</td><td>XJ-2460 ISP 夜景噪点</td><td>小米集团 Jira</td><td>JIRA-88190</td><td><span class="tag tag-pill tag-sm tag-blue">已回写</span></td><td>集团影像组</td><td>2.4s</td></tr>
+                  <tr><td>10-28 09:41</td><td>XJ-2442 PMIC 电压跌落</td><td>集团质量平台</td><td>—</td><td><span class="tag tag-pill tag-sm tag-red">失败</span></td><td>前置校验拦截：风险等级未映射</td><td>0.6s</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:16px">
+            <div class="card-h"><span class="bar"></span><span class="t">安全与合规</span></div>
+            <div class="card-c">
+              <div style="font-size:12.5px;color:var(--g600);line-height:2">
+                · 数据不出公网：仅允许内网专线实例建立连接，公网实例在连接层即被拒绝<br>
+                · 字段白名单 + 脱敏：内部字段默认不外发，敏感信息按规则脱敏后输出<br>
+                · 最小权限：发起权限按「项目 + 角色」两级控制，未授权角色入口不可见且 REST 无权限<br>
+                · 全程留痕：发起、传输、审核、回写每个环节写入运行日志，保留 180 天
+              </div>
             </div>
           </div>
         </div>
@@ -1081,6 +1262,7 @@ body.rail-mini .rail-foot .rail-fold svg{transform:rotate(180deg)}
 <div class="mask" id="cloneMask"></div>
 <div class="mask" id="stdMask"></div>
 <div class="mask" id="scrMask"></div>
+<div class="mask" id="logMask"></div>
 
 <script>
 /* ==========================================================================
@@ -1520,22 +1702,25 @@ var PAGE_META = {
   milestone:{ nav:'milestone', last:'里程碑' }, modules:{ nav:'modules', last:'更多' },
   setting:{ nav:'', last:'应用' }, glbcfg:{ nav:'', last:'解决问题规则' },
   workflow:{ nav:'workflow', last:'工作项配置 · 状态流转' }
-  , clone:{ nav:'', last:'克隆规则' }, feishu:{ nav:'', last:'SLA 推送规则' }
+  , clone:{ nav:'', last:'单实例克隆' }, xclone:{ nav:'', last:'跨实例克隆' }, feishu:{ nav:'', last:'SLA 推送规则' }
 };
+function isAppPage(p){
+  return p === 'pingrunner' || p === 'glbcfg' || p === 'projects' || p === 'clone' || p === 'xclone' || p === 'feishu';
+}
 function go(page){
   var prev = CUR_PAGE; CUR_PAGE = page;
   var m = PAGE_META[page] || PAGE_META.delivery;
   document.querySelectorAll('.page').forEach(function(p){ p.classList.toggle('on', p.id === 'page-' + page); });
   document.body.classList.toggle('in-setting', page === 'setting' || page === 'glbcfg');
-  document.body.classList.toggle('in-app', page === 'pingrunner' || page === 'glbcfg' || page === 'projects' || page === 'clone' || page === 'feishu');
+  document.body.classList.toggle('in-app', isAppPage(page));
   document.body.classList.toggle('in-workflow', page === 'workflow');
   document.querySelectorAll('#pnav a').forEach(function(a){ a.classList.toggle('on', a.getAttribute('data-page') === m.nav); });
-  var app = (page === 'pingrunner' || page === 'glbcfg' || page === 'projects' || page === 'clone' || page === 'feishu');
+  var app = isAppPage(page);
   var mid = page === 'setting' ? '<span class="lnk" data-go="delivery">交付物</span><span>/</span><span>项目设置</span><span>/</span>'
-    : ((page === 'glbcfg' || page === 'pingrunner' || page === 'projects' || page === 'clone' || page === 'feishu') ? '<span>/</span>'
+    : (app ? '<span>/</span>'
     : (page === 'workflow' ? '<span class="lnk" data-go="setting">项目设置</span><span>/</span>' : ''));
   el('crumb').innerHTML = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 3.4l4 4.6-4 4.6" stroke="#999" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-    + (app ? '<b>' + (page === 'pingrunner' ? 'Ping Runner' : page === 'glbcfg' ? 'Ping Runner' : page === 'clone' ? 'Ping Clone' : page === 'feishu' ? '飞书推送' : '项目管理') + '</b>'
+    + (app ? '<b>' + (page === 'pingrunner' ? 'Ping Runner' : page === 'glbcfg' ? 'Ping Runner' : page === 'clone' ? 'Ping Clone' : page === 'xclone' ? 'Ping Clone++' : page === 'feishu' ? '飞书推送' : '项目管理') + '</b>'
             : '<b>' + CUR_PROJ + '</b><span>/</span>')
     + mid + '<span>' + m.last + '</span>';
   /* 离开工作项配置：把内嵌页复位到初始态，避免下次进入时残留抽屉 / 停在其他页签 */
@@ -1555,6 +1740,7 @@ function go(page){
   if(page === 'pingrunner') renderPingRunner();
   if(page === 'glbcfg') renderGlobalCfg();
   if(page === 'clone') renderCloneActs();
+  if(page === 'xclone'){ renderXproj(); renderXConn(); }
   if(page !== prev && !HIST_LOCK){ try{ history.pushState({ p: page }, '', '#' + page); }catch(err){} }
 }
 function wfReset(){
@@ -1689,14 +1875,14 @@ var PR_MODS = [
   { k:'behav',    g:'核心能力', n:'动态表单行为', sr:'Behaviours', ic:'form', d:'选了什么，后面跟着自动变 —— 只读 / 可选项 / 预填模板 / 带出责任人 / 模板校验', mx:'6 条行为', ok:1 },
   { k:'dynamic',  g:'核心能力', n:'动态字段', sr:'Dynamic Fields', ic:'fx', d:'字段值算出来而不是填出来 —— 公式字段配得出来，脚本字段兜底', mx:'7 个字段', ok:1 },
   { k:'uifrag',   g:'核心能力', n:'界面扩展', sr:'UI Fragments', ic:'layout', d:'在原生页面注入按钮 / 菜单 —— 管理员一键操作的入口，不必开控制台跑脚本', mx:'3 个扩展项', ok:1 },
-  { k:'log',      g:'核心能力', n:'执行日志', sr:'Logs', ic:'list', d:'运行记录、失败堆栈与耗时', mx:'今日 1284 次', ok:1 },
+  { k:'log',      g:'核心能力', n:'运行日志', sr:'Run Logs · Performance', ic:'list', d:'执行记录、耗时与性能、失败异常、触发来源、采集与留存，统一一处排查', mx:'今日 1,284 次', ok:1 },
 
   { k:'jql',      g:'按需开启', n:'PQL 函数', sr:'Scripted PQL Functions', ic:'search', d:'扩展查询语法，如 overdueBy("3d")', mx:'4 个函数' }
 ];
 
 /* 规划中模块的设计要点 */
 var PR_PLAN = {
-  job: ['按 cron 表达式调度，支持时区设定与手动触发一次','上下文注入 project 与查询 API，可按 PQL 捞取后批量更新','失败重试与运行历史，异常统一写入执行日志'],
+  job: ['按 cron 表达式调度，支持时区设定与手动触发一次','上下文注入 project 与查询 API，可按 PQL 捞取后批量更新','失败重试与运行历史，异常统一写入运行日志'],
   behav: ['按「触发条件 → 作用字段 → 行为」三要素配置，可叠加多条','行为包括：必填、只读、隐藏、可选项过滤、默认值','作用于工作项创建、编辑与流转弹窗三处'],
   jql: ['注册函数名与参数签名，函数体返回 PQL 片段','可引用当前用户、所属角色、项目上下文','在筛选器、看板、报表中通用，与内置函数同权'],
   rest: ['路径 + 方法 + 脚本三段式定义，返回 JSON','鉴权沿用 API Token，可限定项目作用域与调用频率','适合对外暴露统计口径、或给外部系统做批处理入口'],
@@ -1706,8 +1892,8 @@ var PR_PLAN = {
 /* 界面扩展（UI Fragments）：第七个模块 —— 管理员的一键操作入口 */
 var STD_CREATE_ON = true;                 /* 项目级开关：是否允许新建「标准单」 */
 var PR_UIFRAG = [
-  { n:'关闭标准单创建', pos:'项目设置 · 概览', role:'项目管理员', script:'setStandardDisabled', proj:'玄戒芯片研发项目', act:'点击后置项目级开关 = 关闭，并写入执行日志', rev:'恢复标准单创建' },
-  { n:'恢复标准单创建', pos:'项目设置 · 概览', role:'项目管理员', script:'setStandardEnabled',  proj:'玄戒芯片研发项目', act:'点击后置项目级开关 = 开启，并写入执行日志', rev:'关闭标准单创建' },
+  { n:'关闭标准单创建', pos:'项目设置 · 概览', role:'项目管理员', script:'setStandardDisabled', proj:'玄戒芯片研发项目', act:'点击后置项目级开关 = 关闭，并写入运行日志', rev:'恢复标准单创建' },
+  { n:'恢复标准单创建', pos:'项目设置 · 概览', role:'项目管理员', script:'setStandardEnabled',  proj:'玄戒芯片研发项目', act:'点击后置项目级开关 = 开启，并写入运行日志', rev:'关闭标准单创建' },
   { n:'克隆到手机部',   pos:'工作项详情 · 更多操作', role:'管理员 / clone 角色', script:'cloneToMobileDept', proj:'全部项目', act:'带出目标项目、目标模块后发起克隆', rev:'' }
 ];
 var PR_UIFRAG_ROWS = { h:['扩展名称','注入位置','可见角色','调用脚本','生效项目','状态'],
@@ -1901,14 +2087,15 @@ function bindClone(){
   var bl = el('clBulkLog'); if(bl) bl.addEventListener('click', function(){ PR_CUR = 'log'; go('pingrunner'); });
 }
 
-/* 跨实例 Clone · 项目范围：按项目配置允许 / 禁止 + 可发起角色 */
+/* 跨实例 Clone · 项目范围：按项目配置允许 / 禁止 + 可发起角色 + 审核流 */
 var XPROJ_ROLES = ['项目管理员','clone 角色','子系统负责人','测试组','全体成员'];
+var XFLOWS = ['对方审核','自动落库','双方审核'];
 var XPROJ = [
-  { n:'玄戒芯片研发项目', on:true,  role:'clone 角色', to:'小米集团 Jira',  rev:'集团芯片平台 · SE-Leader', note:'双向连接已建立（专线），源单 ↔ 副本回写 remote link' },
-  { n:'澎湃 OS 项目',     on:true,  role:'测试组',     to:'小米汽车 Jira',  rev:'汽车软件测试组',           note:'单向发出，克隆后由对方审批落库' },
-  { n:'车机平台项目',     on:true,  role:'项目管理员', to:'小米集团 Jira',  rev:'集团车机平台管理员',       note:'双向' },
-  { n:'AI 大模型项目',    on:false, role:'项目管理员', to:'—',              rev:'—',                        note:'未建立专线连接' },
-  { n:'玄戒 X2 预研项目', on:false, role:'项目管理员', to:'—',              rev:'—',                        note:'保密阶段，禁止对外克隆' }
+  { n:'玄戒芯片研发项目', on:true,  role:'clone 角色',     to:'小米集团 Jira', flow:'双方审核', rev:'集团芯片平台 · SE-Leader', note:'双向连接已建立（专线），源单 ↔ 副本回写 remote link' },
+  { n:'澎湃 OS 项目',     on:true,  role:'测试组',         to:'小米汽车 Jira', flow:'对方审核', rev:'汽车软件测试组',           note:'单向发出，克隆后由对方审批落库' },
+  { n:'车机平台项目',     on:true,  role:'项目管理员',     to:'小米集团 Jira', flow:'双方审核', rev:'集团车机平台管理员',       note:'双向，属性联动仅同步状态与解决结果' },
+  { n:'AI 大模型项目',    on:false, role:'项目管理员',     to:'—',              flow:'对方审核', rev:'—',                        note:'未建立专线连接' },
+  { n:'玄戒 X2 预研项目', on:false, role:'项目管理员',     to:'—',              flow:'对方审核', rev:'—',                        note:'保密阶段，禁止对外克隆' }
 ];
 function renderXproj(){
   var box = el('xprojRows'); if(!box) return;
@@ -1920,8 +2107,9 @@ function renderXproj(){
       +     XPROJ_ROLES.map(function(r){ return '<option' + (r === p.role ? ' selected' : '') + '>' + r + '</option>'; }).join('')
       +   '</select></td>'
       + '<td>' + esc(p.to) + '</td>'
-      + '<td>' + esc(p.rev) + '</td>'
-      + '<td style="color:var(--g600)">' + esc(p.note) + '</td>'
+      + '<td class="c-wrap"><span class="tag tag-pill tag-sm ' + (p.flow === '自动落库' ? 'tag-orange' : 'tag-grey') + '">' + esc(p.flow) + '</span></td>'
+      + '<td class="c-wrap">' + esc(p.rev) + '</td>'
+      + '<td class="c-wrap" style="color:var(--g600)">' + esc(p.note) + '</td>'
       + '<td><button class="btn btn-default btn-sm" data-xpt="' + i + '">' + (p.on ? '禁止' : '允许') + '</button></td>'
       + '</tr>';
   }).join('');
@@ -1939,7 +2127,37 @@ function renderXproj(){
     toast(p.n + ' 跨实例 Clone 可发起角色已设为「' + s.value + '」', 'info');
   };
 }
-renderXproj();
+
+/* 跨实例 Clone++ · 实例连接 */
+var XCONN = [
+  { n:'小米集团 Jira',        url:'jira.xiaomi.internal',            net:'专线', auth:'OAuth 应用链接', dir:'双向',     st:'已连接',     hb:'2 分钟前 · 延迟 38ms', ok:true },
+  { n:'小米汽车 Jira',        url:'jira-auto.xiaomi.internal',       net:'专线', auth:'OAuth 应用链接', dir:'单向发出', st:'已连接',     hb:'1 分钟前 · 延迟 52ms', ok:true },
+  { n:'集团质量平台',        url:'qms.xiaomi.internal',             net:'专线', auth:'API Token 授权',  dir:'单向接收', st:'待对方确认', hb:'—',                    ok:false },
+  { n:'外部供应商实例',       url:'—',                              net:'公网', auth:'—',                    dir:'禁止',     st:'未建立',     hb:'—',                    ok:false }
+];
+function renderXConn(){
+  var box = el('xconnRows'); if(!box) return;
+  var stCls = { '已连接':'tag-green', '待对方确认':'tag-orange', '未建立':'tag-grey' };
+  box.innerHTML = XCONN.map(function(c, i){
+    return '<tr>'
+      + '<td><b>' + esc(c.n) + '</b></td>'
+      + '<td class="mono c-wrap" style="font-size:11.5px;color:var(--g700);word-break:break-all">' + esc(c.url) + '</td>'
+      + '<td><span class="tag tag-pill tag-sm ' + (c.net === '公网' ? 'tag-red' : 'tag-grey') + '">' + esc(c.net) + '</span></td>'
+      + '<td class="c-wrap">' + esc(c.auth) + '</td>'
+      + '<td>' + esc(c.dir) + '</td>'
+      + '<td><span class="tag tag-pill tag-sm ' + (stCls[c.st] || 'tag-grey') + '">' + esc(c.st) + '</span></td>'
+      + '<td class="c-wrap" style="color:var(--g600);font-size:12.5px">' + esc(c.hb) + '</td>'
+      + '<td><button class="btn btn-default btn-sm" data-xct="' + i + '">测试连接</button></td>'
+      + '</tr>';
+  }).join('');
+  box.onclick = function(e){
+    var b = e.target.closest('[data-xct]'); if(!b) return;
+    var c = XCONN[+b.getAttribute('data-xct')];
+    if(c.ok) toast(c.n + ' 连接正常，延迟 ' + c.hb.split('延迟 ')[1], undefined);
+    else toast(c.n + ' ' + (c.net === '公网' ? '不允许建立连接：跨实例仅支持内网专线' : '尚未连通，等待对方完成授权'), 'info');
+  };
+}
+renderXproj(); renderXConn();
 
 /* 动态字段：主入口，下面分「公式字段」「脚本字段」两类 */
 var DY_FIELDS = ['严重程度','复现概率','概率','操作','场景','可恢复性','影响','优先级','处理时限'];
@@ -2237,7 +2455,7 @@ function prUiFrag(){
   el('uifragGoSet').addEventListener('click', function(){ go('setting'); renderProjState(); });
   el('uifragPreview').addEventListener('click', stdPreviewOpen);
 }
-/* 项目级开关切换：界面扩展 → 脚本 → 执行日志 */
+/* 项目级开关切换：界面扩展 → 脚本 → 运行日志 */
 function nowHM(){
   var d = new Date(), p = function(n){ return (n < 10 ? '0' : '') + n; };
   return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
@@ -2351,6 +2569,317 @@ function prOverview(){
   el('prMain').innerHTML = h + '</div>';
 }
 
+/* ==========================================================================
+   运行日志（Run Logs · Performance）
+   分类：运行记录 / 耗时分析 / 失败与异常 / 触发来源 / 采集与留存
+   ========================================================================== */
+var LOG_TAB = 'run';
+var LOG_FILTER = { mod:'全部', res:'全部' };
+var LOG_TABS = [['run','运行记录','1,284'],['perf','耗时分析',''],['fail','失败与异常','10'],['src','触发来源',''],['cfg','采集与留存','']];
+
+/* 慢执行聚合（按脚本 / 入口） */
+var LOG_SLOW = {
+  h:['脚本 / 入口','类型','调用次数','平均耗时','P95 耗时','最长耗时','趋势'],
+  w:['','106px','92px','96px','96px','96px','72px'],
+  r:[
+    ['超期缺陷提醒','定时任务','48','1.20 s','1.86 s','2.10 s','↑ 12%'],
+    ['REST /defect/aging','REST 端点','96','210 ms','268 ms','680 ms','↑ 5%'],
+    ['评审结论回写','后置动作','84','57 ms','71 ms','320 ms','↑ 8%'],
+    ['缺陷责任映射','监听器','312','48 ms','62 ms','210 ms','→ 0%'],
+    ['关联需求覆盖率','脚本字段','1.2k','6 ms','9 ms','42 ms','↓ 3%']
+  ]
+};
+/* 按入口的耗时与量级分布 */
+var LOG_DIST = [
+  { k:'定时任务',   n:48,  ms:1200 },
+  { k:'REST 端点',  n:22,  ms:210 },
+  { k:'事件监听器', n:212, ms:48 },
+  { k:'PQL 函数',   n:42,  ms:32 },
+  { k:'界面扩展',   n:16,  ms:18 },
+  { k:'工作流扩展', n:542, ms:12 },
+  { k:'脚本字段',   n:402, ms:6 }
+];
+/* 失败与异常 */
+var LOG_FAIL = {
+  h:['时间','入口','脚本 / 入口','错误类型','错误信息','重试','耗时'],
+  w:['80px','110px','','110px','','112px','72px'],
+  r:[
+    ['10:41:52','工作流扩展','创建前校验 · 标准单','业务校验','该项目已停止新建标准单（TR4 受控阶段）','不重试','9 ms'],
+    ['15:21:03','工作流扩展','关闭前必须已验证','校验未通过','存在 2 条未关闭的重复单','不重试','12 ms'],
+    ['14:05:33','事件监听器','评审结论回写','字段为空','reviewConclusion 为空，跳过回写','重试 1 次后成功','57 ms'],
+    ['11:32:18','定时任务','超期缺陷提醒','网络超时','Webhook 504 Gateway Timeout','重试 3 次后成功','1.2 s'],
+    ['09:14:07','REST 端点','/defect/aging','参数非法','project 缺失，返回 400','不重试','6 ms']
+  ]
+};
+/* 触发来源（次数合计 = 今日 1,284） */
+var LOG_SRC = [
+  { k:'工作流扩展', f:'流转条件 / 校验 / 后置动作', n:542, ms:'12 ms',  fail:'0.4%' },
+  { k:'脚本字段',   f:'视图渲染时计算',             n:402, ms:'6 ms',   fail:'0.2%' },
+  { k:'事件监听器', f:'创建 / 更新 / 流转事件',     n:212, ms:'48 ms',  fail:'0.8%' },
+  { k:'定时任务',   f:'cron 调度',                  n:48,  ms:'1.20 s', fail:'2.1%' },
+  { k:'PQL 函数',   f:'查询时执行',                 n:42,  ms:'32 ms',  fail:'0%'   },
+  { k:'REST 端点',  f:'外部系统调用',               n:22,  ms:'210 ms', fail:'3.1%' },
+  { k:'界面扩展',   f:'按钮 / 菜单点击',            n:16,  ms:'18 ms',  fail:'0%'   }
+];
+/* 今日执行量（08–19 时） */
+var LOG_HOURLY = [38,76,112,146,182,158,142,128,112,92,70,28];
+
+function logKpi(items){
+  return '<div class="pr-kpis" style="margin-top:12px">' + items.map(function(k){
+    return '<div class="pr-kpi">'
+      + '<div class="k-h"><span class="k-ic" style="color:' + k.c + ';background:' + k.bg + '">'
+      + '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + PR_ICO[k.ic] + '</svg></span>'
+      + '<span class="k-l">' + k.l + '</span></div>'
+      + '<div class="k-n" style="color:' + k.c + '">' + k.n + '</div>'
+      + '<div class="k-d">' + k.d + '</div></div>';
+  }).join('') + '</div>';
+}
+
+function prLogs(){
+  var m = PR_MODS.filter(function(x){ return x.k === 'log'; })[0];
+  var h = '<div class="pr-wrap">' + prTitle(m)
+    + '<div class="pg-sub" style="margin-bottom:10px">' + m.d + '</div>'
+    + '<div class="ptabs" style="border-bottom:1px solid var(--g200);margin:0 -0px 0">'
+    + LOG_TABS.map(function(t){
+        return '<button data-logtab="' + t[0] + '"' + (LOG_TAB === t[0] ? ' class="on"' : '') + '>' + t[1]
+          + (t[2] ? '<span style="margin-left:6px;font-size:11px;color:var(--g500)">' + t[2] + '</span>' : '') + '</button>';
+      }).join('')
+    + '<div class="ptabs-r"><button class="btn btn-default btn-sm" id="logExport">导出 CSV</button></div></div>';
+
+  h += (LOG_TAB === 'run'   ? logTabRun()
+      : LOG_TAB === 'perf'  ? logTabPerf()
+      : LOG_TAB === 'fail'  ? logTabFail()
+      : LOG_TAB === 'src'   ? logTabSrc()
+      : logTabCfg());
+  h += '</div>';
+  el('prMain').innerHTML = h;
+
+  /* 页签绑定 */
+  el('prMain').querySelectorAll('[data-logtab]').forEach(function(b){
+    b.addEventListener('click', function(){ LOG_TAB = b.getAttribute('data-logtab'); prLogs(); });
+  });
+  var ex = el('logExport'); if(ex) ex.addEventListener('click', function(){ toast('已按当前筛选条件导出 1,284 条运行记录（CSV）', 'info'); });
+
+  /* 运行记录：筛选 + 行详情 */
+  var fm = el('logModSel'), fr = el('logResSel');
+  if(fm) fm.addEventListener('change', function(){ LOG_FILTER.mod = fm.value; prLogs(); });
+  if(fr) fr.addEventListener('change', function(){ LOG_FILTER.res = fr.value; prLogs(); });
+  el('prMain').querySelectorAll('[data-logrow]').forEach(function(tr){
+    tr.addEventListener('click', function(){ openLogDetail(+tr.getAttribute('data-logrow')); });
+  });
+  if(el('logRetryAll')) el('logRetryAll').addEventListener('click', function(){ toast('已对 2 条待处理失败重新入队', 'info'); });
+  if(el('logStack')) el('logStack').addEventListener('click', function(){ openLogStack(); });
+}
+
+/* ---------- ① 运行记录 ---------- */
+function logTabRun(){
+  var rows = PR_ROWS.log.r.filter(function(r){
+    var okM = LOG_FILTER.mod === '全部' || r[1] === LOG_FILTER.mod;
+    var okR = LOG_FILTER.res === '全部' || r[4] === LOG_FILTER.res;
+    return okM && okR;
+  });
+  var mods = ['全部']; PR_ROWS.log.r.forEach(function(r){ if(mods.indexOf(r[1]) < 0) mods.push(r[1]); });
+  var h = logKpi([
+    { ic:'list', l:'今日执行', n:'1,284', d:'较昨日 +12%，峰值 15:00', c:'#6698ff', bg:'rgba(102,152,255,.12)' },
+    { ic:'term', l:'成功率',   n:'99.2%', d:'失败 10 次，8 次重试成功', c:'#2c9e63', bg:'rgba(115,216,151,.18)' },
+    { ic:'fx',   l:'平均耗时', n:'34 ms', d:'P95 210 ms · 最长 1.2 s',  c:'#fd7e14', bg:'rgba(253,126,20,.12)' },
+    { ic:'grid', l:'超时次数', n:'0',     d:'阈值 5 s · 按入口可调',     c:'#6f42c1', bg:'rgba(111,66,193,.11)' }
+  ]);
+  h += '<div class="cfgbar" style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:none">'
+    + '<span style="font-size:12.5px;color:var(--g600)">筛选</span>'
+    + '<select class="form-control" id="logModSel" style="width:132px;height:30px">' + mods.map(function(x){ return '<option' + (x === LOG_FILTER.mod ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select>'
+    + '<select class="form-control" id="logResSel" style="width:110px;height:30px">' + ['全部','成功','失败','警告'].map(function(x){ return '<option' + (x === LOG_FILTER.res ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select>'
+    + '<span class="f-help" style="margin-left:auto">点任意一行看执行详情（时间 / 日志 / Payload / 耗时）</span></div>';
+  h += '<div class="card" style="margin-top:4px;border:1px solid var(--g200);border-radius:4px;overflow:hidden"><div class="card-c" style="padding:0"><table class="tbl">'
+    + '<thead><tr><th style="width:92px">时间</th><th style="width:120px">入口类型</th><th>脚本 / 入口</th><th style="width:92px">耗时</th><th style="width:86px">结果</th></tr></thead><tbody>'
+    + (rows.length ? rows.map(function(r, i){
+        var idx = PR_ROWS.log.r.indexOf(r);
+        var cls = r[4] === '成功' ? 'tag-green' : (r[4] === '失败' ? 'tag-red' : 'tag-orange');
+        return '<tr data-logrow="' + idx + '"><td class="mono" style="font-size:12px;color:var(--g700)">' + esc(r[0]) + '</td>'
+          + '<td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td>'
+          + '<td class="mono" style="font-size:12px;color:var(--g700)">' + esc(r[3]) + '</td>'
+          + '<td><span class="tag tag-pill tag-sm ' + cls + '">' + esc(r[4]) + '</span></td></tr>';
+      }).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--g500);padding:24px">当前筛选无记录</td></tr>')
+    + '</tbody></table></div></div>';
+  return h;
+}
+
+/* ---------- ② 耗时分析 ---------- */
+function logTabPerf(){
+  var maxMs = 1200;
+  var h = logKpi([
+    { ic:'fx',   l:'平均耗时', n:'34 ms',  d:'按调用次数加权',        c:'#6698ff', bg:'rgba(102,152,255,.12)' },
+    { ic:'term', l:'P50 / P95', n:'18 / 210 ms', d:'P99 680 ms',      c:'#6f42c1', bg:'rgba(111,66,193,.11)' },
+    { ic:'list', l:'最长耗时', n:'2.10 s', d:'超期缺陷提醒（定时任务）', c:'#ff7575', bg:'rgba(255,117,117,.12)' },
+    { ic:'grid', l:'超时阈值', n:'5 s',    d:'超阈值标记失败并告警',   c:'#fd7e14', bg:'rgba(253,126,20,.12)' }
+  ]);
+  h += '<div class="pr-lead" style="margin-top:14px">耗时按两层看：<b>单次执行</b>看具体脚本慢在哪一步，<b>按脚本聚合</b>看是否在变慢 —— 拉长到周、月维度，慢下来通常能对上升级或数据量增长。</div>';
+
+  h += '<div style="font-size:13px;font-weight:600;color:var(--g800);margin:18px 0 8px">慢执行排行</div>'
+    + prTable(LOG_SLOW);
+
+  h += '<div style="font-size:13px;font-weight:600;color:var(--g800);margin:20px 0 8px">按入口的耗时分布</div>'
+    + '<div class="card" style="border:1px solid var(--g200);border-radius:4px"><div class="card-c" style="padding:16px 20px">'
+    + LOG_DIST.map(function(d){
+        var w = Math.max(3, Math.round(d.ms / maxMs * 100));
+        var col = d.ms >= 1000 ? '#ff7575' : d.ms >= 100 ? '#fd7e14' : '#6698ff';
+        return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px">'
+          + '<span style="width:92px;flex:none;font-size:12.5px;color:var(--g700)">' + d.k + '</span>'
+          + '<span style="flex:1;background:var(--g80);border-radius:3px;height:14px;position:relative">'
+          +   '<span style="display:block;width:' + w + '%;height:14px;border-radius:3px;background:' + col + '"></span></span>'
+          + '<span class="mono" style="width:76px;text-align:right;font-size:12px;color:var(--g700)">' + (d.ms >= 1000 ? (d.ms/1000).toFixed(2) + ' s' : d.ms + ' ms') + '</span>'
+          + '<span style="width:66px;text-align:right;font-size:12px;color:var(--g500)">' + d.n + ' 次</span></div>';
+      }).join('')
+    + '</div></div>';
+
+  h += '<div class="note" style="margin-top:14px">采集口径：<b>Elapsed</b> 为脚本墙钟耗时（含等待 I/O）；<b>CPU Time</b> 为执行线程占用的 CPU 时间。两者差距大，通常是等待外部接口或数据库，而不是脚本本身慢。</div>';
+  return h;
+}
+
+/* ---------- ③ 失败与异常 ---------- */
+function logTabFail(){
+  var h = logKpi([
+    { ic:'list', l:'今日失败', n:'10', d:'占执行量 0.8%',            c:'#ff7575', bg:'rgba(255,117,117,.12)' },
+    { ic:'term', l:'重试成功', n:'8',  d:'指数退避 3 次内',          c:'#2c9e63', bg:'rgba(115,216,151,.18)' },
+    { ic:'fx',   l:'待处理',   n:'2',  d:'需人工确认后重新执行',      c:'#fd7e14', bg:'rgba(253,126,20,.12)' },
+    { ic:'grid', l:'影响流转', n:'0',  d:'校验类失败仅拦截，不改数据', c:'#6698ff', bg:'rgba(102,152,255,.12)' }
+  ]);
+  h += '<div style="display:flex;align-items:center;gap:8px;margin:16px 0 8px">'
+    + '<span style="font-size:13px;font-weight:600;color:var(--g800)">失败明细</span>'
+    + '<button class="btn btn-default btn-sm" id="logRetryAll" style="margin-left:auto">批量重新执行</button>'
+    + '<button class="btn btn-default btn-sm" id="logStack">查看堆栈样例</button></div>'
+    + prTable(LOG_FAIL);
+  h += '<div class="pr-lead" style="margin-top:14px">失败分两类处理：<b>业务校验类</b>（配置拦截、字段缺失）不重试，直接回写原因；<b>技术类</b>（网络、超时、锁冲突）按 1s / 5s / 30s 指数退避重试 3 次，仍失败才进入待处理。</div>';
+  return h;
+}
+
+/* ---------- ④ 触发来源 ---------- */
+function logTabSrc(){
+  var total = 0; LOG_SRC.forEach(function(s){ total += s.n; });
+  var maxN = 0; LOG_SRC.forEach(function(s){ if(s.n > maxN) maxN = s.n; });
+  var h = '<div class="pr-lead" style="margin-top:12px">同一份日志要能回答「这条记录是谁触发的」—— 按入口类型分清，排障时才知道该去改流程、改监听器还是改定时任务。</div>';
+  h += '<div class="card" style="margin-top:12px;border:1px solid var(--g200);border-radius:4px;overflow:hidden"><div class="card-c" style="padding:0"><table class="tbl">'
+    + '<thead><tr><th style="width:130px">触发来源</th><th style="width:210px">具体形态</th><th style="width:110px">今日次数</th><th style="width:190px">占比</th><th style="width:104px">平均耗时</th><th style="width:92px">失败率</th></tr></thead><tbody>'
+    + LOG_SRC.map(function(s){
+        var pct = (s.n / total * 100);
+        return '<tr><td><b>' + s.k + '</b></td><td style="color:var(--g600)">' + s.f + '</td>'
+          + '<td class="mono" style="font-size:12px;color:var(--g700)">' + s.n + '</td>'
+          + '<td><span style="display:inline-flex;align-items:center;gap:8px;width:100%">'
+          +   '<span style="flex:1;max-width:110px;background:var(--g80);border-radius:3px;height:8px"><span style="display:block;width:' + Math.round(s.n / maxN * 100) + '%;height:8px;border-radius:3px;background:#6698ff"></span></span>'
+          +   '<span style="font-size:12px;color:var(--g600)">' + pct.toFixed(1) + '%</span></span></td>'
+          + '<td class="mono" style="font-size:12px;color:var(--g700)">' + s.ms + '</td>'
+          + '<td style="font-size:12.5px;color:' + (parseFloat(s.fail) >= 2 ? 'var(--danger)' : 'var(--g700)') + '">' + s.fail + '</td></tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
+
+  var maxH = Math.max.apply(null, LOG_HOURLY);
+  h += '<div style="font-size:13px;font-weight:600;color:var(--g800);margin:20px 0 8px">今日执行量（08:00 – 19:00）</div>'
+    + '<div class="card" style="border:1px solid var(--g200);border-radius:4px"><div class="card-c" style="padding:16px 20px">'
+    + '<div style="display:flex;align-items:flex-end;gap:10px;height:110px">'
+    + LOG_HOURLY.map(function(v, i){
+        var hp = Math.max(4, Math.round(v / maxH * 96));
+        return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">'
+          + '<span style="font-size:10.5px;color:var(--g500)">' + v + '</span>'
+          + '<span style="width:100%;max-width:44px;height:' + hp + 'px;border-radius:3px 3px 0 0;background:linear-gradient(180deg,#8fb4ff,#6698ff)"></span>'
+          + '<span style="font-size:10.5px;color:var(--g500)">' + (8 + i) + '</span></div>';
+      }).join('')
+    + '</div></div></div>';
+  return h;
+}
+
+/* ---------- ⑤ 采集与留存 ---------- */
+function logTabCfg(){
+  var rows = [
+    ['工作流扩展', '摘要', '记录条件 / 校验结果与耗时', '180 天'],
+    ['事件监听器', '详细', '记录事件负载与脚本入参', '180 天'],
+    ['定时任务', '详细', '记录批次范围与逐条结果', '180 天'],
+    ['脚本字段', '摘要', '高频，仅记录失败与慢执行', '30 天'],
+    ['REST 端点', '详细', '记录请求参数与响应码', '180 天'],
+    ['脚本控制台', '调试', '手动执行的完整输出', '7 天']
+  ];
+  var h = '<div class="pr-lead" style="margin-top:12px">日志不是越多越好 —— 按入口定级别，高频入口只留失败与慢执行，排障时才不会被噪声淹掉。</div>';
+  h += '<div class="card" style="margin-top:12px;border:1px solid var(--g200);border-radius:4px;overflow:hidden"><div class="card-c" style="padding:0"><table class="tbl">'
+    + '<thead><tr><th style="width:150px">入口类型</th><th style="width:96px">日志级别</th><th>记录内容</th><th style="width:96px">留存</th></tr></thead><tbody>'
+    + rows.map(function(r){
+        var cls = r[1] === '详细' ? 'tag-blue' : (r[1] === '调试' ? 'tag-orange' : 'tag-grey');
+        return '<tr><td><b>' + r[0] + '</b></td><td><span class="tag tag-pill tag-sm ' + cls + '">' + r[1] + '</span></td>'
+          + '<td style="color:var(--g600)">' + r[2] + '</td><td style="color:var(--g700)">' + r[3] + '</td></tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
+
+  h += '<div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap">'
+    + '<div style="flex:1;min-width:300px" class="card"><div class="card-h"><span class="bar"></span><span class="t">脱敏与采样</span></div><div class="card-c">'
+    + '<div style="font-size:12.5px;color:var(--g600);line-height:2">'
+    + '· Payload 中的字段值按类型脱敏：手机号、邮箱、身份证打码后入库<br>'
+    + '· 脚本字段这类高频入口按 10% 采样记录成功执行，失败与慢执行 100% 记录<br>'
+    + '· 日志按项目隔离，非项目成员只能看本人工执行记录</div></div></div>'
+    + '<div style="flex:1;min-width:300px" class="card"><div class="card-h"><span class="bar"></span><span class="t">对外输出</span></div><div class="card-c">'
+    + '<div style="font-size:12.5px;color:var(--g600);line-height:2">'
+    + '· 支持按条件导出 CSV（时间范围 / 入口 / 结果）<br>'
+    + '· 慢执行与失败可推送 Webhook，接到现有监控平台<br>'
+    + '· 保留原始结构化字段（JSON），便于二次分析</div></div></div></div>';
+  return h;
+}
+
+/* ---------- 执行详情（对标 Execution Information 四段） ---------- */
+function openLogDetail(idx){
+  var r = PR_ROWS.log.r[idx] || PR_ROWS.log.r[0];
+  var cpu = { '9 ms':'6 ms', '18 ms':'14 ms', '48 ms':'39 ms', '12 ms':'9 ms', '1.2 s':'1.05 s', '6 ms':'4 ms', '32 ms':'26 ms', '210 ms':'168 ms', '57 ms':'44 ms' }[r[3]] || '—';
+  var isFail = r[4] === '失败';
+  var h = '<div class="modal" style="width:720px">'
+    + '<div class="modal-h"><span>执行详情 · ' + esc(r[2]) + '</span><button class="modal-x" id="logDClose">×</button></div>'
+    + '<div class="modal-b">'
+    +   '<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">'
+    +     '<span class="tag tag-pill tag-sm ' + (r[4] === '成功' ? 'tag-green' : (isFail ? 'tag-red' : 'tag-orange')) + '">' + r[4] + '</span>'
+    +     '<span style="font-size:12.5px;color:var(--g600)">' + esc(r[1]) + ' · 触发人 陈帅</span></div>'
+    +   '<div style="font-size:12.5px;font-weight:600;color:var(--g800);margin:14px 0 6px">Time</div>'
+    +   '<div class="mono" style="font-size:12px;color:var(--g700);background:var(--g80);border-radius:4px;padding:9px 12px">2026-10-30 ' + esc(r[0]) + '.318 +08:00</div>'
+    +   '<div style="font-size:12.5px;font-weight:600;color:var(--g800);margin:14px 0 6px">Logs</div>'
+    +   '<pre class="pr-out" style="min-height:auto;max-height:170px">'
+    +     (isFail ? '[INFO ] 开始执行 ' + esc(r[2]) + '\n[ERROR] 校验未通过：存在未关闭的重复单\n[INFO ] 已回写失败原因，未修改工作项数据'
+                : '[INFO ] 开始执行 ' + esc(r[2]) + '\n[INFO ] 上下文 project = XJ，触发来源 ' + esc(r[1]) + '\n[DEBUG] 命中映射 4 条\n[INFO ] 执行完成，耗时 ' + esc(r[3]))
+    +   '</pre>'
+    +   '<div style="font-size:12.5px;font-weight:600;color:var(--g800);margin:14px 0 6px">Payload</div>'
+    +   '<pre class="pr-out" style="min-height:auto;max-height:130px">' + esc('{ "issue": "XJ-2481", "project": "XJ", "event": "issue_updated", "actor": "chenshuai", "fields": { "severity": "P1", "module": "NPU 编译器" } }') + '</pre>'
+    +   '<div style="font-size:12.5px;font-weight:600;color:var(--g800);margin:14px 0 6px">Timing</div>'
+    +   '<div style="display:flex;gap:10px;flex-wrap:wrap">'
+    +     [['Elapsed', r[3]], ['CPU Time', cpu], ['队列等待', '1 ms'], ['内存峰值', '24 MB']].map(function(t){
+            return '<div style="flex:1;min-width:120px;border:1px solid var(--g200);border-radius:4px;padding:10px 12px">'
+              + '<div style="font-size:11.5px;color:var(--g600)">' + t[0] + '</div>'
+              + '<div class="mono" style="font-size:14px;color:var(--g800);margin-top:3px">' + t[1] + '</div></div>';
+          }).join('')
+    +   '</div>'
+    + '</div>'
+    + '<div class="modal-f"><button class="btn btn-default btn-sm" id="logDClose2">关闭</button>'
+    + (isFail ? '<button class="btn btn-primary btn-sm" id="logDRetry">重新执行</button>' : '') + '</div></div>';
+  el('logMask').innerHTML = h;
+  el('logMask').classList.add('on');
+  el('logDClose').addEventListener('click', closeLogModal);
+  el('logDClose2').addEventListener('click', closeLogModal);
+  if(el('logDRetry')) el('logDRetry').addEventListener('click', function(){ closeLogModal(); toast('已重新执行，结果：成功（46 ms）', 'info'); });
+}
+function closeLogModal(){ el('logMask').classList.remove('on'); el('logMask').innerHTML = ''; }
+
+function openLogStack(){
+  var h = '<div class="modal" style="width:680px">'
+    + '<div class="modal-h"><span>失败堆栈 · 超期缺陷提醒</span><button class="modal-x" id="stkClose">×</button></div>'
+    + '<div class="modal-b"><pre class="pr-out" style="min-height:auto;max-height:300px">'
+    + esc('java.net.SocketTimeoutException: Read timed out\n'
+        + '  at java.base/java.net.SocketInputStream.socketRead0(Native Method)\n'
+        + '  at com.onresolve.scriptrunner.runners.http.RequestExecutor.execute(RequestExecutor.groovy:142)\n'
+        + '  at com.onresolve.scriptrunner.runners.http.RequestExecutor$execute$0.call(Unknown Source)\n'
+        + '  at Script12.run(Script12.groovy:23)\n'
+        + '  at com.onresolve.scriptrunner.runner.ScriptRunnerImpl.runScript(ScriptRunnerImpl.java:412)\n'
+        + 'Caused by: 重试 3 次后仍未恢复（1s / 5s / 30s）')
+    + '</pre>'
+    + '<div class="hint" style="margin-top:10px">堆栈只保留与本脚本相关的帧，框架内部调用折叠，避免刷屏。</div></div>'
+    + '<div class="modal-f"><button class="btn btn-default btn-sm" id="stkClose2">关闭</button></div></div>';
+  el('logMask').innerHTML = h;
+  el('logMask').classList.add('on');
+  el('stkClose').addEventListener('click', closeLogModal);
+  el('stkClose2').addEventListener('click', closeLogModal);
+}
+
 function prModule(k){
   var m = PR_MODS.filter(function(x){ return x.k === k; })[0];
   var h = '<div class="pr-wrap">' + prTitle(m)
@@ -2378,6 +2907,7 @@ function prModule(k){
     return;
   }
   if(k === 'console'){ prConsole(); return; }
+  if(k === 'log'){ prLogs(); return; }
   if(k === 'map'){ prMapOverview(); return; }
   if(k === 'wf'){ prWfRegistry(); return; }
   if(k === 'uifrag'){ prUiFrag(); return; }
@@ -2540,7 +3070,7 @@ function renderProjState(){
     +   '<div style="font-size:12.5px;color:var(--g600);line-height:1.9;margin-top:4px">'
     +     '项目进入受控阶段后，由项目管理员确认其他业务条件再执行，不自动关闭。关闭后：<b>创建界面不再出现标准单</b>（动态表单行为），'
     +     '<b>REST API / 批量导入同样被拒</b>（创建前校验）。存量标准单的查看、编辑、状态流转不受影响。</div>'
-    +   '<div class="hint" style="margin-top:10px">按钮按<b>项目管理员</b>角色控制可见性；点击后调用 Ping Runner 脚本落项目级开关，并写入执行日志。</div>'
+    +   '<div class="hint" style="margin-top:10px">按钮按<b>项目管理员</b>角色控制可见性；点击后调用 Ping Runner 脚本落项目级开关，并写入运行日志。</div>'
     + '</div></div>';
   el('stdToggle').addEventListener('click', toggleStdCreate);
   el('stdPreview2').addEventListener('click', stdPreviewOpen);
@@ -2835,7 +3365,7 @@ function renderProps(){
   el('wip').innerHTML = html;
   el('openFromPanel2').addEventListener('click', openSolve);
   el('cloneSingle').addEventListener('click', function(){ go('clone'); toast('单实例 Clone：对标 Jira Clone Plus', 'info'); });
-  el('cloneCross').addEventListener('click', function(){ go('clone'); toast('跨实例 Clone：专线网络 + 对方审核', 'info'); });
+  el('cloneCross').addEventListener('click', function(){ go('xclone'); toast('跨实例 Clone：专线网络 + 三层映射 + 对方审核', 'info'); });
 }
 function renderSolveCard(){
   var box = el('solveCard');
@@ -2929,6 +3459,14 @@ el('railFold').addEventListener('click', function(){
 });
 el('railPR').addEventListener('click', function(){ PR_CUR = 'overview'; go('pingrunner'); });
 el('railClone').addEventListener('click', function(){ go('clone'); });
+el('railXClone').addEventListener('click', function(){ go('xclone'); });
+/* Ping Clone / Ping Clone++ 页内按钮 */
+(function(){
+  var g = el('goXclone'); if(g) g.addEventListener('click', function(){ go('xclone'); });
+  var ae = el('xconnAdd'); if(ae) ae.addEventListener('click', function(){ toast('演示原型未展开「新增实例」表单（仅支持内网专线地址）', 'info'); });
+  var me = el('xmapEdit'); if(me) me.addEventListener('click', function(){ PR_CUR = 'map'; go('pingrunner'); });
+  var lg = el('xcloneLog'); if(lg) lg.addEventListener('click', function(){ PR_CUR = 'log'; go('pingrunner'); });
+})();
 bindClone();
 el('railFeishu').addEventListener('click', function(){ go('feishu'); });
 document.addEventListener('click', function(e){
